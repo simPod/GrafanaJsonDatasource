@@ -56,11 +56,11 @@ Example `timeseries` request
      { "target": "upper_50", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } },
      { "target": "upper_75", "refId": "B", "type": "timeseries" }
   ],
-  "adhocFilters": [
-    "key": "City"
+  "adhocFilters": [{
+    "key": "City",
     "operator": "=",
     "value": "Berlin"
-  ]
+  }],
   "format": "json",
   "maxDataPoints": 550
 }

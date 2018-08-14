@@ -44,7 +44,7 @@ export class GenericDatasource {
 
     // strip empty json
     query.targets = _.map(query.targets, d => {
-      if (d.data.trim() === "") {
+      if (d.data && d.data.trim() === "") {
         delete d.data;
       }
     });

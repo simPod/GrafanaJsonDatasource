@@ -64,6 +64,13 @@ var GenericDatasource = exports.GenericDatasource = function () {
 
       options.scopedVars = _extends({}, variables, options.scopedVars);
 
+      // strip empty json
+      query.targets = _lodash2.default.map(query.targets, function (d) {
+        if (d.data && d.data.trim() === "") {
+          delete d.data;
+        }
+      });
+
       return this.doRequest({
         url: this.url + '/query',
         data: query,

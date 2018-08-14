@@ -50,6 +50,13 @@ var GenericDatasource = exports.GenericDatasource = function () {
         query.adhocFilters = [];
       }
 
+      // strip empty json
+      query.targets = _lodash2.default.map(query.targets, function (d) {
+        if (d.data.trim() == "") {
+          delete d.data;
+        }
+      });
+
       return this.doRequest({
         url: this.url + '/query',
         data: query,

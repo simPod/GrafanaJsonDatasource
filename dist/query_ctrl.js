@@ -28,7 +28,9 @@ var GenericDatasourceQueryCtrl = exports.GenericDatasourceQueryCtrl = function (
     _this.scope = $scope;
     _this.target.target = _this.target.target || 'select metric';
     _this.target.type = _this.target.type || 'timeseries';
-    _this.target.data = _this.target.data || null;
+    _this.target.data = _this.target.data || "";
+
+    _this.showJSON = false;
     return _this;
   }
 

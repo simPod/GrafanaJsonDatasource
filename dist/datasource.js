@@ -66,7 +66,7 @@ var GenericDatasource = exports.GenericDatasource = function () {
 
       // strip empty json
       query.targets = _lodash2.default.map(query.targets, function (d) {
-        if (d.data && d.data.trim() === "") {
+        if (d.data.trim() === "") {
           delete d.data;
         }
       });

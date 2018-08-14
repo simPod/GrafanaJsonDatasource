@@ -30,6 +30,12 @@ var GenericDatasourceQueryCtrl = exports.GenericDatasourceQueryCtrl = function (
     _this.target.type = _this.target.type || 'timeseries';
     _this.target.data = _this.target.data || "";
 
+    // special handling when in table panel
+    if (!_this.target.format) {
+      _this.target.format = _this.panelCtrl.panel.type === 'table' ? 'table' : 'timeseries';
+    }
+
+    _this.formats = [{ text: 'Time series', value: 'timeseries' }, { text: 'Table', value: 'table' }];
     _this.showJSON = false;
     return _this;
   }
@@ -39,6 +45,9 @@ var GenericDatasourceQueryCtrl = exports.GenericDatasourceQueryCtrl = function (
     value: function getOptions(query) {
       return this.datasource.metricFindQuery(query || '');
     }
+
+    // not used
+
   }, {
     key: 'toggleEditorMode',
     value: function toggleEditorMode() {

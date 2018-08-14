@@ -3,7 +3,7 @@
     <div class="gf-form">
       <label class="gf-form-label width-6 query-keyword">Format as</label>
       <div class="gf-form-select-wrapper">
-        <select class="gf-form-input gf-size-auto" ng-model="ctrl.target.type" ng-selected="timeseries" ng-options="f as f for f in ['timeseries', 'table']"
+        <select class="gf-form-input gf-size-auto" ng-model="ctrl.target.format" ng-options="f.value as f.text for f in ctrl.formats"
           ng-change="ctrl.onChangeInternal()"></select>
       </div>
     </div>

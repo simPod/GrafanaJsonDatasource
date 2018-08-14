@@ -42,6 +42,13 @@ export class GenericDatasource {
 
     options.scopedVars = {...variables, ...options.scopedVars};
 
+    // strip empty json
+    query.targets = _.map(query.targets, d => {
+      if (d.data && d.data.trim() === "") {
+        delete d.data;
+      }
+    });
+
     return this.doRequest({
       url: this.url + '/query',
       data: query,

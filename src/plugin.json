@@ -1,6 +1,6 @@
 {
   "name": "JSON",
-  "id": "grafana-json-datasource",
+  "id": "json",
   "type": "datasource",
 
   "partials": {

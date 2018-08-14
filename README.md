@@ -1,10 +1,8 @@
-## Simple JSON Datasource - a generic backend datasource
+## JSON Datasource - a generic backend datasource
 
-More documentation about datasource plugins can be found in the [Docs](https://github.com/grafana/grafana/blob/master/docs/sources/plugins/developing/datasources.md).
+JSON Datasource is an enhanced version of the [Simple JSON Datasource](https://github.com/grafana/simple-json-datasource).
 
-This also serves as a living example implementation of a datasource.
-
-Your backend needs to implement 4 urls:
+The JSON datasource executes JSON requests against arbitrary backends. To work with this datasource the backend needs to implement 4 urls:
 
  * `/` should return 200 ok. Used for "Test connection" on the datasource config page.
  * `/search` used by the find metric options on the query tab in panels.
@@ -16,26 +14,35 @@ Those two urls are optional:
  * `/tag-keys` should return tag keys for ad hoc filters.
  * `/tag-values` should return tag values for ad hoc filters.
 
-## Installation
-
-To install this plugin using the `grafana-cli` tool:
-```
-sudo grafana-cli plugins install grafana-simple-json-datasource
-sudo service grafana-server restart
-```
-See [here](https://grafana.com/plugins/grafana-simple-json-datasource/installation) for more
-information.
-
 ### Example backend implementations
 - https://github.com/bergquist/fake-simple-json-datasource
 - https://github.com/smcquay/jsonds
 - https://github.com/ContextLogic/eventmaster
 - https://gist.github.com/linar-jether/95ff412f9d19fdf5e51293eb0c09b850 (Python/pandas backend)
 
+### Search API
+
+Example request
+``` json
+{ "target": "upper_50" }
+```
+
+The search api can either return an array or map.
+
+Example array response
+``` json
+["upper_25","upper_50","upper_75","upper_90","upper_95"]
+```
+
+Example map response
+``` json
+[ { "text" :"upper_25", "value": 1}, { "text" :"upper_75", "value": 2} ]
+```
+
 ### Query API
 
 Example `timeseries` request
-``` javascript
+``` json
 {
   "panelId": 1,
   "range": {
@@ -109,7 +116,7 @@ If the metric selected is `"type": "table"`, an example `table` response:
 
 The annotation request from the Simple JSON Datasource is a POST request to
 the `/annotations` endpoint in your datasource. The JSON request body looks like this:
-``` javascript
+``` json
 {
   "range": {
     "from": "2016-04-15T13:44:39.070Z",
@@ -121,7 +128,7 @@ the `/annotations` endpoint in your datasource. The JSON request body looks like
   },
   "annotation": {
     "name": "deploy",
-    "datasource": "Simple JSON Datasource",
+    "datasource": "JSON Datasource",
     "iconColor": "rgba(255, 96, 96, 1)",
     "enable": true,
     "query": "#deploy"
@@ -135,11 +142,11 @@ following format:
 ``` javascript
 [
   {
-    annotation: annotation, // The original annotation sent from Grafana.
-    time: time, // Time since UNIX Epoch in milliseconds. (required)
-    title: title, // The title for the annotation tooltip. (required)
-    tags: tags, // Tags for the annotation. (optional)
-    text: text // Text for the annotation. (optional)
+    "annotation": "annotation", // The original annotation sent from Grafana.
+    "time": "time", // Time since UNIX Epoch in milliseconds. (required)
+    "title": "title", // The title for the annotation tooltip. (required)
+    "tags": "tags", // Tags for the annotation. (optional)
+    "text": "text" // Text for the annotation. (optional)
   }
 ]
 ```
@@ -154,34 +161,15 @@ Access-Control-Allow-Methods:POST
 Access-Control-Allow-Origin:*
 ```
 
-### Search API
-
-Example request
-``` javascript
-{ target: 'upper_50' }
-```
-
-The search api can either return an array or map.
-
-Example array response
-``` javascript
-["upper_25","upper_50","upper_75","upper_90","upper_95"]
-```
-
-Example map response
-``` javascript
-[ { "text" :"upper_25", "value": 1}, { "text" :"upper_75", "value": 2} ]
-```
-
 ### Tag Keys API
 
 Example request
-``` javascript
+``` json
 { }
 ```
 
 The tag keys api returns:
-```javascript
+``` json
 [
     {"type":"string","text":"City"},
     {"type":"string","text":"Country"}
@@ -191,20 +179,30 @@ The tag keys api returns:
 ### Tag Values API
 
 Example request
-``` javascript
+``` json
 {"key": "City"}
 ```
 
 The tag values api returns:
-```javascript
+``` json
 [
-    {'text': 'Eins!'},
-    {'text': 'Zwei'},
-    {'text': 'Drei!'}
+    {"text": "Eins!"},
+    {"text": "Zwei"},
+    {"text": "Drei!"}
 ]
 ```
 
-### Dev setup
+## Installation
+
+To install this plugin using the `grafana-cli` tool:
+```
+sudo grafana-cli plugins install grafana-json-datasource
+sudo service grafana-server restart
+```
+See [here](https://grafana.com/plugins/grafana-json-datasource/installation) for more
+information.
+
+### Development setup
 
 This plugin requires node 6.10.0
 
@@ -242,9 +240,5 @@ npm run build
  - Dont execute hidden queries
  - Template support for metrics queries
  - Template support for annotation queries
-
-### If using Grafana 2.6
-NOTE!
-for grafana 2.6 please use [this version](https://github.com/grafana/simple-json-datasource/commit/b78720f6e00c115203d8f4c0e81ccd3c16001f94)
 
 Copy the data source you want to `/public/app/plugins/datasource/`. Then restart grafana-server. The new data source should now be available in the data source type dropdown in the Add Data Source View.

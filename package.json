@@ -9,12 +9,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simPod/json-datasource.git"
+    "url": "git+https://github.com/simPod/grafana-json-datasource.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simPod/json-datasource/issues"
+    "url": "https://github.com/simPod/grafana-json-datasource/issues"
   },
   "engineStrict": true,
   "devDependencies": {
@@ -41,5 +41,5 @@
   "dependencies": {
     "lodash": "^4.17.4"
   },
-  "homepage": "https://github.com/simPod/json-datasource#readme"
+  "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
 }

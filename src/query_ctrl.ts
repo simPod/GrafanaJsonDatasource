@@ -2,11 +2,14 @@ import {QueryCtrl} from 'app/plugins/sdk';
 import './css/query-editor.css!'
 
 export class GenericDatasourceQueryCtrl extends QueryCtrl {
+  static templateUrl = 'partials/query.editor.html';
+
+  private formats: any;
+  private showJSON: boolean;
 
   constructor($scope, $injector)  {
     super($scope, $injector);
 
-    this.scope = $scope;
     this.target.target = this.target.target || 'select metric';
     this.target.type = this.target.type || 'timeseries';
     this.target.data = this.target.data || "";
@@ -34,5 +37,4 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
   }
 }
 
-GenericDatasourceQueryCtrl.templateUrl = 'partials/query.editor.html';
 

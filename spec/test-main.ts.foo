@@ -1,3 +1,5 @@
+import { describe, beforeEach, it, sinon, expect, angularMocks } from './lib/common';
+import TemplateSrvStub from './lib/template_srv_stub';
 import prunk from 'prunk';
 import {jsdom} from 'jsdom';
 import chai from 'chai';

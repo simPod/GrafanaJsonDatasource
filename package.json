@@ -18,10 +18,12 @@
   },
   "engineStrict": true,
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-preset-env": "^1.7.0",
+    "@types/lodash": "^4.14.74",
+    "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "chai": "~3.5.0",
+    "babel-preset-env": "^1.7.0",
+    "chai": "^4.1.2",
+    "grafana-sdk-mocks": "github:grafana/grafana-sdk-mocks",
     "grunt": "^1.0.1",
     "grunt-babel": "~6.0.0",
     "grunt-cli": "^1.2.0",
@@ -32,11 +34,13 @@
     "grunt-execute": "~0.2.2",
     "grunt-mocha-test": "^0.13.2",
     "grunt-systemjs-builder": "^1.0.0",
+    "grunt-ts": "^6.0.0-beta.21",
     "jsdom": "~9.12.0",
     "load-grunt-tasks": "^3.5.2",
     "mocha": "^3.2.0",
-    "prunk": "^1.3.0",
-    "q": "^1.5.0"
+    "prunk": "^1.3.1",
+    "q": "^1.5.0",
+    "typescript": "^3.0.1"
   },
   "dependencies": {
     "lodash": "^4.17.4"

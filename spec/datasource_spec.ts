@@ -1,13 +1,16 @@
-import {Datasource} from "../module";
+import { describe, beforeEach, it, sinon, expect, angularMocks } from './lib/common';
+import TemplateSrvStub from './lib/template_srv_stub';
+import {Datasource} from "../src/module";
 import Q from "q";
 
 describe('GenericDatasource', function() {
-    var ctx = {};
+    let ctx: any = {
+        backendSrv: {},
+        templateSrv: new TemplateSrvStub()
+    };
 
     beforeEach(function() {
         ctx.$q = Q;
-        ctx.backendSrv = {};
-        ctx.templateSrv = {};
         ctx.ds = new Datasource({}, ctx.$q, ctx.backendSrv, ctx.templateSrv);
     });
 

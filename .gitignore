@@ -33,5 +33,10 @@ profile.cov
 grafana
 .notouch
 
+# Build artifacts
+/.tscache
+
 # Test artifacts
-/dist/test/
+/dist/src
+/dist/test
+/dist/spec

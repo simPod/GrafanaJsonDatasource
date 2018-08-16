@@ -1,11 +1,20 @@
+///<reference path="../node_modules/grafana-sdk-mocks/app/headers/common.d.ts" />
+
 import _ from "lodash";
 
 export class GenericDatasource {
 
+  name: string;
+  url: string;
+  q: any;
+  backendSrv: any;
+  templateSrv: any;
+  withCredentials: boolean;
+  headers: any;
+
   constructor(instanceSettings, $q, backendSrv, templateSrv) {
-    this.type = instanceSettings.type;
-    this.url = instanceSettings.url;
     this.name = instanceSettings.name;
+    this.url = instanceSettings.url;
     this.q = $q;
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;

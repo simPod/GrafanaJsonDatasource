@@ -1,0 +1,17 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+      "target": "ES5",
+      "rootDir": ".",
+      "module": "system",
+      "sourceMap": true,
+      "declaration": true,
+      "emitDecoratorMetadata": false,
+      "experimentalDecorators": true,
+      "noImplicitAny": false,
+      "skipLibCheck": true
+  },
+  "exclude": [
+      "node_modules"
+  ]
+}

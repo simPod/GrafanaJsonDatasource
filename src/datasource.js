@@ -30,17 +30,16 @@ export class GenericDatasource {
       query.adhocFilters = [];
     }
 
+    // extract variable definition from index and add to scopedVars
     const index = _.isUndefined(this.templateSrv.index) ? {} : this.templateSrv.index;
-    const variables = {};
-    Object.keys(index).forEach(function (key) {
-      const variable = index[key];
-      variables[variable.name] = {
-        text: variable.current.text,
-        value: variable.current.value
+    _.assign(options.scopedVars, ... _.map(index, (val, key) => {
+      return {
+        [val.name]: {
+          text: val.current.text,
+          value: val.current.value
+        }
       };
-    });
-
-    options.scopedVars = {...variables, ...options.scopedVars};
+    }));
 
     return this.doRequest({
       url: this.url + '/query',

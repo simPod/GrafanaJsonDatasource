@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.GenericDatasource = undefined;
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _lodash = require('lodash');
@@ -14,6 +12,10 @@ var _lodash = require('lodash');
 var _lodash2 = _interopRequireDefault(_lodash);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -52,17 +54,14 @@ var GenericDatasource = exports.GenericDatasource = function () {
         query.adhocFilters = [];
       }
 
+      // extract variable definition from index and add to scopedVars
       var index = _lodash2.default.isUndefined(this.templateSrv.index) ? {} : this.templateSrv.index;
-      var variables = {};
-      Object.keys(index).forEach(function (key) {
-        var variable = index[key];
-        variables[variable.name] = {
-          text: variable.current.text,
-          value: variable.current.value
-        };
-      });
-
-      options.scopedVars = _extends({}, variables, options.scopedVars);
+      _lodash2.default.assign.apply(_lodash2.default, [options.scopedVars].concat(_toConsumableArray(_lodash2.default.map(index, function (val, key) {
+        return _defineProperty({}, val.name, {
+          text: val.current.text,
+          value: val.current.value
+        });
+      }))));
 
       return this.doRequest({
         url: this.url + '/query',

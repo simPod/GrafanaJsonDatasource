@@ -42,13 +42,6 @@ export class GenericDatasource {
 
     options.scopedVars = {...variables, ...options.scopedVars};
 
-    // strip empty json
-    query.targets = _.map(query.targets, d => {
-      if (d.data && d.data.trim() === "") {
-        delete d.data;
-      }
-    });
-
     return this.doRequest({
       url: this.url + '/query',
       data: query,
@@ -121,18 +114,16 @@ export class GenericDatasource {
   }
 
   buildQueryParameters(options) {
-    //remove placeholder targets
+    // remove placeholder targets
     options.targets = _.filter(options.targets, target => {
       return target.target !== 'select metric';
     });
 
-
-    const targets = _.map(options.targets, target => {
-      let data = target.data;
-
-      if (data){
-        data = JSON.parse(data);
-      }
+    options.targets = _.map(options.targets, target => {
+      var data;
+      try {
+        data = JSON.parse(target.data);
+      } catch (e) {}
 
       return {
         target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
@@ -142,8 +133,6 @@ export class GenericDatasource {
         type: target.type || 'timeseries'
       };
     });
-
-    options.targets = targets;
 
     return options;
   }

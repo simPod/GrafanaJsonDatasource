@@ -64,13 +64,6 @@ var GenericDatasource = exports.GenericDatasource = function () {
 
       options.scopedVars = _extends({}, variables, options.scopedVars);
 
-      // strip empty json
-      query.targets = _lodash2.default.map(query.targets, function (d) {
-        if (d.data && d.data.trim() === "") {
-          delete d.data;
-        }
-      });
-
       return this.doRequest({
         url: this.url + '/query',
         data: query,
@@ -151,17 +144,16 @@ var GenericDatasource = exports.GenericDatasource = function () {
     value: function buildQueryParameters(options) {
       var _this = this;
 
-      //remove placeholder targets
+      // remove placeholder targets
       options.targets = _lodash2.default.filter(options.targets, function (target) {
         return target.target !== 'select metric';
       });
 
-      var targets = _lodash2.default.map(options.targets, function (target) {
-        var data = target.data;
-
-        if (data) {
-          data = JSON.parse(data);
-        }
+      options.targets = _lodash2.default.map(options.targets, function (target) {
+        var data;
+        try {
+          data = JSON.parse(target.data);
+        } catch (e) {}
 
         return {
           target: _this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
@@ -171,8 +163,6 @@ var GenericDatasource = exports.GenericDatasource = function () {
           type: target.type || 'timeseries'
         };
       });
-
-      options.targets = targets;
 
       return options;
     }

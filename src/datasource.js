@@ -30,24 +30,16 @@ export class GenericDatasource {
       query.adhocFilters = [];
     }
 
+    // extract variable definition from index and add to scopedVars
     const index = _.isUndefined(this.templateSrv.index) ? {} : this.templateSrv.index;
-    const variables = {};
-    Object.keys(index).forEach(function (key) {
-      const variable = index[key];
-      variables[variable.name] = {
-        text: variable.current.text,
-        value: variable.current.value
+    _.assign(options.scopedVars, ... _.map(index, (val, key) => {
+      return {
+        [val.name]: {
+          text: val.current.text,
+          value: val.current.value
+        }
       };
-    });
-
-    options.scopedVars = {...variables, ...options.scopedVars};
-
-    // strip empty json
-    query.targets = _.map(query.targets, d => {
-      if (d.data && d.data.trim() === "") {
-        delete d.data;
-      }
-    });
+    }));
 
     return this.doRequest({
       url: this.url + '/query',
@@ -121,18 +113,16 @@ export class GenericDatasource {
   }
 
   buildQueryParameters(options) {
-    //remove placeholder targets
+    // remove placeholder targets
     options.targets = _.filter(options.targets, target => {
       return target.target !== 'select metric';
     });
 
-
-    const targets = _.map(options.targets, target => {
-      let data = target.data;
-
-      if (data){
-        data = JSON.parse(data);
-      }
+    options.targets = _.map(options.targets, target => {
+      var data;
+      try {
+        data = JSON.parse(target.data);
+      } catch (e) {}
 
       return {
         target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
@@ -142,8 +132,6 @@ export class GenericDatasource {
         type: target.type || 'timeseries'
       };
     });
-
-    options.targets = targets;
 
     return options;
   }

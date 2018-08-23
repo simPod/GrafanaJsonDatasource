@@ -1,6 +1,8 @@
 ///<reference path="../node_modules/grafana-sdk-mocks/app/headers/common.d.ts" />
-
-import _ from "lodash";
+import map from 'lodash/map';
+import isObject from 'lodash/isObject';
+import filter from 'lodash/filter';
+import isUndefined from 'lodash/isUndefined';
 
 export class GenericDatasource {
 
@@ -12,6 +14,7 @@ export class GenericDatasource {
   withCredentials: boolean;
   headers: any;
 
+  /** @ngInject **/
   constructor(instanceSettings, $q, backendSrv, templateSrv) {
     this.name = instanceSettings.name;
     this.url = instanceSettings.url;
@@ -19,18 +22,18 @@ export class GenericDatasource {
     this.backendSrv = backendSrv;
     this.templateSrv = templateSrv;
     this.withCredentials = instanceSettings.withCredentials;
-    this.headers = {'Content-Type': 'application/json'};
+    this.headers = { 'Content-Type': 'application/json' };
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
       this.headers['Authorization'] = instanceSettings.basicAuth;
     }
   }
 
   query(options) {
-    var query = this.buildQueryParameters(options);
+    const query = this.buildQueryParameters(options);
     query.targets = query.targets.filter(t => !t.hide);
 
     if (query.targets.length <= 0) {
-      return this.q.when({data: []});
+      return this.q.when({ data: [] });
     }
 
     if (this.templateSrv.getAdhocFilters) {
@@ -39,29 +42,22 @@ export class GenericDatasource {
       query.adhocFilters = [];
     }
 
-    const index = _.isUndefined(this.templateSrv.index) ? {} : this.templateSrv.index;
+    const index = isUndefined(this.templateSrv.index) ? {} : this.templateSrv.index;
     const variables = {};
-    Object.keys(index).forEach(function (key) {
+    Object.keys(index).forEach((key) => {
       const variable = index[key];
       variables[variable.name] = {
         text: variable.current.text,
-        value: variable.current.value
+        value: variable.current.value,
       };
     });
 
-    options.scopedVars = {...variables, ...options.scopedVars};
-
-    // strip empty json
-    query.targets = _.map(query.targets, d => {
-      if (d.data && d.data.trim() === "") {
-        delete d.data;
-      }
-    });
+    options.scopedVars = { ...variables, ...options.scopedVars };
 
     return this.doRequest({
       url: this.url + '/query',
       data: query,
-      method: 'POST'
+      method: 'POST',
     });
   }
 
@@ -69,39 +65,45 @@ export class GenericDatasource {
     return this.doRequest({
       url: this.url + '/',
       method: 'GET',
-    }).then(response => {
+    }).then((response) => {
       if (response.status === 200) {
-        return { status: "success", message: "Data source is working", title: "Success" };
+        return { status: 'success', message: 'Data source is working', title: 'Success' };
       }
+
+      return {
+        status: 'error',
+        message: 'Data source is not working: ' + response.message,
+        title: 'Error',
+      };
     });
   }
 
   annotationQuery(options) {
-    var query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
-    var annotationQuery = {
+    const query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
+    const annotationQuery = {
       range: options.range,
       annotation: {
+        query,
         name: options.annotation.name,
         datasource: options.annotation.datasource,
         enable: options.annotation.enable,
         iconColor: options.annotation.iconColor,
-        query: query
       },
-      rangeRaw: options.rangeRaw
+      rangeRaw: options.rangeRaw,
     };
 
     return this.doRequest({
       url: this.url + '/annotations',
       method: 'POST',
-      data: annotationQuery
-    }).then(result => {
+      data: annotationQuery,
+    }).then((result) => {
       return result.data;
     });
   }
 
   metricFindQuery(query) {
-    var interpolated = {
-        target: this.templateSrv.replace(query, null, 'regex')
+    const interpolated = {
+      target: this.templateSrv.replace(query, null, 'regex'),
     };
 
     return this.doRequest({
@@ -112,11 +114,13 @@ export class GenericDatasource {
   }
 
   mapToTextValue(result) {
-    return _.map(result.data, (d, i) => {
+    return map(result.data, (d, i) => {
       if (d && d.text && d.value) {
         return { text: d.text, value: d.value };
-      } else if (_.isObject(d)) {
-        return { text: d, value: i};
+      }
+
+      if (isObject(d)) {
+        return { text: d, value: i };
       }
       return { text: d, value: d };
     });
@@ -130,29 +134,32 @@ export class GenericDatasource {
   }
 
   buildQueryParameters(options) {
-    //remove placeholder targets
-    options.targets = _.filter(options.targets, target => {
+    // remove placeholder targets
+    options.targets = filter(options.targets, (target) => {
       return target.target !== 'select metric';
     });
 
-
-    const targets = _.map(options.targets, target => {
+    options.targets = map(options.targets, (target) => {
       let data = target.data;
 
-      if (data){
+      if (typeof data === 'string' && data.trim() === '') {
+        data = null;
+      }
+
+      if (data) {
         data = JSON.parse(data);
       }
 
+      this.templateSrv.replace(target.target, options.scopedVars, 'regex');
+
       return {
+        data,
         target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
-        data: data,
         refId: target.refId,
         hide: target.hide,
-        type: target.type || 'timeseries'
+        type: target.type || 'timeseries',
       };
     });
-
-    options.targets = targets;
 
     return options;
   }
@@ -162,8 +169,8 @@ export class GenericDatasource {
       this.doRequest({
         url: this.url + '/tag-keys',
         method: 'POST',
-        data: options
-      }).then(result => {
+        data: options,
+      }).then((result) => {
         return resolve(result.data);
       });
     });
@@ -174,8 +181,8 @@ export class GenericDatasource {
       this.doRequest({
         url: this.url + '/tag-values',
         method: 'POST',
-        data: options
-      }).then(result => {
+        data: options,
+      }).then((result) => {
         return resolve(result.data);
       });
     });

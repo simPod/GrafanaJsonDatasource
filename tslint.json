@@ -1,0 +1,6 @@
+{
+  "extends": "tslint-config-airbnb",
+  "rules": {
+    "no-unused-variable": false
+  }
+}

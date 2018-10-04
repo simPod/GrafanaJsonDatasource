@@ -131,8 +131,9 @@ the `/annotations` endpoint in your datasource. The JSON request body looks like
     "datasource": "JSON Datasource",
     "iconColor": "rgba(255, 96, 96, 1)",
     "enable": true,
-    "query": "#deploy"
-  }
+    "query": "#deploy",
+  },
+   "variables" []
 }
 ```
 
@@ -142,11 +143,12 @@ following format:
 ``` javascript
 [
   {
-    "annotation": "annotation", // The original annotation sent from Grafana.
-    "time": "time", // Time since UNIX Epoch in milliseconds. (required)
-    "title": "title", // The title for the annotation tooltip. (required)
-    "tags": "tags", // Tags for the annotation. (optional)
-    "text": "text" // Text for the annotation. (optional)
+    "text": "text shown in body" // Text for the annotation. (required)
+    "title": "Annotation Title", // The title for the annotation tooltip. (optional)
+    "isRegion": true, // Whether is region. (optional) (http://docs.grafana.org/reference/annotations/#adding-regions-events)
+    "time": "timestamp", // Time since UNIX Epoch in milliseconds. (required)
+    "timeEnd": "timestamp", // Time since UNIX Epoch in milliseconds (required if `isRegion` is true )
+    "tags": ["tag1"], // Tags for the annotation. (optional)
   }
 ]
 ```

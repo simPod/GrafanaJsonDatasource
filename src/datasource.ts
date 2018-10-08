@@ -1,7 +1,6 @@
 ///<reference path="../node_modules/grafana-sdk-mocks/app/headers/common.d.ts" />
 import map from 'lodash/map';
 import isObject from 'lodash/isObject';
-import filter from 'lodash/filter';
 import isUndefined from 'lodash/isUndefined';
 
 export class GenericDatasource {
@@ -29,8 +28,8 @@ export class GenericDatasource {
   }
 
   query(options) {
-    const query = this.buildQueryParameters(options);
-    query.targets = query.targets.filter(t => !t.hide);
+    const query = options;
+    query.targets = this.buildQueryTargets(options);
 
     if (query.targets.length <= 0) {
       return this.q.when({ data: [] });
@@ -42,17 +41,7 @@ export class GenericDatasource {
       query.adhocFilters = [];
     }
 
-    const index = isUndefined(this.templateSrv.index) ? {} : this.templateSrv.index;
-    const variables = {};
-    Object.keys(index).forEach((key) => {
-      const variable = index[key];
-      variables[variable.name] = {
-        text: variable.current.text,
-        value: variable.current.value,
-      };
-    });
-
-    options.scopedVars = { ...variables, ...options.scopedVars };
+    options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
 
     return this.doRequest({
       url: this.url + '/query',
@@ -80,8 +69,8 @@ export class GenericDatasource {
 
   annotationQuery(options) {
     const query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
+
     const annotationQuery = {
-      range: options.range,
       annotation: {
         query,
         name: options.annotation.name,
@@ -89,7 +78,9 @@ export class GenericDatasource {
         enable: options.annotation.enable,
         iconColor: options.annotation.iconColor,
       },
+      range: options.range,
       rangeRaw: options.rangeRaw,
+      variables: this.getVariables(),
     };
 
     return this.doRequest({
@@ -133,35 +124,45 @@ export class GenericDatasource {
     return this.backendSrv.datasourceRequest(options);
   }
 
-  buildQueryParameters(options) {
-    // remove placeholder targets
-    options.targets = filter(options.targets, (target) => {
-      return target.target !== 'select metric';
-    });
+  buildQueryTargets(options) {
+    return options.targets
+      .filter((target) => {
+        // remove placeholder targets
+        return target.target !== 'select metric';
+      })
+      .map((target) => {
+        let data = target.data;
 
-    options.targets = map(options.targets, (target) => {
-      let data = target.data;
+        if (typeof data === 'string' && data.trim() === '') {
+          data = null;
+        }
 
-      if (typeof data === 'string' && data.trim() === '') {
-        data = null;
-      }
+        if (data) {
+          data = JSON.parse(data);
+        }
 
-      if (data) {
-        data = JSON.parse(data);
-      }
+        return {
+          data,
+          target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
+          refId: target.refId,
+          hide: target.hide,
+          type: target.type || 'timeseries',
+        };
+      });
+  }
 
-      this.templateSrv.replace(target.target, options.scopedVars, 'regex');
-
-      return {
-        data,
-        target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
-        refId: target.refId,
-        hide: target.hide,
-        type: target.type || 'timeseries',
+  getVariables() {
+    const index = isUndefined(this.templateSrv.index) ? {} : this.templateSrv.index;
+    const variables = {};
+    Object.keys(index).forEach((key) => {
+      const variable = index[key];
+      variables[variable.name] = {
+        text: variable.current.text,
+        value: variable.current.value,
       };
     });
 
-    return options;
+    return variables;
   }
 
   getTagKeys(options) {

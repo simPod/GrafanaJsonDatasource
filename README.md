@@ -8,17 +8,11 @@ The JSON datasource executes JSON requests against arbitrary backends. To work w
  * `/search` used by the find metric options on the query tab in panels.
  * `/query` should return metrics based on input.
  * `/annotations` should return annotations.
- 
+
 Those two urls are optional:
 
  * `/tag-keys` should return tag keys for ad hoc filters.
  * `/tag-values` should return tag values for ad hoc filters.
-
-### Example backend implementations
-- https://github.com/bergquist/fake-simple-json-datasource
-- https://github.com/smcquay/jsonds
-- https://github.com/ContextLogic/eventmaster
-- https://gist.github.com/linar-jether/95ff412f9d19fdf5e51293eb0c09b850 (Python/pandas backend)
 
 ### Search API
 
@@ -216,31 +210,8 @@ npm run build
 
 ### Changelog
 
-1.4.0
+0.1.0
 
-- Support for adhoc filters:
-  - added tag-keys + tag-values api
-  - added adHocFilters parameter to query body
-
-1.3.5
-- Fix for dropdowns in query editor to allow writing template variables (broke due to change in Grafana).
-
-1.3.4
-- Adds support for With Credentials (sends grafana cookies with request) when using Direct mode
-- Fix for the typeahead component for metrics dropdown (`/search` endpoint).
-
-1.3.3
- - Adds support for basic authentication
-
-1.2.4
- - Add support returning sets in the search endpoint
-
-1.2.3
- - Allow nested templates in find metric query. #23
-
-1.2.2
- - Dont execute hidden queries
- - Template support for metrics queries
- - Template support for annotation queries
-
-Copy the data source you want to `/public/app/plugins/datasource/`. Then restart grafana-server. The new data source should now be available in the data source type dropdown in the Add Data Source View.
+- Added JSON editor for additional query variables
+- Support for template variables in /query and /annotations requests
+- Rewritten in TypeScript

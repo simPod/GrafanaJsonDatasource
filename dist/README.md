@@ -53,6 +53,7 @@ Example `timeseries` request
   },
   "interval": "30s",
   "intervalMs": 30000,
+  "maxDataPoints": 550,
   "targets": [
      { "target": "upper_50", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } },
      { "target": "upper_75", "refId": "B", "type": "timeseries" }
@@ -61,9 +62,7 @@ Example `timeseries` request
     "key": "City",
     "operator": "=",
     "value": "Berlin"
-  }],
-  "format": "json",
-  "maxDataPoints": 550
+  }]
 }
 ```
 

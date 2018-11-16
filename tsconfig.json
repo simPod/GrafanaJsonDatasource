@@ -2,14 +2,13 @@
     "compileOnSave": false,
     "compilerOptions": {
         "target": "es5",
-        "module": "es6",
+        "module": "esnext",
         "moduleResolution": "node",
         "rootDir": "./src",
         "jsx": "react",
         "lib": [
             "dom",
-            "es2015",
-            "es2016"
+            "esnext"
         ],
         "declaration": false,
         "allowSyntheticDefaultImports": true,

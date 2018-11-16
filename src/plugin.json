@@ -1,6 +1,6 @@
 {
   "name": "JSON",
-  "id": "grafana-json-datasource",
+  "id": "simpod-json-datasource",
   "type": "datasource",
 
   "partials": {

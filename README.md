@@ -192,10 +192,10 @@ The tag values api returns:
 
 To install this plugin using the `grafana-cli` tool:
 ```
-sudo grafana-cli plugins install grafana-json-datasource
+sudo grafana-cli plugins install simpod-json-datasource
 sudo service grafana-server restart
 ```
-See [here](https://grafana.com/plugins/grafana-json-datasource/installation) for more
+See [here](https://grafana.com/plugins/simpod-json-datasource/installation) for more
 information.
 
 ### Development setup

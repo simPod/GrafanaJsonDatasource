@@ -3,23 +3,22 @@ import { QueryCtrl } from 'grafana/app/plugins/sdk';
 export class GenericDatasourceQueryCtrl extends QueryCtrl {
   static templateUrl = 'partials/query.editor.html';
 
-  private formats: any;
+  private types: any;
   private showJSON: boolean;
 
   /** @ngInject **/
   constructor($scope, $injector) {
     super($scope, $injector);
 
+    this.target.hide = false;
     this.target.target = this.target.target || 'select metric';
-    this.target.type = this.target.type || 'timeseries';
-    this.target.data = this.target.data || '';
-
-    // special handling when in table panel
-    if (!this.target.format) {
-      this.target.format = this.panelCtrl.panel.type === 'table' ? 'table' : 'timeseries';
+    if (!this.target.type) {
+      this.target.type = this.panelCtrl.panel.type === 'table' ? 'table' : 'timeseries';
     }
+    console.log(this.target.type);
+    this.target.data = this.target.data || null;
 
-    this.formats = [
+    this.types = [
       { text: 'Time series', value: 'timeseries' },
       { text: 'Table', value: 'table' },
     ];

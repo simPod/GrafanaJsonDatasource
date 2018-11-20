@@ -146,7 +146,7 @@ export class GenericDatasource {
           target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
           refId: target.refId,
           hide: target.hide,
-          type: target.type || 'timeseries',
+          type: target.type,
         };
       });
   }

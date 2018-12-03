@@ -24,7 +24,7 @@
       {"name": "GitHub", "url": "https://github.com/simPod/grafana-json-datasource"},
       {"name": "MIT License", "url": "https://github.com/simPod/grafana-json-datasource/blob/master/LICENSE"}
     ],
-    "version": "1.0.0",
+    "version": "0.1.0",
     "updated": "2018-08-20"
   },
 

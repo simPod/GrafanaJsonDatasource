@@ -205,11 +205,3 @@ This plugin requires node 6.10.0. To build use of [Yarn](https://yarnpkg.com/lan
 yarn install
 yarn run build
 ```
-
-### Changelog
-
-0.1.0
-
-- Added JSON editor for additional query variables
-- Support for template variables in /query and /annotations requests
-- Rewritten in TypeScript

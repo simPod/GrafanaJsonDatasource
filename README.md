@@ -190,21 +190,20 @@ The tag values api returns:
 ## Installation
 
 To install this plugin using the `grafana-cli` tool:
-```
-sudo grafana-cli plugins install simpod-json-datasource
-sudo service grafana-server restart
-```
+```sh
+ grafana-cli plugins install simpod-json-datasource
+ ```
+
 See [here](https://grafana.com/plugins/simpod-json-datasource/installation) for more
 information.
 
 ### Development setup
 
-This plugin requires node 6.10.0
+This plugin requires node 6.10.0. To build use of [Yarn](https://yarnpkg.com/lang/en/docs/install/) is encouraged.
 
 ```
-npm install -g yarn
 yarn install
-npm run build
+yarn run build
 ```
 
 ### Changelog

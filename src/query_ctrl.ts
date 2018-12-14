@@ -15,8 +15,7 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
     if (!this.target.type) {
       this.target.type = this.panelCtrl.panel.type === 'table' ? 'table' : 'timeseries';
     }
-    console.log(this.target.type);
-    this.target.data = this.target.data || null;
+    this.target.data = this.target.data || '';
 
     this.types = [
       { text: 'Time series', value: 'timeseries' },

@@ -1,6 +1,5 @@
 {
   "name": "grafana-json",
-  "version": "0.1.0",
   "description": "Grafana JSON datasource",
   "main": "index.js",
   "scripts": {

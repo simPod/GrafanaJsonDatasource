@@ -1,5 +1,5 @@
 {
-  "name": "grafana-json",
+  "name": "grafana-json-datasource",
   "description": "Grafana JSON datasource",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,6 @@
     "type": "git",
     "url": "git+https://github.com/simPod/grafana-json-datasource.git"
   },
-  "author": "",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/simPod/grafana-json-datasource/issues"

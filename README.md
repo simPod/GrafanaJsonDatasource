@@ -1,8 +1,39 @@
-## JSON Datasource - a generic backend datasource
+# JSON Datasource - a generic backend datasource
 
-JSON Datasource is an enhanced version of the [Simple JSON Datasource](https://github.com/grafana/simple-json-datasource).
+The JSON Datasource executes JSON requests against arbitrary backends.   
+_JSON Datasource is an enhanced version of the [Simple JSON Datasource](https://github.com/grafana/simple-json-datasource)._
+ 
+ ## Contents
+ - [Installation](#installation)
+ - [Setup](#setup)
+ - [API](#api)
+   - [/search](#search)
+   - [/query](#tquery)
+   - [/annotations](#annotations)
+   - [/tag-keys](#tag-keys)
+   - [/tag-values](#tag-values)
+- [Development Setup](#development-setup)
 
-The JSON datasource executes JSON requests against arbitrary backends. To work with this datasource the backend needs to implement 4 urls:
+## Installation
+
+To install this plugin using the `grafana-cli` tool:
+```sh
+ grafana-cli plugins install simpod-json-datasource
+ ```
+
+See [here](https://grafana.com/plugins/simpod-json-datasource/installation) for more
+information.
+
+## Setup
+
+When adding datasource add your API endpoint to the `URL` field. That's where datasource will make requests to.
+
+![Datasource setup](https://raw.githubusercontent.com/simPod/grafana-json-datasource/next/docs/images/datasource-setup.png)
+
+
+## API
+
+To work with this datasource the backend needs to implement 4 urls:
 
  * `/` should return 200 ok. Used for "Test connection" on the datasource config page.
  * `/search` used by the find metric options on the query tab in panels.
@@ -13,8 +44,8 @@ Those two urls are optional:
 
  * `/tag-keys` should return tag keys for ad hoc filters.
  * `/tag-values` should return tag values for ad hoc filters.
-
-### Search API
+ 
+### /search
 
 Example request
 ``` json
@@ -33,7 +64,7 @@ Example map response
 [ { "text" :"upper_25", "value": 1}, { "text" :"upper_75", "value": 2} ]
 ```
 
-### Query API
+### /query
 
 Example `timeseries` request
 ``` json
@@ -105,7 +136,7 @@ If the metric selected is `"type": "table"`, an example `table` response:
 ]
 ```
 
-### Annotation API
+### /annotations
 
 The annotation request from the Simple JSON Datasource is a POST request to
 the `/annotations` endpoint in your datasource. The JSON request body looks like this:
@@ -156,7 +187,7 @@ Access-Control-Allow-Methods:POST
 Access-Control-Allow-Origin:*
 ```
 
-### Tag Keys API
+### /tag-keys
 
 Example request
 ``` json
@@ -171,7 +202,7 @@ The tag keys api returns:
 ]
 ```
 
-### Tag Values API
+### /tag-values
 
 Example request
 ``` json
@@ -187,19 +218,9 @@ The tag values api returns:
 ]
 ```
 
-## Installation
+## Development Setup
 
-To install this plugin using the `grafana-cli` tool:
-```sh
- grafana-cli plugins install simpod-json-datasource
- ```
-
-See [here](https://grafana.com/plugins/simpod-json-datasource/installation) for more
-information.
-
-### Development setup
-
-This plugin requires node 6.10.0. To build use of [Yarn](https://yarnpkg.com/lang/en/docs/install/) is encouraged.
+This plugin requires node 6.10.0. Use of [Yarn](https://yarnpkg.com/lang/en/docs/install/) is encouraged to build.
 
 ```
 yarn install

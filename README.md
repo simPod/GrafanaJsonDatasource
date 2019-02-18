@@ -136,6 +136,20 @@ If the metric selected is `"type": "table"`, an example `table` response:
 ]
 ```
 
+#### Additional data
+
+Sending additional data for each metric is supported via the Additional JSON Data input field that allows you to enter JSON.
+
+For example when `{ "additional": "optional json" }` is entered into Additional JSON Data input, it is attached to the target data under `"data"` key:
+
+```json
+{ "target": "upper_50", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } }
+``` 
+
+You can also enter variables. However they should not be enclosed in quotes.
+
+![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/next/docs/images/additional-data-input.png.png)
+
 ### /annotations
 
 The annotation request from the Simple JSON Datasource is a POST request to

@@ -148,7 +148,7 @@ For example when `{ "additional": "optional json" }` is entered into Additional 
 
 You can also enter variables. However they should not be enclosed in quotes.
 
-![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/next/docs/images/additional-data-input.png.png)
+![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/next/docs/images/additional-data-input.png)
 
 ### /annotations
 

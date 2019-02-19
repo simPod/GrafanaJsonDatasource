@@ -131,14 +131,16 @@ export class GenericDatasource {
         return target.target !== 'select metric';
       })
       .map((target) => {
-        let data = target.data;
+        let data = isUndefined(target.data) ? null : target.data;
 
         if (typeof data === 'string' && data.trim() === '') {
           data = null;
         }
 
-        if (data) {
-          data = JSON.parse(data);
+        if (data !== null) {
+          data = JSON.parse(
+            this.templateSrv.replace(data, options.scopedVars, 'json'),
+          );
         }
 
         return {

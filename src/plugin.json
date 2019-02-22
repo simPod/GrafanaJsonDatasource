@@ -21,7 +21,7 @@
       {"name": "MIT License", "url": "https://github.com/simPod/grafana-json-datasource/blob/master/LICENSE"}
     ],
     "version": "0.1.2",
-    "updated": "2018-12-13"
+    "updated": "2018-02-22"
   },
 
   "dependencies": {

@@ -9,7 +9,7 @@
     "annotations": true,
     "info": {
         "author": {
-            "name": "Grafana Friends"
+            "name": "Open Source Friends"
         },
         "description": "JSON over HTTP datasource",
         "logos": {

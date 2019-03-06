@@ -1,7 +1,7 @@
 ///<reference path="../node_modules/grafana-sdk-mocks/app/headers/common.d.ts" />
-import map from 'lodash/map';
 import isObject from 'lodash/isObject';
 import isUndefined from 'lodash/isUndefined';
+import map from 'lodash/map';
 
 export class GenericDatasource {
 
@@ -138,9 +138,16 @@ export class GenericDatasource {
         }
 
         if (data !== null) {
-          data = JSON.parse(
-            this.templateSrv.replace(data, options.scopedVars, 'json'),
-          );
+          const match = data.match(/("(\$.+?)")/g);
+          if (match !== null) {
+            data.match(/("(\$.+?)")/g).map((match: string) => {
+              const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
+              if (replacedMatch !== match) {
+                data = data.replace(match, replacedMatch.substring(1, replacedMatch.length - 1));
+              }
+            });
+          }
+          data = JSON.parse(data);
         }
 
         return {

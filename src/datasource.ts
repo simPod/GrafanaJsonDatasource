@@ -140,12 +140,14 @@ export class GenericDatasource {
         if (data !== null) {
           const match = data.match(/("(\$.+?)")/g);
           if (match !== null) {
-            data.match(/("(\$.+?)")/g).map((match: string) => {
-              const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
-              if (replacedMatch !== match) {
-                data = data.replace(match, replacedMatch.substring(1, replacedMatch.length - 1));
-              }
-            });
+            data
+              .match(/("(\$.+?)")/g)
+              .map((match: string) => {
+                const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
+                if (replacedMatch !== match) {
+                  data = data.replace(match, replacedMatch.substring(1, replacedMatch.length - 1));
+                }
+              });
           }
           data = JSON.parse(data);
         }
@@ -165,9 +167,19 @@ export class GenericDatasource {
     const variables = {};
     Object.keys(index).forEach((key) => {
       const variable = index[key];
-      variables[variable.name] = {
+
+      let variableValue = variable.current.value;
+      if (variableValue === '$__all') {
+        if (variable.allValue === null) {
+          variableValue = variable.options.slice(1).map(textValuePair => textValuePair.value);
+        } else {
+          variableValue = variable.allValue;
+        }
+      }
+
+      variables[key] = {
         text: variable.current.text,
-        value: variable.current.value,
+        value: variableValue,
       };
     });
 

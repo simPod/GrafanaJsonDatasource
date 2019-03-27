@@ -1,4 +1,5 @@
 ///<reference path="../node_modules/grafana-sdk-mocks/app/headers/common.d.ts" />
+import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';
 import isUndefined from 'lodash/isUndefined';
 import map from 'lodash/map';
@@ -169,7 +170,7 @@ export class GenericDatasource {
       const variable = index[key];
 
       let variableValue = variable.current.value;
-      if (variableValue === '$__all') {
+      if (variableValue === '$__all' || isEqual(variableValue, ['$__all'])) {
         if (variable.allValue === null) {
           variableValue = variable.options.slice(1).map(textValuePair => textValuePair.value);
         } else {

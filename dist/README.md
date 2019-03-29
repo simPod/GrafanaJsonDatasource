@@ -28,7 +28,7 @@ information.
 
 When adding datasource add your API endpoint to the `URL` field. That's where datasource will make requests to.
 
-![Datasource setup](https://raw.githubusercontent.com/simPod/grafana-json-datasource/next/docs/images/datasource-setup.png)
+![Datasource setup](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/datasource-setup.png)
 
 
 ## API
@@ -146,9 +146,9 @@ For example when `{ "additional": "optional json" }` is entered into Additional 
 { "target": "upper_50", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } }
 ``` 
 
-You can also enter variables. However they should not be enclosed in quotes.
+You can also enter variables:
 
-![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/next/docs/images/additional-data-input.png)
+![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/additional-data-input.png)
 
 ### /annotations
 

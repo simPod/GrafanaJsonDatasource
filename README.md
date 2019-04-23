@@ -171,7 +171,7 @@ the `/annotations` endpoint in your datasource. The JSON request body looks like
     "enable": true,
     "query": "#deploy",
   },
-   "variables" []
+   "variables": []
 }
 ```
 

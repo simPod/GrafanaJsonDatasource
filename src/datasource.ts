@@ -131,25 +131,37 @@ export class GenericDatasource {
         return target.target !== 'select metric';
       })
       .map((target) => {
-        let data = isUndefined(target.data) ? null : target.data;
-
-        if (typeof data === 'string' && data.trim() === '') {
-          data = null;
-        }
+        const data = isUndefined(target.data) || target.data.trim() === ''
+          ? null
+          : JSON.parse(target.data);
 
         if (data !== null) {
-          const match = data.match(/("(\$.+?)")/g);
-          if (match !== null) {
-            data
-              .match(/("(\$.+?)")/g)
-              .map((match: string) => {
-                const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
-                if (replacedMatch !== match) {
-                  data = data.replace(match, replacedMatch.substring(1, replacedMatch.length - 1));
-                }
-              });
-          }
-          data = JSON.parse(data);
+          Object.keys(data).forEach((key) => {
+            const value = data[key];
+            if (typeof value !== 'string') {
+              return;
+            }
+
+            const matches = value.match(/\$([\w]+)/g);
+            if (matches !== null) {
+              if (matches.length > 1) {
+                console.error(
+                  'Use ${var1} format to specify multiple variables in one value' +
+                  `so we can safely replace that. Passed value was "${value}".`,
+                );
+              } else {
+                data[key] = this.cleanMatch(matches[0], options);
+
+                return;
+              }
+            }
+
+            const matchesWithBraces = value.match(/\${([\w-]+)}/g);
+            if (matchesWithBraces !== null) {
+              data[key] = value
+                .replace(/\${([\w-]+)}/g, match => this.cleanMatch(match, options));
+            }
+          });
         }
 
         let targetValue = target.target;
@@ -169,6 +181,14 @@ export class GenericDatasource {
           type: target.type,
         };
       });
+  }
+
+  cleanMatch(match, options) {
+    const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
+    if (typeof replacedMatch === 'string') {
+      return replacedMatch.substring(1, replacedMatch.length - 1);
+    }
+    return replacedMatch;
   }
 
   getVariables() {

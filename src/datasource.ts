@@ -2,7 +2,6 @@
 import isEqual from 'lodash/isEqual';
 import isObject from 'lodash/isObject';
 import isUndefined from 'lodash/isUndefined';
-import map from 'lodash/map';
 
 export class GenericDatasource {
 
@@ -106,7 +105,7 @@ export class GenericDatasource {
   }
 
   mapToTextValue(result) {
-    return map(result.data, (d, i) => {
+    return result.data.map((d, i) => {
       if (d && d.text && d.value) {
         return { text: d.text, value: d.value };
       }
@@ -153,9 +152,18 @@ export class GenericDatasource {
           data = JSON.parse(data);
         }
 
+        let targetValue = target.target;
+        if (typeof targetValue === 'string') {
+          targetValue = this.templateSrv.replace(
+            target.target.toString(),
+            options.scopedVars,
+            'regex',
+          );
+        }
+
         return {
           data,
-          target: this.templateSrv.replace(target.target, options.scopedVars, 'regex'),
+          target: targetValue,
           refId: target.refId,
           hide: target.hide,
           type: target.type,

@@ -44,7 +44,7 @@ export class GenericDatasource {
     options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
 
     return this.doRequest({
-      url: this.url + '/query',
+      url: `${this.url}/query`,
       data: query,
       method: 'POST',
     });
@@ -52,7 +52,7 @@ export class GenericDatasource {
 
   testDatasource() {
     return this.doRequest({
-      url: this.url + '/',
+      url: `${this.url}/`,
       method: 'GET',
     }).then((response) => {
       if (response.status === 200) {
@@ -61,7 +61,7 @@ export class GenericDatasource {
 
       return {
         status: 'error',
-        message: 'Data source is not working: ' + response.message,
+        message: `Data source is not working: ${response.message}`,
         title: 'Error',
       };
     });
@@ -84,7 +84,7 @@ export class GenericDatasource {
     };
 
     return this.doRequest({
-      url: this.url + '/annotations',
+      url: `${this.url}/annotations`,
       method: 'POST',
       data: annotationQuery,
     }).then((result) => {
@@ -98,7 +98,7 @@ export class GenericDatasource {
     };
 
     return this.doRequest({
-      url: this.url + '/search',
+      url: `${this.url}/search`,
       data: interpolated,
       method: 'POST',
     }).then(this.mapToTextValue);
@@ -198,7 +198,7 @@ export class GenericDatasource {
   getTagKeys(options) {
     return new Promise((resolve, reject) => {
       this.doRequest({
-        url: this.url + '/tag-keys',
+        url: `${this.url}/tag-keys`,
         method: 'POST',
         data: options,
       }).then((result) => {
@@ -210,7 +210,7 @@ export class GenericDatasource {
   getTagValues(options) {
     return new Promise((resolve, reject) => {
       this.doRequest({
-        url: this.url + '/tag-values',
+        url: `${this.url}/tag-values`,
         method: 'POST',
         data: options,
       }).then((result) => {

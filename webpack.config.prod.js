@@ -6,10 +6,10 @@ var conf = baseWebpackConfig;
 conf.mode = 'production';
 
 conf.plugins.push(new ngAnnotatePlugin());
-// conf.plugins.push(
-//   new UglifyJSPlugin({
-//     sourceMap: true,
-//   })
-// );
+ conf.plugins.push(
+   new UglifyJSPlugin({
+     sourceMap: true,
+   })
+ );
 
 module.exports = conf;

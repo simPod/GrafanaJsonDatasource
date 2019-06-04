@@ -4,6 +4,7 @@ module.exports = {
     'ts-jest': {
       tsConfig: 'tsconfig.jest.json',
       babelConfig: true,
+      isolatedModules: true
     },
   },
   moduleNameMapper: {

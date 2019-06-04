@@ -23,11 +23,12 @@
         "noImplicitAny": false,
         "esModuleInterop": true,
         "noUnusedLocals": false,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "pretty": true,
+        "strict": true
     },
     "include": [
-        "./src/**/*.ts",
-        "./src/**/*.tsx"
+        "./src/**/*.ts"
     ],
     "exclude": [
         "node_modules"

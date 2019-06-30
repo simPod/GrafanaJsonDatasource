@@ -119,21 +119,19 @@ Example `timeseries` response
 
 If the metric selected is `"type": "table"`, an example `table` response:
 ``` json
-[
-  {
-    "columns":[
-      {"text":"Time","type":"time"},
-      {"text":"Country","type":"string"},
-      {"text":"Number","type":"number"}
-    ],
-    "rows":[
-      [1234567,"SE",123],
-      [1234567,"DE",231],
-      [1234567,"US",321]
-    ],
-    "type":"table"
-  }
-]
+{
+  "columns":[
+    {"text":"Time","type":"time"},
+    {"text":"Country","type":"string"},
+    {"text":"Number","type":"number"}
+  ],
+  "rows":[
+    [1234567,"SE",123],
+    [1234567,"DE",231],
+    [1234567,"US",321]
+  ],
+  "type":"table"
+}
 ```
 
 #### Additional data

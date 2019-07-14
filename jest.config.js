@@ -4,7 +4,7 @@ module.exports = {
     'ts-jest': {
       tsConfig: 'tsconfig.jest.json',
       babelConfig: true,
-      isolatedModules: true
+      isolatedModules: true,
     },
   },
   moduleNameMapper: {
@@ -15,11 +15,11 @@ module.exports = {
   ],
   testRegex: '(\\.|/)([jt]est)\\.ts$',
   moduleFileExtensions: [
-    'js',
-    'json',
-    'jsx',
     'ts',
     'tsx',
+    'js',
+    'jsx',
+    'json',
   ],
   preset: 'ts-jest',
   testMatch: null,

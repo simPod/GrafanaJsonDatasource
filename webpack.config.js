@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
   node: {
@@ -20,7 +20,7 @@ module.exports = {
   externals: [
     'lodash',
     function (context, request, callback) {
-      var prefix = 'grafana/';
+      const prefix = 'grafana/';
       if (request.indexOf(prefix) === 0) {
         return callback(null, request.substr(prefix.length));
       }
@@ -28,7 +28,7 @@ module.exports = {
     }
   ],
   plugins: [
-    new CleanWebpackPlugin('dist', {allowExternal: true}),
+    new CleanWebpackPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new CopyWebpackPlugin([
       {from: 'plugin.json', to: '.'},
@@ -46,10 +46,7 @@ module.exports = {
       {
         test: /\.tsx?$/,
         loaders: [
-          {
-            loader: 'babel-loader',
-            options: {presets: ['env']}
-          },
+          { loader: 'babel-loader' },
           'ts-loader'
         ],
         exclude: /(node_modules)/,

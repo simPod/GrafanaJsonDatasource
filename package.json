@@ -2,12 +2,14 @@
   "name": "grafana-json-datasource",
   "description": "Grafana JSON datasource",
   "main": "index.js",
+  "version": "0.1.5",
   "scripts": {
-    "build": "webpack --config webpack.config.prod.js",
-    "dev": "webpack --mode development",
-    "watch": "webpack --mode development --watch",
-    "test": "jest --config jest.config.js",
-    "lint": "tslint --config tslint.json --project tsconfig.json"
+    "build": "grafana-toolkit plugin:build",
+    "test": "grafana-toolkit plugin:test",
+    "dev": "grafana-toolkit plugin:dev",
+    "watch": "grafana-toolkit plugin:dev --watch",
+    "prettier:check": "prettier --list-different \"**/*.{ts,tsx,scss}\"",
+    "prettier:write": "prettier --list-different \"**/*.{ts,tsx,scss}\" --write"
   },
   "repository": {
     "type": "git",
@@ -19,33 +21,19 @@
   },
   "engineStrict": true,
   "devDependencies": {
-    "@babel/cli": "^7.5.0",
-    "@babel/core": "^7.5.4",
-    "@babel/preset-env": "^7.5.4",
-    "@types/grafana": "https://git@github.com/CorpGlory/types-grafana.git",
-    "@types/jest": "^24.0.15",
-    "@types/lodash": "^4.14.74",
-    "babel-jest": "^24.8.0",
-    "babel-loader": "^8.0.6",
-    "clean-webpack-plugin": "^3.0.0",
-    "copy-webpack-plugin": "^5.0.3",
-    "css-loader": "^3.0.0",
-    "grafana-sdk-mocks": "github:grafana/grafana-sdk-mocks",
-    "jest": "^24.8.0",
-    "ng-annotate-webpack-plugin": "^0.3.0",
-    "q": "^1.5.0",
-    "style-loader": "^0.23.1",
-    "ts-jest": "^24.0.2",
-    "ts-loader": "^6.0.4",
-    "tslint": "^5.11.0",
-    "tslint-config-airbnb": "^5.10.0",
-    "typescript": "^3.5.1",
-    "uglifyjs-webpack-plugin": "^2.1.3",
-    "webpack": "^4.17.1",
-    "webpack-cli": "^3.3.5"
+    "@grafana/data": "^6.4.4",
+    "@grafana/toolkit": "^6.5.0-beta.1",
+    "@grafana/ui": "^6.4.4",
+    "@types/lodash": "^4.14.136",
+    "grafana-sdk-mocks": "github:grafana/grafana-sdk-mocks"
   },
   "dependencies": {
-    "lodash": "^4.17.13"
+    "lodash": "^4.17.15"
   },
-  "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
+  "homepage": "https://github.com/simPod/grafana-json-datasource#readme",
+  "jest": {
+    "moduleNameMapper": {
+      "app/plugins/sdk": "<rootDir>/node_modules/grafana-sdk-mocks/app/plugins/sdk.ts"
+    }
+  }
 }

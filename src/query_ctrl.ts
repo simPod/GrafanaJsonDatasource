@@ -1,15 +1,13 @@
-import { QueryCtrl } from 'grafana/app/plugins/sdk';
-
-export class GenericDatasourceQueryCtrl extends QueryCtrl {
+export class GenericDatasourceQueryCtrl {
   static templateUrl = 'partials/query.editor.html';
 
-  private types: any;
-  private showJSON: boolean;
+  target: any;
+  panelCtrl: any;
+  datasource: any;
+  types: object[];
+  showJSON: boolean;
 
-  /** @ngInject **/
-  constructor($scope, $injector) {
-    super($scope, $injector);
-
+  constructor() {
     this.target.hide = false;
     this.target.target = this.target.target || 'select metric';
     if (!this.target.type) {

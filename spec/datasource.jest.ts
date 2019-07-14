@@ -1,7 +1,6 @@
 // import { beforeEach, describe, expect, it } from './lib/common';
 import TemplateSrvStub from './lib/TemplateSrvStub';
 import { Datasource } from '../src/module';
-import q from 'q';
 
 describe('GenericDatasource', () => {
   const ctx: any = {
@@ -10,20 +9,19 @@ describe('GenericDatasource', () => {
   };
 
   beforeEach(() => {
-    ctx.$q = q;
-    ctx.ds = new Datasource({}, ctx.$q, ctx.backendSrv, ctx.templateSrv);
+    ctx.ds = new Datasource({}, ctx.backendSrv, ctx.templateSrv);
   });
 
-  it('should return an empty array when no targets are set', (done) => {
-    ctx.ds.query({ targets: [] }).then((result) => {
+  it('should return an empty array when no targets are set', done => {
+    ctx.ds.query({ targets: [] }).then(result => {
       expect(result.data).toHaveLength(0);
       done();
     });
   });
 
-  it('should return the server results when a target is set', (done) => {
-    ctx.backendSrv.datasourceRequest = function (request) {
-      return ctx.$q.when({
+  it('should return the server results when a target is set', done => {
+    ctx.backendSrv.datasourceRequest = function(request) {
+      return Promise.resolve({
         _request: request,
         data: [
           {
@@ -34,11 +32,11 @@ describe('GenericDatasource', () => {
       });
     };
 
-    ctx.templateSrv.replace = function (data) {
+    ctx.templateSrv.replace = function(data) {
       return data;
     };
 
-    ctx.ds.query({ targets: ['hits'] }).then((result) => {
+    ctx.ds.query({ targets: ['hits'] }).then(result => {
       expect(result._request.data.targets).toHaveLength(1);
 
       const series = result.data[0];
@@ -48,22 +46,22 @@ describe('GenericDatasource', () => {
     });
   });
 
-  it('should return the metric target results when a target is set', (done) => {
-    ctx.backendSrv.datasourceRequest = function (request) {
+  it('should return the metric target results when a target is set', done => {
+    ctx.backendSrv.datasourceRequest = function(request) {
       const target = request.data.target;
       const result = [target + '_0', target + '_1', target + '_2'];
 
-      return ctx.$q.when({
+      return Promise.resolve({
         _request: request,
         data: result,
       });
     };
 
-    ctx.templateSrv.replace = function (data) {
+    ctx.templateSrv.replace = function(data) {
       return data;
     };
 
-    ctx.ds.metricFindQuery('search', 'timeseries').then((result) => {
+    ctx.ds.metricFindQuery('search', 'timeseries').then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -75,23 +73,19 @@ describe('GenericDatasource', () => {
     });
   });
 
-  it('should return the metric results when the target is an empty string', (done) => {
-    ctx.backendSrv.datasourceRequest = function (request) {
-      return ctx.$q.when({
+  it('should return the metric results when the target is an empty string', done => {
+    ctx.backendSrv.datasourceRequest = function(request) {
+      return Promise.resolve({
         _request: request,
-        data: [
-          'metric_0',
-          'metric_1',
-          'metric_2',
-        ],
+        data: ['metric_0', 'metric_1', 'metric_2'],
       });
     };
 
-    ctx.templateSrv.replace = function (data) {
+    ctx.templateSrv.replace = function(data) {
       return data;
     };
 
-    ctx.ds.metricFindQuery('').then((result) => {
+    ctx.ds.metricFindQuery('').then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -103,23 +97,19 @@ describe('GenericDatasource', () => {
     });
   });
 
-  it('should return the metric results when the args are an empty object', (done) => {
-    ctx.backendSrv.datasourceRequest = function (request) {
-      return ctx.$q.when({
+  it('should return the metric results when the args are an empty object', done => {
+    ctx.backendSrv.datasourceRequest = function(request) {
+      return Promise.resolve({
         _request: request,
-        data: [
-          'metric_0',
-          'metric_1',
-          'metric_2',
-        ],
+        data: ['metric_0', 'metric_1', 'metric_2'],
       });
     };
 
-    ctx.templateSrv.replace = function (data) {
+    ctx.templateSrv.replace = function(data) {
       return data;
     };
 
-    ctx.ds.metricFindQuery().then((result) => {
+    ctx.ds.metricFindQuery().then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -131,22 +121,22 @@ describe('GenericDatasource', () => {
     });
   });
 
-  it('should return the metric target results when the args are a string', (done) => {
-    ctx.backendSrv.datasourceRequest = function (request) {
+  it('should return the metric target results when the args are a string', done => {
+    ctx.backendSrv.datasourceRequest = function(request) {
       const target = request.data.target;
       const result = [target + '_0', target + '_1', target + '_2'];
 
-      return ctx.$q.when({
+      return Promise.resolve({
         _request: request,
         data: result,
       });
     };
 
-    ctx.templateSrv.replace = function (data) {
+    ctx.templateSrv.replace = function(data) {
       return data;
     };
 
-    ctx.ds.metricFindQuery('search', 'timeseries').then((result) => {
+    ctx.ds.metricFindQuery('search', 'timeseries').then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -158,7 +148,7 @@ describe('GenericDatasource', () => {
     });
   });
 
-  it('should return data as text and as value', (done) => {
+  it('should return data as text and as value', done => {
     const result = ctx.ds.mapToTextValue({ data: ['zero', 'one', 'two'] });
 
     expect(result).toHaveLength(3);
@@ -171,7 +161,7 @@ describe('GenericDatasource', () => {
     done();
   });
 
-  it('should return text as text and value as value', (done) => {
+  it('should return text as text and value as value', done => {
     const data = [
       { text: 'zero', value: 'value_0' },
       { text: 'one', value: 'value_1' },
@@ -190,7 +180,7 @@ describe('GenericDatasource', () => {
     done();
   });
 
-  it('should return data as text and index as value', (done) => {
+  it('should return data as text and index as value', done => {
     const data = [
       { a: 'zero', b: 'value_0' },
       { a: 'one', b: 'value_1' },
@@ -209,20 +199,20 @@ describe('GenericDatasource', () => {
     done();
   });
 
-  it('should support tag keys', (done) => {
+  it('should support tag keys', done => {
     const data = [
       { type: 'string', text: 'One', key: 'one' },
       { type: 'string', text: 'two', key: 'Two' },
     ];
 
-    ctx.backendSrv.datasourceRequest = function (request) {
-      return ctx.$q.when({
+    ctx.backendSrv.datasourceRequest = function(request) {
+      return Promise.resolve({
         data,
         _request: request,
       });
     };
 
-    ctx.ds.getTagKeys().then((result) => {
+    ctx.ds.getTagKeys().then(result => {
       expect(result).toHaveLength(2);
       expect(result[0].type).toBe(data[0].type);
       expect(result[0].text).toBe(data[0].text);
@@ -234,21 +224,21 @@ describe('GenericDatasource', () => {
     });
   });
 
-  it('should support tag values', (done) => {
+  it('should support tag values', done => {
     const data = [
       { key: 'eins', text: 'Eins!' },
       { key: 'zwei', text: 'Zwei' },
       { key: 'drei', text: 'Drei!' },
     ];
 
-    ctx.backendSrv.datasourceRequest = function (request) {
-      return ctx.$q.when({
+    ctx.backendSrv.datasourceRequest = function(request) {
+      return Promise.resolve({
         data,
         _request: request,
       });
     };
 
-    ctx.ds.getTagValues().then((result) => {
+    ctx.ds.getTagValues().then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe(data[0].text);
       expect(result[0].key).toBe(data[0].key);
@@ -259,5 +249,4 @@ describe('GenericDatasource', () => {
       done();
     });
   });
-
 });

@@ -86,8 +86,8 @@ Example `timeseries` request
   "intervalMs": 30000,
   "maxDataPoints": 550,
   "targets": [
-     { "target": "upper_50", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } },
-     { "target": "upper_75", "refId": "B", "type": "timeseries" }
+     { "target": "Packets", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } },
+     { "target": "Errors", "refId": "B", "type": "timeseries" }
   ],
   "adhocFilters": [{
     "key": "City",
@@ -97,18 +97,34 @@ Example `timeseries` request
 }
 ```
 
+
 Example `timeseries` response
+
 ``` javascript
 [
   {
-    "target":"upper_75", // The field being queried for
+    "target":"pps in",
     "datapoints":[
       [622,1450754160000],  // Metric value as a float , unixtimestamp in milliseconds
       [365,1450754220000]
     ]
   },
   {
-    "target":"upper_90",
+    "target":"pps out",
+    "datapoints":[
+      [861,1450754160000],
+      [767,1450754220000]
+    ]
+  }
+  {
+    "target":"errors out",
+    "datapoints":[
+      [861,1450754160000],
+      [767,1450754220000]
+    ]
+  }
+  {
+    "target":"errors in",
     "datapoints":[
       [861,1450754160000],
       [767,1450754220000]
@@ -116,6 +132,8 @@ Example `timeseries` response
   }
 ]
 ```
+
+_The relation between `target` in request and response is 1:n. You can return multiple targets in response for one requested `target`._
 
 If the metric selected is `"type": "table"`, an example `table` response:
 ``` json

@@ -1,7 +1,7 @@
-# JSON Datasource - a generic backend datasource
+# JSON Datasource – a generic backend datasource
 
 The JSON Datasource executes JSON requests against arbitrary backends.   
-_JSON Datasource is an enhanced version of the [Simple JSON Datasource](https://github.com/grafana/simple-json-datasource)._
+_JSON Datasource is built on top of the [Simple JSON Datasource](https://github.com/grafana/simple-json-datasource)._ It has refactored code, additional features and active development.
  
  ## Contents
  - [Installation](#installation)

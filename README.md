@@ -154,6 +154,8 @@ If the metric selected is `"type": "table"`, an example `table` response:
 
 #### Additional data
 
+![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/additional-data-input.gif)
+
 Sending additional data for each metric is supported via the Additional JSON Data input field that allows you to enter JSON.
 
 For example when `{ "additional": "optional json" }` is entered into Additional JSON Data input, it is attached to the target data under `"data"` key:
@@ -164,7 +166,7 @@ For example when `{ "additional": "optional json" }` is entered into Additional 
 
 You can also enter variables:
 
-![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/additional-data-input.png)
+![Additional data varible input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/additional-data-variable-input.png)
 
 ### /annotations
 

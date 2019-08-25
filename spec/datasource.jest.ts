@@ -91,7 +91,7 @@ describe('GenericDatasource', () => {
       return data;
     };
 
-    ctx.ds.findMetricsQuery('search').then((result) => {
+    ctx.ds.findMetricsQuery('timeseries', 'search').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -174,7 +174,7 @@ describe('GenericDatasource', () => {
       return data;
     };
 
-    ctx.ds.findMetricsQuery('search').then((result) => {
+    ctx.ds.findMetricsQuery('timeseries', 'search').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');

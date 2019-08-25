@@ -48,34 +48,6 @@ describe('GenericDatasource', () => {
     });
   });
 
-  it('should return the metric results when a target is null', (done) => {
-    ctx.backendSrv.datasourceRequest = function (request) {
-      return ctx.$q.when({
-        _request: request,
-        data: [
-          'metric_0',
-          'metric_1',
-          'metric_2',
-        ],
-      });
-    };
-
-    ctx.templateSrv.replace = function (data) {
-      return data;
-    };
-
-    ctx.ds.findMetricsQuery({ target: null }).then((result) => {
-      expect(result).toHaveLength(3);
-      expect(result[0].text).toBe('metric_0');
-      expect(result[0].value).toBe('metric_0');
-      expect(result[1].text).toBe('metric_1');
-      expect(result[1].value).toBe('metric_1');
-      expect(result[2].text).toBe('metric_2');
-      expect(result[2].value).toBe('metric_2');
-      done();
-    });
-  });
-
   it('should return the metric target results when a target is set', (done) => {
     ctx.backendSrv.datasourceRequest = function (request) {
       const target = request.data.target;

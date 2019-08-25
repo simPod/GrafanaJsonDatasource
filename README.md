@@ -140,7 +140,7 @@ Example `timeseries` response
 
 _The relation between `target` in request and response is 1:n. You can return multiple targets in response for one requested `target`._
 
-Example `table` response, to be returned if the metric selected is `"type": "table"`:
+Example `table` response to be returned if the metric selected is `"type": "table"`:
 
 ``` json
 {

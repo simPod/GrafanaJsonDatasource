@@ -25,7 +25,7 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
   }
 
   findMetrics(query: string) {
-    return this.datasource.findMetricsQuery(this.target.type, query);
+    return this.datasource.findMetricsQuery(query, this.target.type);
   }
 
   // not used

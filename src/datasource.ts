@@ -92,7 +92,7 @@ export class GenericDatasource {
     });
   }
 
-  findMetricsQuery(type: string, query: string) {
+  findMetricsQuery(query: string, type: string) {
     const interpolated = {
       type,
       target: this.templateSrv.replace(query || '', null, 'regex'),

@@ -49,7 +49,7 @@ Those two urls are optional:
 
 Example request
 ``` json
-{ "target": "upper_50" }
+{ "type": "timeseries", "target": "upper_50" }
 ```
 
 The search api can either return an array or map.

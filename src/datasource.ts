@@ -95,7 +95,7 @@ export class GenericDatasource {
   findMetricsQuery(query: string, type: string) {
     const interpolated = {
       type,
-      target: this.templateSrv.replace(query || '', null, 'regex'),
+      target: this.templateSrv.replace(query, null, 'regex'),
     };
 
     return this.doRequest({

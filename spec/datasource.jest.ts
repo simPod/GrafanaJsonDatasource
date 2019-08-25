@@ -64,7 +64,7 @@ describe('GenericDatasource', () => {
       return data;
     };
 
-    ctx.ds.metricFindQuery({ target: null }).then((result) => {
+    ctx.ds.findMetricsQuery({ target: null }).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -91,7 +91,7 @@ describe('GenericDatasource', () => {
       return data;
     };
 
-    ctx.ds.metricFindQuery('search').then((result) => {
+    ctx.ds.findMetricsQuery('search').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -119,7 +119,7 @@ describe('GenericDatasource', () => {
       return data;
     };
 
-    ctx.ds.metricFindQuery('').then((result) => {
+    ctx.ds.findMetricsQuery('').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -147,7 +147,7 @@ describe('GenericDatasource', () => {
       return data;
     };
 
-    ctx.ds.metricFindQuery().then((result) => {
+    ctx.ds.findMetricsQuery().then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -174,7 +174,7 @@ describe('GenericDatasource', () => {
       return data;
     };
 
-    ctx.ds.metricFindQuery('search').then((result) => {
+    ctx.ds.findMetricsQuery('search').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');

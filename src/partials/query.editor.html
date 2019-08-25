@@ -23,7 +23,7 @@
         <gf-form-dropdown model="ctrl.target.target"
           allow-custom="true"
           lookup-text="true"
-          get-options="ctrl.getOptions($query)"
+          get-options="ctrl.findMetrics($query)"
           on-change="ctrl.onChangeInternal()">
         </gf-form-dropdown>
       </div>

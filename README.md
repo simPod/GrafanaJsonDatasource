@@ -2,21 +2,23 @@
 
 The JSON Datasource executes JSON requests against arbitrary backends.   
 _JSON Datasource is built on top of the [Simple JSON Datasource](https://github.com/grafana/simple-json-datasource)._ It has refactored code, additional features and active development.
- 
- ## Contents
- - [Installation](#installation)
- - [Setup](#setup)
- - [API](#api)
-   - [/search](#search)
-   - [/query](#tquery)
-   - [/annotations](#annotations)
-   - [/tag-keys](#tag-keys)
-   - [/tag-values](#tag-values)
+
+## Contents
+
+- [Installation](#installation)
+- [Setup](#setup)
+- [API](#api)
+  - [/search](#search)
+  - [/query](#tquery)
+  - [/annotations](#annotations)
+  - [/tag-keys](#tag-keys)
+  - [/tag-values](#tag-values)
 - [Development Setup](#development-setup)
 
 ## Installation
 
 To install this plugin using the `grafana-cli` tool:
+
 ```sh
  grafana-cli plugins install simpod-json-datasource
  ```
@@ -35,38 +37,42 @@ When adding datasource add your API endpoint to the `URL` field. That's where da
 
 To work with this datasource the backend needs to implement 4 urls:
 
- * `/` should return 200 ok. Used for "Test connection" on the datasource config page.
- * `/search` used by the find metric options on the query tab in panels.
- * `/query` should return metrics based on input.
- * `/annotations` should return annotations.
+- `/` should return 200 ok. Used for "Test connection" on the datasource config page.
+- `/search` should return available metrics when invoked by the find metric options on the query tab in panels.
+- `/query` should return metrics based on input.
+- `/annotations` should return annotations.
 
 Those two urls are optional:
 
- * `/tag-keys` should return tag keys for ad hoc filters.
- * `/tag-values` should return tag values for ad hoc filters.
- 
+- `/tag-keys` should return tag keys for ad hoc filters.
+- `/tag-values` should return tag values for ad hoc filters.
+
 ### /search
 
 Example request
+
 ``` json
-{ "target": "upper_50" }
+{ "type": "timeseries", "target": "upper_50" }
 ```
 
 The search api can either return an array or map.
 
 Example array response
+
 ``` json
 ["upper_25","upper_50","upper_75","upper_90","upper_95"]
 ```
 
 Example map response
+
 ``` json
-[ { "text" :"upper_25", "value": 1}, { "text" :"upper_75", "value": 2} ]
+[ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ]
 ```
 
 ### /query
 
 Example `timeseries` request
+
 ``` json
 {
   "panelId": 1,
@@ -96,7 +102,6 @@ Example `timeseries` request
   }]
 }
 ```
-
 
 Example `timeseries` response
 
@@ -135,7 +140,8 @@ Example `timeseries` response
 
 _The relation between `target` in request and response is 1:n. You can return multiple targets in response for one requested `target`._
 
-If the metric selected is `"type": "table"`, an example `table` response:
+Example `table` response to be returned if the metric selected is `"type": "table"`:
+
 ``` json
 {
   "columns":[
@@ -162,7 +168,7 @@ For example when `{ "additional": "optional json" }` is entered into Additional 
 
 ```json
 { "target": "upper_50", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } }
-``` 
+```
 
 You can also enter variables:
 
@@ -172,6 +178,7 @@ You can also enter variables:
 
 The annotation request from the Simple JSON Datasource is a POST request to
 the `/annotations` endpoint in your datasource. The JSON request body looks like this:
+
 ``` json
 {
   "range": {
@@ -222,11 +229,13 @@ Access-Control-Allow-Origin:*
 ### /tag-keys
 
 Example request
+
 ``` json
 { }
 ```
 
 The tag keys api returns:
+
 ``` json
 [
     {"type":"string","text":"City"},
@@ -237,11 +246,13 @@ The tag keys api returns:
 ### /tag-values
 
 Example request
+
 ``` json
 {"key": "City"}
 ```
 
 The tag values api returns:
+
 ``` json
 [
     {"text": "Eins!"},
@@ -254,7 +265,7 @@ The tag values api returns:
 
 This plugin requires node 6.10.0. Use of [Yarn](https://yarnpkg.com/lang/en/docs/install/) is encouraged to build.
 
-```
+```sh
 yarn install
 yarn run build
 ```

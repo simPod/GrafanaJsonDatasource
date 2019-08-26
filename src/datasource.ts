@@ -92,8 +92,9 @@ export class GenericDatasource {
     });
   }
 
-  metricFindQuery(query) {
+  findMetricsQuery(query: string, type: string) {
     const interpolated = {
+      type,
       target: this.templateSrv.replace(query, null, 'regex'),
     };
 

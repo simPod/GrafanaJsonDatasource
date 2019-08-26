@@ -24,8 +24,8 @@ export class GenericDatasourceQueryCtrl extends QueryCtrl {
     this.showJSON = false;
   }
 
-  getOptions(query) {
-    return this.datasource.metricFindQuery(query || '');
+  findMetrics(query: string) {
+    return this.datasource.findMetricsQuery(query, this.target.type);
   }
 
   // not used

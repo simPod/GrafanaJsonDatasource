@@ -26,11 +26,11 @@
                 "url": "https://github.com/simPod/grafana-json-datasource/blob/master/LICENSE"
             }
         ],
-        "version": "0.1.4",
-        "updated": "2018-03-29"
+        "version": "0.1.5",
+        "updated": "2019-11-15"
     },
     "dependencies": {
-        "grafanaVersion": "6.x.x",
+        "grafanaVersion": "6.4.x",
         "plugins": [ ]
     }
 }

@@ -38,7 +38,7 @@ When adding datasource add your API endpoint to the `URL` field. That's where da
 To work with this datasource the backend needs to implement 4 urls:
 
 - `/` should return 200 ok. Used for "Test connection" on the datasource config page.
-- `/search` should return available metrics when invoked by the find metric options on the query tab in panels.
+- `/search` should return available metrics when invoked.
 - `/query` should return metrics based on input.
 - `/annotations` should return annotations.
 
@@ -54,6 +54,8 @@ Example request
 ``` json
 { "type": "timeseries", "target": "upper_50" }
 ```
+
+`type` is not always present.
 
 The search api can either return an array or map.
 

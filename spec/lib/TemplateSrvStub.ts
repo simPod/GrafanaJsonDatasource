@@ -4,6 +4,7 @@ export default class TemplateSrvStub {
   variables = [];
   templateSettings = { interpolate : /\[\[([\s\S]+?)\]\]/g };
   data = {};
+  regex = /\$(\w+)|\[\[([\s\S]+?)(?::(\w+))?\]\]|\${(\w+)(?:\.([^:^\}]+))?(?::(\w+))?}/g;
 
   replace(text) {
     return template(text, this.templateSettings)(this.data);

@@ -2,7 +2,6 @@
 import TemplateSrvStub from './lib/TemplateSrvStub';
 import { Datasource } from '../src/module';
 import q from 'q';
-import {describe, expect} from './lib/common'
 
 describe('GenericDatasource', () => {
   const ctx: any = {

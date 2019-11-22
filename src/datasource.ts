@@ -8,6 +8,8 @@ export class GenericDatasource {
   withCredentials: boolean;
   headers: any;
 
+  // tslint:disable-next-line:jsdoc-format
+  /** @ngInject **/
   constructor(instanceSettings: DataSourceInstanceSettings<GenericOptions>, private backendSrv: any, private templateSrv: any) {
     this.name = instanceSettings.name;
     this.url = instanceSettings.url === undefined ? '' : instanceSettings.url;

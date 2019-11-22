@@ -132,20 +132,20 @@ export class GenericDatasource {
         return target.target !== 'select metric';
       })
       .map((target) => {
-      	let data = null;
+        let data = null;
 
-      	if (!isUndefined(target.data) && target.data.trim() !== '') {
-      		data = JSON.parse(target.data, (key, value) => {
-				if (typeof value === "string") {
-					return value.replace(
-						this.templateSrv.regex,
-						match => this.cleanMatch(match, options)
-					)
-				}
+        if (!isUndefined(target.data) && target.data.trim() !== '') {
+          data = JSON.parse(target.data, (key, value) => {
+            if (typeof value === 'string') {
+              return value.replace(
+                this.templateSrv.regex,
+                match => this.cleanMatch(match, options),
+            );
+            }
 
-				return value;
-			});
-	  	}
+            return value;
+          });
+        }
 
         let targetValue = target.target;
         if (typeof targetValue === 'string') {
@@ -169,10 +169,10 @@ export class GenericDatasource {
   cleanMatch(match, options) {
     const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
     if (
-    	typeof replacedMatch === 'string' &&
-		replacedMatch[0] === '"' && replacedMatch[replacedMatch.length - 1] == '"'
-	) {
-		return JSON.parse(replacedMatch);
+        typeof replacedMatch === 'string' &&
+        replacedMatch[0] === '"' && replacedMatch[replacedMatch.length - 1] === '"'
+    ) {
+      return JSON.parse(replacedMatch);
     }
     return replacedMatch;
   }

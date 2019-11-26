@@ -55,8 +55,6 @@ Example request
 { "type": "timeseries", "target": "upper_50" }
 ```
 
-`type` is not always present.
-
 The search api can either return an array or map.
 
 Example array response

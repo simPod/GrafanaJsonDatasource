@@ -1,4 +1,4 @@
-import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, MetricFindValue } from '@grafana/ui';
+import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, MetricFindValue } from '@grafana/data';
 import { isEqual, isObject, isUndefined } from 'lodash';
 import { GenericOptions, GenericQuery } from './types';
 

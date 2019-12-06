@@ -126,33 +126,19 @@ export class GenericDatasource {
         // remove placeholder targets
         return target.target !== 'select metric';
       })
-      .map((target: any) => {
-        const data = isUndefined(target.data) || target.data.trim() === '' ? null : JSON.parse(target.data);
+      .map((target) => {
+        let data = null;
 
-        if (data !== null) {
-          Object.keys(data).forEach(key => {
-            const value = data[key];
-            if (typeof value !== 'string') {
-              return;
+        if (!isUndefined(target.data) && target.data.trim() !== '') {
+          data = JSON.parse(target.data, (key, value) => {
+            if (typeof value === 'string') {
+              return value.replace(
+                this.templateSrv.regex,
+                match => this.cleanMatch(match, options),
+            );
             }
 
-            const matches = value.match(/\$([\w]+)/g);
-            if (matches !== null) {
-              if (matches.length > 1) {
-                throw new Error(
-                  'Use ${var1} format to specify multiple variables in one value' + `so we can safely replace that. Passed value was "${value}".`
-                );
-              } else {
-                data[key] = this.cleanMatch(matches[0], options);
-
-                return;
-              }
-            }
-
-            const matchesWithBraces = value.match(/\${([\w-]+)}/g);
-            if (matchesWithBraces !== null) {
-              data[key] = value.replace(/\${([\w-]+)}/g, match => this.cleanMatch(match, options));
-            }
+            return value;
           });
         }
 
@@ -175,8 +161,11 @@ export class GenericDatasource {
 
   cleanMatch(match: string, options: any) {
     const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
-    if (typeof replacedMatch === 'string') {
-      return replacedMatch.substring(1, replacedMatch.length - 1);
+    if (
+        typeof replacedMatch === 'string' &&
+        replacedMatch[0] === '"' && replacedMatch[replacedMatch.length - 1] === '"'
+    ) {
+      return JSON.parse(replacedMatch);
     }
     return replacedMatch;
   }

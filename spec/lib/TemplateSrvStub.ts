@@ -4,8 +4,6 @@ export default class TemplateSrvStub {
   variables = [];
   templateSettings = { interpolate: /\[\[([\s\S]+?)\]\]/g };
   data = {};
-  regex = /\$(\w+)|\[\[([\s\S]+?)(?::(\w+))?\]\]|\${(\w+)(?:\.([^:^\}]+))?(?::(\w+))?}/g;
-
   // Original grafana source
   // tslint:disable-next-line:max-line-length
   // https://github.com/grafana/grafana/blob/e03d702d0c14b214a57ddd5094ff756e845cdd2b/public/app/features/templating/variable.ts#L11

@@ -129,7 +129,7 @@ export class GenericDatasource {
       .map((target) => {
         let data = null;
 
-        if (!isUndefined(target.data) && target.data.trim() !== '') {
+        if (target.data !== undefined && target.data.trim() !== '') {
           data = JSON.parse(target.data, (key, value) => {
             if (typeof value === 'string') {
               return value.replace(
@@ -162,8 +162,10 @@ export class GenericDatasource {
   cleanMatch(match: string, options: any) {
     const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
     if (
-        typeof replacedMatch === 'string' &&
-        replacedMatch[0] === '"' && replacedMatch[replacedMatch.length - 1] === '"'
+        typeof replacedMatch === 'string'
+      &&
+        replacedMatch[0] === '"'
+      && replacedMatch[replacedMatch.length - 1] === '"'
     ) {
       return JSON.parse(replacedMatch);
     }

@@ -126,7 +126,7 @@ export class GenericDatasource {
         // remove placeholder targets
         return target.target !== 'select metric';
       })
-      .map((target) => {
+      .map((target: any) => {
         let data = null;
 
         if (target.data !== undefined && target.data.trim() !== '') {
@@ -163,8 +163,7 @@ export class GenericDatasource {
     const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
     if (
         typeof replacedMatch === 'string'
-      &&
-        replacedMatch[0] === '"'
+      && replacedMatch[0] === '"'
       && replacedMatch[replacedMatch.length - 1] === '"'
     ) {
       return JSON.parse(replacedMatch);

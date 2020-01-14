@@ -213,12 +213,12 @@ Field explanation:
 ``` json
 [
   {
-    "text": "text shown in body", // Text for the annotation. (required)
-    "title": "Annotation Title", // The title for the annotation tooltip. (optional)
-    "isRegion": true, // Whether is region. (optional) (http://docs.grafana.org/reference/annotations/#adding-regions-events)
-    "time": "timestamp", // Time since UNIX Epoch in milliseconds. (required)
-    "timeEnd": "timestamp", // Time since UNIX Epoch in milliseconds (required if `isRegion` is true )
-    "tags": ["tag1"], // Tags for the annotation. (optional)
+    "text": "text shown in body",
+    "title": "Annotation Title",
+    "isRegion": true,
+    "time": "timestamp",
+    "timeEnd": "timestamp",
+    "tags": ["tag1"]
   }
 ]
 ```

@@ -49,7 +49,7 @@ Those two urls are optional:
 
 ### /search
 
-Example request
+Example request:
 
 ``` json
 { "type": "timeseries", "target": "upper_50" }
@@ -57,13 +57,13 @@ Example request
 
 The search api can either return an array or map.
 
-Example array response
+Example array response:
 
 ``` json
 ["upper_25","upper_50","upper_75","upper_90","upper_95"]
 ```
 
-Example map response
+Example map response:
 
 ``` json
 [ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ]
@@ -71,7 +71,7 @@ Example map response
 
 ### /query
 
-Example `timeseries` request
+Example `timeseries` request:
 
 ``` json
 {
@@ -103,14 +103,14 @@ Example `timeseries` request
 }
 ```
 
-Example `timeseries` response
+Example `timeseries` response (metric value as a float , unixtimestamp in milliseconds):
 
-``` javascript
+``` json
 [
   {
     "target":"pps in",
     "datapoints":[
-      [622,1450754160000],  // Metric value as a float , unixtimestamp in milliseconds
+      [622,1450754160000],
       [365,1450754220000]
     ]
   },
@@ -120,14 +120,14 @@ Example `timeseries` response
       [861,1450754160000],
       [767,1450754220000]
     ]
-  }
+  },
   {
     "target":"errors out",
     "datapoints":[
       [861,1450754160000],
       [767,1450754220000]
     ]
-  }
+  },
   {
     "target":"errors in",
     "datapoints":[
@@ -194,19 +194,32 @@ the `/annotations` endpoint in your datasource. The JSON request body looks like
     "datasource": "JSON Datasource",
     "iconColor": "rgba(255, 96, 96, 1)",
     "enable": true,
-    "query": "#deploy",
+    "query": "#deploy"
   },
    "variables": []
 }
 ```
 
-Grafana expects a response containing an array of annotation objects in the
-following format:
+Grafana expects a response containing an array of annotation objects.
 
-``` javascript
+Field explanation:
+
+`text` - Text for the annotation. (required)
+
+`title` - The title for the annotation tooltip. (optional)
+
+`isRegion` - Whether is region. (optional) (http://docs.grafana.org/reference/annotations/#adding-regions-events)
+
+`time` - Time since UNIX Epoch in milliseconds. (required)
+
+`timeEnd` - Time since UNIX Epoch in milliseconds (required if `isRegion` is true )
+
+`tags` - Tags for the annotation. (optional)
+
+``` json
 [
   {
-    "text": "text shown in body" // Text for the annotation. (required)
+    "text": "text shown in body", // Text for the annotation. (required)
     "title": "Annotation Title", // The title for the annotation tooltip. (optional)
     "isRegion": true, // Whether is region. (optional) (http://docs.grafana.org/reference/annotations/#adding-regions-events)
     "time": "timestamp", // Time since UNIX Epoch in milliseconds. (required)
@@ -215,6 +228,7 @@ following format:
   }
 ]
 ```
+
 
 Note: If the datasource is configured to connect directly to the backend, you
 also need to implement an OPTIONS endpoint at `/annotations` that responds

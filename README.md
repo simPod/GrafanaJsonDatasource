@@ -203,18 +203,12 @@ the `/annotations` endpoint in your datasource. The JSON request body looks like
 Grafana expects a response containing an array of annotation objects.
 
 Field explanation:
-
-`text` - Text for the annotation. (required)
-
-`title` - The title for the annotation tooltip. (optional)
-
-`isRegion` - Whether is region. (optional) (http://docs.grafana.org/reference/annotations/#adding-regions-events)
-
-`time` - Time since UNIX Epoch in milliseconds. (required)
-
-`timeEnd` - Time since UNIX Epoch in milliseconds (required if `isRegion` is true )
-
-`tags` - Tags for the annotation. (optional)
+* `text` - Text for the annotation. (required)
+* `title` - The title for the annotation tooltip. (optional)
+* `isRegion` - Whether is region. (optional) (http://docs.grafana.org/reference/annotations/#adding-regions-events)
+* `time` - Time since UNIX Epoch in milliseconds. (required)
+* `timeEnd` - Time since UNIX Epoch in milliseconds (required if `isRegion` is true )
+* `tags` - Tags for the annotation. (optional)
 
 ``` json
 [

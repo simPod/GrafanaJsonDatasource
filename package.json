@@ -2,7 +2,7 @@
   "name": "grafana-json-datasource",
   "description": "Grafana JSON datasource",
   "main": "index.js",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
     "test": "grafana-toolkit plugin:test",

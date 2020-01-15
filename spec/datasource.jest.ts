@@ -20,21 +20,17 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the server results when a target is set', done => {
-    ctx.backendSrv.datasourceRequest = function(request) {
-      return Promise.resolve({
-        _request: request,
-        data: [
-          {
-            target: 'X',
-            datapoints: [1, 2, 3],
-          },
-        ],
-      });
-    };
+    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
+      _request: request,
+      data: [
+        {
+          target: 'X',
+          datapoints: [1, 2, 3],
+        },
+      ],
+    });
 
-    ctx.templateSrv.replace = function(data) {
-      return data;
-    };
+    ctx.templateSrv.replace = data => data;
 
     ctx.ds.query({ targets: ['hits'] }).then(result => {
       expect(result._request.data.targets).toHaveLength(1);
@@ -47,7 +43,7 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric target results when a target is set', done => {
-    ctx.backendSrv.datasourceRequest = function(request) {
+    ctx.backendSrv.datasourceRequest = request => {
       const target = request.data.target;
       const result = [target + '_0', target + '_1', target + '_2'];
 
@@ -57,9 +53,7 @@ describe('GenericDatasource', () => {
       });
     };
 
-    ctx.templateSrv.replace = function(data) {
-      return data;
-    };
+    ctx.templateSrv.replace = data => data;
 
     ctx.ds.metricFindQuery('search', 'timeseries').then(result => {
       expect(result).toHaveLength(3);
@@ -74,16 +68,12 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric results when the target is an empty string', done => {
-    ctx.backendSrv.datasourceRequest = function(request) {
-      return Promise.resolve({
-        _request: request,
-        data: ['metric_0', 'metric_1', 'metric_2'],
-      });
-    };
+    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
+      _request: request,
+      data: ['metric_0', 'metric_1', 'metric_2'],
+    });
 
-    ctx.templateSrv.replace = function(data) {
-      return data;
-    };
+    ctx.templateSrv.replace = data => data;
 
     ctx.ds.metricFindQuery('').then(result => {
       expect(result).toHaveLength(3);
@@ -98,16 +88,12 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric results when the args are an empty object', done => {
-    ctx.backendSrv.datasourceRequest = function(request) {
-      return Promise.resolve({
-        _request: request,
-        data: ['metric_0', 'metric_1', 'metric_2'],
-      });
-    };
+    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
+      _request: request,
+      data: ['metric_0', 'metric_1', 'metric_2'],
+    });
 
-    ctx.templateSrv.replace = function(data) {
-      return data;
-    };
+    ctx.templateSrv.replace = data => data;
 
     ctx.ds.metricFindQuery().then(result => {
       expect(result).toHaveLength(3);
@@ -122,7 +108,7 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric target results when the args are a string', done => {
-    ctx.backendSrv.datasourceRequest = function(request) {
+    ctx.backendSrv.datasourceRequest = request => {
       const target = request.data.target;
       const result = [target + '_0', target + '_1', target + '_2'];
 
@@ -132,9 +118,7 @@ describe('GenericDatasource', () => {
       });
     };
 
-    ctx.templateSrv.replace = function(data) {
-      return data;
-    };
+    ctx.templateSrv.replace = data => data;
 
     ctx.ds.metricFindQuery('search', 'timeseries').then(result => {
       expect(result).toHaveLength(3);
@@ -205,12 +189,10 @@ describe('GenericDatasource', () => {
       { type: 'string', text: 'two', key: 'Two' },
     ];
 
-    ctx.backendSrv.datasourceRequest = function(request) {
-      return Promise.resolve({
-        data,
-        _request: request,
-      });
-    };
+    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
+      data,
+      _request: request,
+    });
 
     ctx.ds.getTagKeys().then(result => {
       expect(result).toHaveLength(2);
@@ -231,12 +213,10 @@ describe('GenericDatasource', () => {
       { key: 'drei', text: 'Drei!' },
     ];
 
-    ctx.backendSrv.datasourceRequest = function(request) {
-      return Promise.resolve({
-        data,
-        _request: request,
-      });
-    };
+    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
+      data,
+      _request: request,
+    });
 
     ctx.ds.getTagValues().then(result => {
       expect(result).toHaveLength(3);
@@ -252,148 +232,145 @@ describe('GenericDatasource', () => {
 });
 
 describe('GenericDatasource.prototype.buildQueryTargets', () => {
-	const options = {
-		requestId: "Q102",
-		timezone: "",
-		panelId: 2,
-		dashboardId: 1893,
-		range: {
-			from: "2019-11-22T07:23:23.836Z",
-			to: "2019-11-22T10:23:23.836Z",
-			raw: {
-				from: "now-3h",
-				to: "now"
-			}
-		},
-		interval: "5s",
-		intervalMs: 5000,
-		targets: [],
-		maxDataPoints: 1920,
-		scopedVars: {
-			__interval: {
-				"text": "5s",
-				"value": "5s"
-			},
-			__interval_ms: {
-				"text": "5000",
-				"value": 5000
-			}
-		},
-		startTime: 1574418203842,
-		rangeRaw: {
-			from: "now-3h",
-			to: "now"
-		}
-	};
-	const REPLACING_TO = JSON.stringify("replaced");
-	const REPLACED_VALUE = JSON.parse(REPLACING_TO);
-	const templateSrv = new TemplateSrvStub();
+  const options = {
+    requestId: 'Q102',
+    timezone: '',
+    panelId: 2,
+    dashboardId: 1893,
+    range: {
+      from: '2019-11-22T07:23:23.836Z',
+      to: '2019-11-22T10:23:23.836Z',
+      raw: {
+        from: 'now-3h',
+        to: 'now',
+      },
+    },
+    interval: '5s',
+    intervalMs: 5000,
+    targets: [],
+    maxDataPoints: 1920,
+    scopedVars: {
+      __interval: {
+        text: '5s',
+        value: '5s',
+      },
+      __interval_ms: {
+        text: '5000',
+        value: 5000,
+      },
+    },
+    startTime: 1574418203842,
+    rangeRaw: {
+      from: 'now-3h',
+      to: 'now',
+    },
+  };
+  const REPLACING_TO = JSON.stringify('replaced');
+  const REPLACED_VALUE = JSON.parse(REPLACING_TO);
+  const templateSrv = new TemplateSrvStub();
 
-	templateSrv.replace = (str) => str.match(templateSrv.regex) ? REPLACING_TO : str;
+  templateSrv.replace = str => (str.match(templateSrv.regex) ? REPLACING_TO : str);
 
-	const ctx: any = {
-		backendSrv: {},
-		templateSrv,
-	};
+  const ctx: any = {
+    backendSrv: {},
+    templateSrv,
+  };
 
-	ctx.$q = q;
-	ctx.ds = new Datasource({}, ctx.$q, ctx.backendSrv, ctx.templateSrv);
+  ctx.ds = new Datasource({}, ctx.backendSrv, ctx.templateSrv);
 
-	it('simple key-value', () => {
-		const testcase = {
-			...options,
-			targets: [
-				{
-					data: `{
+  it('simple key-value', () => {
+    const testcase = {
+      ...options,
+      targets: [
+        {
+          data: `{
 					"A": "[[value]]"
 				}`,
-					hide: true,
-					refId: "A",
-					target: "TIME_TO_LAST_BYTE",
-					type: "timeseries",
-					datasource: "Frontend Perf"
-				}
-			]
-		};
+          hide: true,
+          refId: 'A',
+          target: 'TIME_TO_LAST_BYTE',
+          type: 'timeseries',
+          datasource: 'Frontend Perf',
+        },
+      ],
+    };
 
-		expect(ctx.ds.buildQueryTargets(testcase)).toMatchObject([
-			{
-				data: {A: REPLACED_VALUE},
-				target: testcase.targets[0].target,
-				refId: testcase.targets[0].refId,
-				hide: testcase.targets[0].hide,
-				type: testcase.targets[0].type
-			}
-		])
-	});
+    expect(ctx.ds.buildQueryParameters(testcase).targets).toMatchObject([
+      {
+        data: { A: REPLACED_VALUE },
+        target: testcase.targets[0].target,
+        refId: testcase.targets[0].refId,
+        hide: testcase.targets[0].hide,
+        type: testcase.targets[0].type,
+      },
+    ]);
+  });
 
-	it('random json', () => {
-		const testcase = {
-			...options,
-			targets: [
-				{
-					data: `{
+  it('random json', () => {
+    const testcase = {
+      ...options,
+      targets: [
+        {
+          data: `{
 					"filters": [
 						{"key": "SOME", "value": "$interval"},
 						{"key": "SOME2", "value": "$\{function\}"}
 					]
 				}`,
-					hide: false,
-					refId: "A",
-					target: "TIME_TO_LAST_BYTE",
-					type: "timeseries",
-					datasource: "Frontend Perf"
-				}
-			]
-		};
+          hide: false,
+          refId: 'A',
+          target: 'TIME_TO_LAST_BYTE',
+          type: 'timeseries',
+          datasource: 'Frontend Perf',
+        },
+      ],
+    };
 
-		expect(ctx.ds.buildQueryTargets(testcase)).toMatchObject([
-			{
-				data: {
-					filters: [
-						{key: "SOME", value: REPLACED_VALUE},
-						{key: "SOME2", value: REPLACED_VALUE},
-					]
-				},
-				target: testcase.targets[0].target,
-				refId: testcase.targets[0].refId,
-				hide: testcase.targets[0].hide,
-				type: testcase.targets[0].type
-			}
-		])
-	})
+    expect(ctx.ds.buildQueryParameters(testcase).targets).toMatchObject([
+      {
+        data: {
+          filters: [
+            { key: 'SOME', value: REPLACED_VALUE },
+            { key: 'SOME2', value: REPLACED_VALUE },
+          ],
+        },
+        target: testcase.targets[0].target,
+        refId: testcase.targets[0].refId,
+        hide: testcase.targets[0].hide,
+        type: testcase.targets[0].type,
+      },
+    ]);
+  });
 
-	it('complex string interpolation', () => {
-		const testcase = {
-			...options,
-			targets: [
-				{
-					data: `{
+  it('complex string interpolation', () => {
+    const testcase = {
+      ...options,
+      targets: [
+        {
+          data: `{
 					"filters": [
 						{"A": "$interval ms"}
 					]
 				}`,
-					hide: false,
-					refId: "A",
-					target: "TIME_TO_LAST_BYTE",
-					type: "timeseries",
-					datasource: "Frontend Perf"
-				}
-			]
-		};
+          hide: false,
+          refId: 'A',
+          target: 'TIME_TO_LAST_BYTE',
+          type: 'timeseries',
+          datasource: 'Frontend Perf',
+        },
+      ],
+    };
 
-		expect(ctx.ds.buildQueryTargets(testcase)).toMatchObject([
-			{
-				data: {
-					filters: [
-						{A : `${REPLACED_VALUE} ms`}
-					]
-				},
-				target: testcase.targets[0].target,
-				refId: testcase.targets[0].refId,
-				hide: testcase.targets[0].hide,
-				type: testcase.targets[0].type
-			}
-		])
-	})
-})
+    expect(ctx.ds.buildQueryParameters(testcase).targets).toMatchObject([
+      {
+        data: {
+          filters: [{ A: `${REPLACED_VALUE} ms` }],
+        },
+        target: testcase.targets[0].target,
+        refId: testcase.targets[0].refId,
+        hide: testcase.targets[0].hide,
+        type: testcase.targets[0].type,
+      },
+    ]);
+  });
+});

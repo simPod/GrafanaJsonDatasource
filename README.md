@@ -9,7 +9,7 @@ _JSON Datasource is built on top of the [Simple JSON Datasource](https://github.
 - [Setup](#setup)
 - [API](#api)
   - [/search](#search)
-  - [/query](#tquery)
+  - [/query](#query)
   - [/annotations](#annotations)
   - [/tag-keys](#tag-keys)
   - [/tag-values](#tag-values)

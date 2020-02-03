@@ -172,7 +172,7 @@ export class GenericDatasource {
 
       let variableValue = variable.current.value;
       if (variableValue === '$__all' || isEqual(variableValue, ['$__all'])) {
-        if (variable.allValue === null) {
+        if (variable.allValue === null || variable.allValue === '') {
           variableValue = variable.options.slice(1).map((textValuePair: any) => textValuePair.value);
         } else {
           variableValue = variable.allValue;

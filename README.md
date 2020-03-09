@@ -143,19 +143,21 @@ _The relation between `target` in request and response is 1:n. You can return mu
 Example `table` response to be returned if the metric selected is `"type": "table"`:
 
 ``` json
-{
-  "columns":[
-    {"text":"Time","type":"time"},
-    {"text":"Country","type":"string"},
-    {"text":"Number","type":"number"}
-  ],
-  "rows":[
-    [1234567,"SE",123],
-    [1234567,"DE",231],
-    [1234567,"US",321]
-  ],
-  "type":"table"
-}
+[
+  {
+    "columns":[
+      {"text":"Time","type":"time"},
+      {"text":"Country","type":"string"},
+      {"text":"Number","type":"number"}
+    ],
+    "rows":[
+      [1234567,"SE",123],
+      [1234567,"DE",231],
+      [1234567,"US",321]
+    ],
+    "type":"table"
+  }
+]
 ```
 
 #### Additional data

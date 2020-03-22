@@ -35,19 +35,21 @@ When adding datasource add your API endpoint to the `URL` field. That's where da
 
 ## API
 
-To work with this datasource the backend needs to implement 4 urls:
+To work with this datasource the backend needs to implement 4 endpoints:
 
-- `/` should return 200 ok. Used for "Test connection" on the datasource config page.
-- `/search` should return available metrics when invoked.
-- `/query` should return metrics based on input.
-- `/annotations` should return annotations.
+- `GET /` with 200 status code response. Used for "Test connection" on the datasource config page.
+- `POST /search` returning available metrics when invoked.
+- `POST /query` returning metrics based on input.
+- `POST /annotations` returning annotations.
 
 Those two urls are optional:
 
-- `/tag-keys` should return tag keys for ad hoc filters.
-- `/tag-values` should return tag values for ad hoc filters.
+- `POST /tag-keys` returning tag keys for ad hoc filters.
+- `POST /tag-values` returning tag values for ad hoc filters.
 
 ### /search
+
+`POST /search`
 
 Example request:
 
@@ -70,6 +72,8 @@ Example map response:
 ```
 
 ### /query
+
+`POST /query`
 
 Example `timeseries` request:
 
@@ -178,8 +182,9 @@ You can also enter variables:
 
 ### /annotations
 
-The annotation request from the Simple JSON Datasource is a POST request to
-the `/annotations` endpoint in your datasource. The JSON request body looks like this:
+`POST /annotations`
+
+The JSON request body looks like this:
 
 ``` json
 {
@@ -227,7 +232,7 @@ Field explanation:
 
 
 Note: If the datasource is configured to connect directly to the backend, you
-also need to implement an OPTIONS endpoint at `/annotations` that responds
+also need to implement `OPTIONS /annotations` that responds
 with the correct CORS headers:
 
 ```
@@ -238,7 +243,9 @@ Access-Control-Allow-Origin:*
 
 ### /tag-keys
 
-Example request
+`POST /tag-keys`
+
+Example request body
 
 ``` json
 { }
@@ -255,7 +262,9 @@ The tag keys api returns:
 
 ### /tag-values
 
-Example request
+`POST /tag-values`
+
+Example request body
 
 ``` json
 {"key": "City"}

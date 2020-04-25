@@ -53,7 +53,7 @@ Those two urls are optional:
 
 Example request:
 
-``` json
+```json
 { "type": "timeseries", "target": "upper_50" }
 ```
 
@@ -61,13 +61,13 @@ The search api can either return an array or map.
 
 Example array response:
 
-``` json
+```json
 ["upper_25","upper_50","upper_75","upper_90","upper_95"]
 ```
 
 Example map response:
 
-``` json
+```json
 [ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ]
 ```
 
@@ -77,7 +77,7 @@ Example map response:
 
 Example `timeseries` request:
 
-``` json
+```json
 {
   "panelId": 1,
   "range": {
@@ -109,7 +109,7 @@ Example `timeseries` request:
 
 Example `timeseries` response (metric value as a float , unixtimestamp in milliseconds):
 
-``` json
+```json
 [
   {
     "target":"pps in",
@@ -146,7 +146,7 @@ _The relation between `target` in request and response is 1:n. You can return mu
 
 Example `table` response to be returned if the metric selected is `"type": "table"`:
 
-``` json
+```json
 [
   {
     "columns":[
@@ -186,7 +186,7 @@ You can also enter variables:
 
 The JSON request body looks like this:
 
-``` json
+```json
 {
   "range": {
     "from": "2016-04-15T13:44:39.070Z",
@@ -217,7 +217,7 @@ Field explanation:
 * `timeEnd` - Time since UNIX Epoch in milliseconds (required if `isRegion` is true )
 * `tags` - Tags for the annotation. (optional)
 
-``` json
+```json
 [
   {
     "text": "text shown in body",
@@ -247,13 +247,13 @@ Access-Control-Allow-Origin:*
 
 Example request body
 
-``` json
+```json
 { }
 ```
 
 The tag keys api returns:
 
-``` json
+```json
 [
     {"type":"string","text":"City"},
     {"type":"string","text":"Country"}
@@ -266,13 +266,13 @@ The tag keys api returns:
 
 Example request body
 
-``` json
+```json
 {"key": "City"}
 ```
 
 The tag values api returns:
 
-``` json
+```json
 [
     {"text": "Eins!"},
     {"text": "Zwei"},

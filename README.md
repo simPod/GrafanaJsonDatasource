@@ -51,13 +51,23 @@ Those two urls are optional:
 
 `POST /search`
 
-Example request:
+Grafana issues this request on 
+
+1. _Variables > New/Edit_ page. `Query` field value is passed in a body as 
+
+```json
+{ "target": "query field value" }
+```
+
+2. `Panel > Queries` page. `Format As` and `Metric` values are passed in a body as
 
 ```json
 { "type": "timeseries", "target": "upper_50" }
 ```
 
-The search api can either return an array or map.
+The way you handle those values is up to you.
+
+The response body can either contain an array or a map.
 
 Example array response:
 

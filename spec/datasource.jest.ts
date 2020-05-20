@@ -20,15 +20,16 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the server results when a target is set', done => {
-    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
-      _request: request,
-      data: [
-        {
-          target: 'X',
-          datapoints: [1, 2, 3],
-        },
-      ],
-    });
+    ctx.backendSrv.datasourceRequest = request =>
+      Promise.resolve({
+        _request: request,
+        data: [
+          {
+            target: 'X',
+            datapoints: [1, 2, 3],
+          },
+        ],
+      });
 
     ctx.templateSrv.replace = data => data;
 
@@ -68,10 +69,11 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric results when the target is an empty string', done => {
-    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
-      _request: request,
-      data: ['metric_0', 'metric_1', 'metric_2'],
-    });
+    ctx.backendSrv.datasourceRequest = request =>
+      Promise.resolve({
+        _request: request,
+        data: ['metric_0', 'metric_1', 'metric_2'],
+      });
 
     ctx.templateSrv.replace = data => data;
 
@@ -88,10 +90,11 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric results when the args are an empty object', done => {
-    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
-      _request: request,
-      data: ['metric_0', 'metric_1', 'metric_2'],
-    });
+    ctx.backendSrv.datasourceRequest = request =>
+      Promise.resolve({
+        _request: request,
+        data: ['metric_0', 'metric_1', 'metric_2'],
+      });
 
     ctx.templateSrv.replace = data => data;
 
@@ -189,10 +192,11 @@ describe('GenericDatasource', () => {
       { type: 'string', text: 'two', key: 'Two' },
     ];
 
-    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
-      data,
-      _request: request,
-    });
+    ctx.backendSrv.datasourceRequest = request =>
+      Promise.resolve({
+        data,
+        _request: request,
+      });
 
     ctx.ds.getTagKeys().then(result => {
       expect(result).toHaveLength(2);
@@ -213,10 +217,11 @@ describe('GenericDatasource', () => {
       { key: 'drei', text: 'Drei!' },
     ];
 
-    ctx.backendSrv.datasourceRequest = request => Promise.resolve({
-      data,
-      _request: request,
-    });
+    ctx.backendSrv.datasourceRequest = request =>
+      Promise.resolve({
+        data,
+        _request: request,
+      });
 
     ctx.ds.getTagValues().then(result => {
       expect(result).toHaveLength(3);

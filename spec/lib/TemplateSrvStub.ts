@@ -1,7 +1,9 @@
 import template from 'lodash/template';
 
 export default class TemplateSrvStub {
-  variables = [];
+  dependencies = {
+    getVariables: () => [],
+  };
   templateSettings = { interpolate: /\[\[([\s\S]+?)\]\]/g };
   data = {};
   // Original grafana source

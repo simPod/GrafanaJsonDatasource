@@ -1,5 +1,5 @@
 import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, MetricFindValue } from '@grafana/data';
-import { isEqual, isObject, isUndefined } from 'lodash';
+import { isEqual, isObject } from 'lodash';
 import { GenericOptions, GenericQuery } from './types';
 
 export class GenericDatasource {
@@ -10,7 +10,11 @@ export class GenericDatasource {
 
   // tslint:disable-next-line:jsdoc-format
   /** @ngInject **/
-  constructor(instanceSettings: DataSourceInstanceSettings<GenericOptions>, private backendSrv: any, private templateSrv: any) {
+  constructor(
+    instanceSettings: DataSourceInstanceSettings<GenericOptions>,
+    private backendSrv: any,
+    private templateSrv: any
+  ) {
     this.name = instanceSettings.name;
     this.url = instanceSettings.url === undefined ? '' : instanceSettings.url;
 
@@ -158,18 +162,19 @@ export class GenericDatasource {
 
   cleanMatch(match: string, options: any) {
     const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
-    if (typeof replacedMatch === 'string' && replacedMatch[0] === '"' && replacedMatch[replacedMatch.length - 1] === '"') {
+    if (
+      typeof replacedMatch === 'string' &&
+      replacedMatch[0] === '"' &&
+      replacedMatch[replacedMatch.length - 1] === '"'
+    ) {
       return JSON.parse(replacedMatch);
     }
     return replacedMatch;
   }
 
   getVariables() {
-    const index = isUndefined(this.templateSrv.index) ? {} : this.templateSrv.index;
     const variables: any = {};
-    Object.keys(index).forEach(key => {
-      const variable = index[key];
-
+    Object.values(this.templateSrv.dependencies.getVariables()).forEach((variable: any) => {
       let variableValue = variable.current.value;
       if (variableValue === '$__all' || isEqual(variableValue, ['$__all'])) {
         if (variable.allValue === null || variable.allValue === '') {
@@ -179,7 +184,7 @@ export class GenericDatasource {
         }
       }
 
-      variables[key] = {
+      variables[variable.id] = {
         text: variable.current.text,
         value: variableValue,
       };

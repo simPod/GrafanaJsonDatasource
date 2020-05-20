@@ -1,43 +1,78 @@
-version: 2
+version: 2.1
+
+parameters:
+  ssh-fingerprint:
+    type: string
+    default: ${GITHUB_SSH_FINGERPRINT}
+
+aliases:
+  # Workflow filters
+  - &filter-only-master
+    branches:
+      only: master
+  - &filter-only-release
+    branches:
+      only: /^v[1-9]*[0-9]+\.[1-9]*[0-9]+\.x$/
+
+workflows:
+  plugin_workflow:
+    jobs:
+      - build
+      - report:
+          requires:
+            - build
+      - approve_release:
+          type: approval
+          requires:
+            - report
+          filters: *filter-only-release
+      - publish_github_release:
+          requires:
+            - approve_release
+          filters: *filter-only-release
+
+executors:
+  default_exec: # declares a reusable executor
+    docker:
+      - image: srclosson/grafana-plugin-ci-alpine:latest
+  e2e_exec:
+    docker:
+      - image: srclosson/grafana-plugin-ci-e2e:latest
+
 jobs:
-  build_plugin:
-    docker:
-      - image: circleci/node:10
-    working_directory: ~/plugin
+  build:
+    executor: default_exec
     steps:
       - checkout
       - restore_cache:
+          name: restore node_modules
           keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+            - build-cache-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
       - run:
-          name: Install yarn
+          name: Install dependencies
           command: |
-            yarn install --pure-lockfile
-      - run:
-          name: Run Toolkit Build
-          command: npx grafana-toolkit plugin:ci-build
+            mkdir ci
+            [ -f ~/project/node_modules/.bin/grafana-toolkit ] || yarn install --frozen-lockfile
       - save_cache:
+          name: save node_modules
           paths:
-            - node_modules
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-      - persist_to_workspace:
-          root: .
+            - ~/project/node_modules
+          key: build-cache-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+      - save_cache:
+          name: save cypress cache
           paths:
-            - ci
-  package:
-    docker:
-      - image: circleci/node:10
-    working_directory: ~/plugin
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
+            - ~/.cache/Cypress
+          key: cypress-cache-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
       - run:
-          name: Package Distribution
-          command: npx grafana-toolkit plugin:ci-package
+          name: Build and test panel
+          command: /usr/local/bin/grafana-toolkit plugin:ci-build
+      - run:
+          name: Move results to ci folder
+          command: /usr/local/bin/grafana-toolkit plugin:ci-build --finish
+      - run:
+          name: Package distribution
+          command: |
+            /usr/local/bin/grafana-toolkit plugin:ci-package
       - persist_to_workspace:
           root: .
           paths:
@@ -45,113 +80,40 @@ jobs:
             - ci/packages
             - ci/dist
             - ci/grafana-test-env
-  test_6_2_5:
-    docker:
-      - image: circleci/node:10-browsers
-    working_directory: ~/plugin
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          name: Setup Grafana (local install)
-          command: |
-            wget https://dl.grafana.com/oss/release/grafana_6.2.5_amd64.deb
-            sudo apt-get install -y adduser libfontconfig1
-            sudo dpkg -i grafana_6.2.5_amd64.deb
-            sudo apt-get install locate
-            sudo updatedb
-            sudo locate grafana
-            sudo cat /etc/grafana/grafana.ini
-            sudo echo ------------------------
-            sudo cp ci/grafana-test-env/custom.ini /usr/share/grafana/conf/custom.ini
-            sudo cp ci/grafana-test-env/custom.ini /etc/grafana/grafana.ini
-            sudo service grafana-server start
-            sudo grafana-cli --version
-      - run:
-          name: Run e2e tests
-          command: |
-            npx grafana-toolkit plugin:ci-test
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ci/jobs/test_6_2_5
-      - store_test_results:
-          path: ci/jobs/test_6_2_5
-      - store_artifacts:
-          path: ci/jobs/test_6_2_5
-  test_6_3_0_beta1:
-    docker:
-      - image: circleci/node:10-browsers
-    working_directory: ~/plugin
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          name: Setup Grafana (local install)
-          command: |
-            wget https://dl.grafana.com/oss/release/grafana_6.3.0-beta1_amd64.deb
-            sudo apt-get install -y adduser libfontconfig1
-            sudo dpkg -i grafana_6.3.0-beta1_amd64.deb
-            sudo apt-get install locate
-            sudo updatedb
-            sudo locate grafana
-            sudo cat /etc/grafana/grafana.ini
-            sudo echo ------------------------
-            sudo cp ci/grafana-test-env/custom.ini /usr/share/grafana/conf/custom.ini
-            sudo cp ci/grafana-test-env/custom.ini /etc/grafana/grafana.ini
-            sudo service grafana-server start
-            sudo grafana-cli --version
-      - run:
-          name: Run e2e tests
-          command: |
-            npx grafana-toolkit plugin:ci-test
-      - persist_to_workspace:
-          root: .
-          paths:
-            - ci/jobs/test_6_3_0_beta1
-      - store_test_results:
-          path: ci/jobs/test_6_3_0_beta1
-      - store_artifacts:
-          path: ci/jobs/test_6_3_0_beta1
-  report:
-    docker:
-      - image: circleci/node:10
-    working_directory: ~/plugin
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - restore_cache:
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          name: Toolkit Report
-          command: npx grafana-toolkit plugin:ci-report
       - store_artifacts:
           path: ci
-workflows:
-  version: 2
-  plugin_workflow:
-    jobs:
-      - build_plugin
-      - package:
-          requires:
-            - build_plugin
-      - test_6_2_5:
-          requires:
-            - package
-      - test_6_3_0_beta1:
-          requires:
-            - package
-      - report:
-          requires:
-            - test_6_2_5
-            - test_6_3_0_beta1
+
+  report:
+    executor: default_exec
+    steps:
+      - checkout
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          name: restore node_modules
+          keys:
+            - build-cache-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: Toolkit report
+          command: |
+            /usr/local/bin/grafana-toolkit plugin:ci-report
+      - store_artifacts:
+          path: ci
+
+  publish_github_release:
+    executor: default_exec
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "${GITHUB_SSH_FINGERPRINT}"
+      - attach_workspace:
+          at: .
+      - restore_cache:
+          name: restore node_modules
+          keys:
+            - build-cache-{{ .Environment.CACHE_VERSION }}-{{ checksum "yarn.lock" }}
+      - run:
+          name: "Publish Release on GitHub"
+          command: |
+            /usr/local/bin/grafana-toolkit plugin:github-publish

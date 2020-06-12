@@ -21,19 +21,14 @@
   },
   "engineStrict": true,
   "devDependencies": {
-    "@grafana/data": "^7.0.0",
-    "@grafana/toolkit": "^7.0.0",
-    "@grafana/ui": "^7.0.0",
-    "@types/lodash": "^4.14.152",
-    "grafana-sdk-mocks": "github:grafana/grafana-sdk-mocks"
+    "@grafana/data": "^7.0.5",
+    "@grafana/runtime": "^7.0.5",
+    "@grafana/toolkit": "^7.0.5",
+    "@grafana/ui": "^7.0.5",
+    "@types/lodash": "^4.14.157"
   },
   "dependencies": {
     "lodash": "^4.17.15"
   },
-  "homepage": "https://github.com/simPod/grafana-json-datasource#readme",
-  "jest": {
-    "moduleNameMapper": {
-      "app/plugins/sdk": "<rootDir>/node_modules/grafana-sdk-mocks/app/plugins/sdk.ts"
-    }
-  }
+  "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
 }

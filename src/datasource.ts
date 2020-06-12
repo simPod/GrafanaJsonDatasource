@@ -1,25 +1,26 @@
-import { DataQueryRequest, DataQueryResponse, DataSourceInstanceSettings, MetricFindValue } from '@grafana/data';
+import {
+  DataQueryRequest,
+  DataQueryResponse,
+  DataSourceApi,
+  DataSourceInstanceSettings,
+  MetricFindValue,
+} from '@grafana/data';
+import { AnnotationEvent } from '@grafana/data/types/data';
+import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
+import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { isEqual, isObject } from 'lodash';
 import { GenericOptions, GenericQuery } from './types';
 
-export class GenericDatasource {
-  name: string;
+export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOptions> {
   url: string;
   withCredentials: boolean;
   headers: any;
 
-  // tslint:disable-next-line:jsdoc-format
-  /** @ngInject **/
-  constructor(
-    instanceSettings: DataSourceInstanceSettings<GenericOptions>,
-    private backendSrv: any,
-    private templateSrv: any
-  ) {
-    this.name = instanceSettings.name;
+  constructor(instanceSettings: DataSourceInstanceSettings<GenericOptions>) {
+    super(instanceSettings);
+
     this.url = instanceSettings.url === undefined ? '' : instanceSettings.url;
 
-    this.backendSrv = backendSrv;
-    this.templateSrv = templateSrv;
     this.withCredentials = instanceSettings.withCredentials !== undefined;
     this.headers = { 'Content-Type': 'application/json' };
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
@@ -34,8 +35,9 @@ export class GenericDatasource {
       return Promise.resolve({ data: [] });
     }
 
-    if (this.templateSrv.getAdhocFilters) {
-      query.adhocFilters = this.templateSrv.getAdhocFilters(this.name);
+    const templateSrv = getTemplateSrv() as any;
+    if (templateSrv.getAdhocFilters) {
+      query.adhocFilters = templateSrv.getAdhocFilters(this.name);
     } else {
       query.adhocFilters = [];
     }
@@ -49,7 +51,7 @@ export class GenericDatasource {
     });
   }
 
-  testDatasource() {
+  testDatasource(): Promise<any> {
     return this.doRequest({
       url: `${this.url}/`,
       method: 'GET',
@@ -66,8 +68,47 @@ export class GenericDatasource {
     });
   }
 
-  annotationQuery(options: any) {
-    const query = this.templateSrv.replace(options.annotation.query, {}, 'glob');
+  metricFindQuery(query: string, options?: any, type?: string): Promise<MetricFindValue[]> {
+    const interpolated = {
+      type,
+      target: getTemplateSrv().replace(query, undefined, 'regex'),
+    };
+
+    return this.doRequest({
+      url: `${this.url}/search`,
+      data: interpolated,
+      method: 'POST',
+    }).then(this.mapToTextValue);
+  }
+
+  getTagKeys(options?: any): Promise<MetricFindValue[]> {
+    return new Promise(resolve => {
+      this.doRequest({
+        url: `${this.url}/tag-keys`,
+        method: 'POST',
+        data: options,
+      }).then((result: any) => {
+        return resolve(result.data);
+      });
+    });
+  }
+
+  getTagValues(options: any): Promise<MetricFindValue[]> {
+    return new Promise(resolve => {
+      this.doRequest({
+        url: `${this.url}/tag-values`,
+        method: 'POST',
+        data: options,
+      }).then((result: any) => {
+        return resolve(result.data);
+      });
+    });
+  }
+
+  annotationQuery(
+    options: AnnotationQueryRequest<GenericQuery & { query: string; iconColor: string }>
+  ): Promise<AnnotationEvent[]> {
+    const query = getTemplateSrv().replace(options.annotation.query, {}, 'glob');
 
     const annotationQuery = {
       annotation: {
@@ -91,19 +132,6 @@ export class GenericDatasource {
     });
   }
 
-  metricFindQuery(query: string, options?: any, type?: string): Promise<MetricFindValue[]> {
-    const interpolated = {
-      type,
-      target: this.templateSrv.replace(query, null, 'regex'),
-    };
-
-    return this.doRequest({
-      url: `${this.url}/search`,
-      data: interpolated,
-      method: 'POST',
-    }).then(this.mapToTextValue);
-  }
-
   mapToTextValue(result: any) {
     return result.data.map((d: any, i: any) => {
       if (d && d.text && d.value) {
@@ -121,7 +149,7 @@ export class GenericDatasource {
     options.withCredentials = this.withCredentials;
     options.headers = this.headers;
 
-    return this.backendSrv.datasourceRequest(options);
+    return getBackendSrv().datasourceRequest(options);
   }
 
   buildQueryParameters(options: any) {
@@ -136,7 +164,7 @@ export class GenericDatasource {
         if (target.data !== undefined && target.data.trim() !== '') {
           data = JSON.parse(target.data, (key, value) => {
             if (typeof value === 'string') {
-              return value.replace(this.templateSrv.regex, match => this.cleanMatch(match, options));
+              return value.replace((getTemplateSrv() as any).regex, match => this.cleanMatch(match, options));
             }
 
             return value;
@@ -145,7 +173,7 @@ export class GenericDatasource {
 
         let targetValue = target.target;
         if (typeof targetValue === 'string') {
-          targetValue = this.templateSrv.replace(target.target.toString(), options.scopedVars, 'regex');
+          targetValue = getTemplateSrv().replace(target.target.toString(), options.scopedVars, 'regex');
         }
 
         return {
@@ -161,7 +189,7 @@ export class GenericDatasource {
   }
 
   cleanMatch(match: string, options: any) {
-    const replacedMatch = this.templateSrv.replace(match, options.scopedVars, 'json');
+    const replacedMatch = getTemplateSrv().replace(match, options.scopedVars, 'json');
     if (
       typeof replacedMatch === 'string' &&
       replacedMatch[0] === '"' &&
@@ -174,7 +202,7 @@ export class GenericDatasource {
 
   getVariables() {
     const variables: any = {};
-    Object.values(this.templateSrv.dependencies.getVariables()).forEach((variable: any) => {
+    Object.values(getTemplateSrv().getVariables()).forEach((variable: any) => {
       let variableValue = variable.current.value;
       if (variableValue === '$__all' || isEqual(variableValue, ['$__all'])) {
         if (variable.allValue === null || variable.allValue === '') {
@@ -191,29 +219,5 @@ export class GenericDatasource {
     });
 
     return variables;
-  }
-
-  getTagKeys(options: any): Promise<MetricFindValue[]> {
-    return new Promise(resolve => {
-      this.doRequest({
-        url: `${this.url}/tag-keys`,
-        method: 'POST',
-        data: options,
-      }).then((result: any) => {
-        return resolve(result.data);
-      });
-    });
-  }
-
-  getTagValues(options: any): Promise<MetricFindValue[]> {
-    return new Promise(resolve => {
-      this.doRequest({
-        url: `${this.url}/tag-values`,
-        method: 'POST',
-        data: options,
-      }).then((result: any) => {
-        return resolve(result.data);
-      });
-    });
   }
 }

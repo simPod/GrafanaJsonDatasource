@@ -1,39 +1,36 @@
-// import { beforeEach, describe, expect, it } from './lib/common';
-import TemplateSrvStub from './lib/TemplateSrvStub';
+import { BackendSrv, getBackendSrv, getTemplateSrv, setBackendSrv, setTemplateSrv } from '@grafana/runtime';
 import { Datasource } from '../src/module';
+import TemplateSrvStub from './lib/TemplateSrvStub';
 
 describe('GenericDatasource', () => {
-  const ctx: any = {
-    backendSrv: {},
-    templateSrv: new TemplateSrvStub(),
-  };
-
-  beforeEach(() => {
-    ctx.ds = new Datasource({}, ctx.backendSrv, ctx.templateSrv);
-  });
+  const ds = new Datasource({} as any);
 
   it('should return an empty array when no targets are set', done => {
-    ctx.ds.query({ targets: [] }).then(result => {
+    ds.query({ targets: [] }).then(result => {
       expect(result.data).toHaveLength(0);
       done();
     });
   });
 
   it('should return the server results when a target is set', done => {
-    ctx.backendSrv.datasourceRequest = request =>
-      Promise.resolve({
-        _request: request,
-        data: [
-          {
-            target: 'X',
-            datapoints: [1, 2, 3],
-          },
-        ],
-      });
+    setBackendSrv({
+      datasourceRequest: request =>
+        Promise.resolve({
+          _request: request,
+          data: [
+            {
+              target: 'X',
+              datapoints: [1, 2, 3],
+            },
+          ],
+        }),
+    } as BackendSrv);
 
-    ctx.templateSrv.replace = data => data;
+    const templateSrvStub = new TemplateSrvStub();
+    templateSrvStub.replace = data => data;
+    setTemplateSrv(templateSrvStub);
 
-    ctx.ds.query({ targets: ['hits'] }).then(result => {
+    ds.query({ targets: ['hits'] }).then(result => {
       expect(result._request.data.targets).toHaveLength(1);
 
       const series = result.data[0];
@@ -44,7 +41,7 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric target results when a target is set', done => {
-    ctx.backendSrv.datasourceRequest = request => {
+    getBackendSrv().datasourceRequest = request => {
       const target = request.data.target;
       const result = [target + '_0', target + '_1', target + '_2'];
 
@@ -54,9 +51,11 @@ describe('GenericDatasource', () => {
       });
     };
 
-    ctx.templateSrv.replace = data => data;
+    const templateSrvStub = new TemplateSrvStub();
+    templateSrvStub.replace = data => data;
+    setTemplateSrv(templateSrvStub);
 
-    ctx.ds.metricFindQuery('search', 'timeseries').then(result => {
+    ds.metricFindQuery('search', 'timeseries').then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -69,15 +68,17 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric results when the target is an empty string', done => {
-    ctx.backendSrv.datasourceRequest = request =>
+    getBackendSrv().datasourceRequest = request =>
       Promise.resolve({
         _request: request,
         data: ['metric_0', 'metric_1', 'metric_2'],
       });
 
-    ctx.templateSrv.replace = data => data;
+    const templateSrvStub = new TemplateSrvStub();
+    templateSrvStub.replace = data => data;
+    setTemplateSrv(templateSrvStub);
 
-    ctx.ds.metricFindQuery('').then(result => {
+    ds.metricFindQuery('').then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -90,15 +91,18 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric results when the args are an empty object', done => {
-    ctx.backendSrv.datasourceRequest = request =>
+    getBackendSrv().datasourceRequest = request =>
       Promise.resolve({
         _request: request,
         data: ['metric_0', 'metric_1', 'metric_2'],
       });
 
-    ctx.templateSrv.replace = data => data;
 
-    ctx.ds.metricFindQuery().then(result => {
+    const templateSrvStub = new TemplateSrvStub();
+    templateSrvStub.replace = data => data;
+    setTemplateSrv(templateSrvStub);
+
+    ds.metricFindQuery().then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -111,7 +115,7 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric target results when the args are a string', done => {
-    ctx.backendSrv.datasourceRequest = request => {
+    getBackendSrv().datasourceRequest = request => {
       const target = request.data.target;
       const result = [target + '_0', target + '_1', target + '_2'];
 
@@ -121,9 +125,11 @@ describe('GenericDatasource', () => {
       });
     };
 
-    ctx.templateSrv.replace = data => data;
+    const templateSrvStub = new TemplateSrvStub();
+    templateSrvStub.replace = data => data;
+    setTemplateSrv(templateSrvStub);
 
-    ctx.ds.metricFindQuery('search', 'timeseries').then(result => {
+    ds.metricFindQuery('search', 'timeseries').then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -136,7 +142,7 @@ describe('GenericDatasource', () => {
   });
 
   it('should return data as text and as value', done => {
-    const result = ctx.ds.mapToTextValue({ data: ['zero', 'one', 'two'] });
+    const result = ds.mapToTextValue({ data: ['zero', 'one', 'two'] });
 
     expect(result).toHaveLength(3);
     expect(result[0].text).toBe('zero');
@@ -155,7 +161,7 @@ describe('GenericDatasource', () => {
       { text: 'two', value: 'value_2' },
     ];
 
-    const result = ctx.ds.mapToTextValue({ data });
+    const result = ds.mapToTextValue({ data });
 
     expect(result).toHaveLength(3);
     expect(result[0].text).toBe('zero');
@@ -174,7 +180,7 @@ describe('GenericDatasource', () => {
       { a: 'two', b: 'value_2' },
     ];
 
-    const result = ctx.ds.mapToTextValue({ data });
+    const result = ds.mapToTextValue({ data });
 
     expect(result).toHaveLength(3);
     expect(result[0].text).toBe(data[0]);
@@ -192,13 +198,13 @@ describe('GenericDatasource', () => {
       { type: 'string', text: 'two', key: 'Two' },
     ];
 
-    ctx.backendSrv.datasourceRequest = request =>
+    getBackendSrv().datasourceRequest = request =>
       Promise.resolve({
         data,
         _request: request,
       });
 
-    ctx.ds.getTagKeys().then(result => {
+    ds.getTagKeys().then(result => {
       expect(result).toHaveLength(2);
       expect(result[0].type).toBe(data[0].type);
       expect(result[0].text).toBe(data[0].text);
@@ -217,13 +223,13 @@ describe('GenericDatasource', () => {
       { key: 'drei', text: 'Drei!' },
     ];
 
-    ctx.backendSrv.datasourceRequest = request =>
+    getBackendSrv().datasourceRequest = request =>
       Promise.resolve({
         data,
         _request: request,
       });
 
-    ctx.ds.getTagValues().then(result => {
+    ds.getTagValues().then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe(data[0].text);
       expect(result[0].key).toBe(data[0].key);
@@ -272,16 +278,14 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
   };
   const REPLACING_TO = JSON.stringify('replaced');
   const REPLACED_VALUE = JSON.parse(REPLACING_TO);
-  const templateSrv = new TemplateSrvStub();
 
-  templateSrv.replace = str => (str.match(templateSrv.regex) ? REPLACING_TO : str);
+  const templateSrvStub = new TemplateSrvStub();
+  templateSrvStub.replace = str => (str.match((getTemplateSrv() as any).regex) ? REPLACING_TO : str);
+  beforeEach(() => {
+    setTemplateSrv(templateSrvStub);
+  });
 
-  const ctx: any = {
-    backendSrv: {},
-    templateSrv,
-  };
-
-  ctx.ds = new Datasource({}, ctx.backendSrv, ctx.templateSrv);
+  const ds = new Datasource({} as any);
 
   it('simple key-value', () => {
     const testcase = {
@@ -300,7 +304,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       ],
     };
 
-    expect(ctx.ds.buildQueryParameters(testcase).targets).toMatchObject([
+    expect(ds.buildQueryParameters(testcase).targets).toMatchObject([
       {
         data: { A: REPLACED_VALUE },
         target: testcase.targets[0].target,
@@ -331,7 +335,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       ],
     };
 
-    expect(ctx.ds.buildQueryParameters(testcase).targets).toMatchObject([
+    expect(ds.buildQueryParameters(testcase).targets).toMatchObject([
       {
         data: {
           filters: [
@@ -366,7 +370,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       ],
     };
 
-    expect(ctx.ds.buildQueryParameters(testcase).targets).toMatchObject([
+    expect(ds.buildQueryParameters(testcase).targets).toMatchObject([
       {
         data: {
           filters: [{ A: `${REPLACED_VALUE} ms` }],

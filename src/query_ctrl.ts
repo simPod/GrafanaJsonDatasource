@@ -1,23 +1,30 @@
-export class GenericDatasourceQueryCtrl {
+import { Format } from './format';
+import { GrafanaTarget } from './types';
+
+export class QueryCtrl {
   static templateUrl = 'partials/query.editor.html';
 
-  target: any;
+  // Name must be `target` as of Grafana 7.0.5
+  // This is a hack to bypass TS checks for magical field injection
+  target: GrafanaTarget;
   panelCtrl: any;
   datasource: any;
   types: object[];
   showJSON: boolean;
+  showRawMetricEditor = false;
 
   constructor() {
-    this.target.hide = false;
-    this.target.target = this.target.target || 'select metric';
-    if (!this.target.type) {
-      this.target.type = this.panelCtrl.panel.type === 'table' ? 'table' : 'timeseries';
+    // @ts-ignore
+    this.target = this.target;
+
+    if (this.target.type === undefined) {
+      this.target.type = this.panelCtrl.panel.type === Format.Table ? Format.Table : Format.Timeseries;
     }
-    this.target.data = this.target.data || '';
+    this.target.data = this.target.data === undefined ? '' : this.target.data;
 
     this.types = [
-      { text: 'Time series', value: 'timeseries' },
-      { text: 'Table', value: 'table' },
+      { text: 'Time series', value: Format.Timeseries },
+      { text: 'Table', value: Format.Table },
     ];
     this.showJSON = false;
   }
@@ -26,9 +33,8 @@ export class GenericDatasourceQueryCtrl {
     return this.datasource.metricFindQuery(query, undefined, this.target.type);
   }
 
-  // not used
   toggleEditorMode() {
-    this.target.rawQuery = !this.target.rawQuery;
+    this.showRawMetricEditor = !this.showRawMetricEditor;
   }
 
   onChangeInternal() {

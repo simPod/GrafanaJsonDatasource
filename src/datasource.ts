@@ -1,17 +1,22 @@
-import {
-  DataQueryRequest,
-  DataQueryResponse,
-  DataSourceApi,
-  DataSourceInstanceSettings,
-  MetricFindValue,
-} from '@grafana/data';
+import { DataQueryResponse, DataSourceApi, DataSourceInstanceSettings } from '@grafana/data';
 import { AnnotationEvent } from '@grafana/data/types/data';
 import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
 import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { isEqual, isObject } from 'lodash';
-import { GenericOptions, GenericQuery } from './types';
+import {
+  GenericOptions,
+  GrafanaTarget,
+  MetricFindTagKeys,
+  MetricFindTagValues,
+  MetricFindValue,
+  MultiValueVariable,
+  QueryRequest,
+  TextValuePair,
+} from './types';
 
-export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOptions> {
+const supportedVariableTypes = ['adhoc', 'constant', 'custom', 'query'];
+
+export class Datasource extends DataSourceApi<GrafanaTarget, GenericOptions> {
   url: string;
   withCredentials: boolean;
   headers: any;
@@ -28,25 +33,21 @@ export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOption
     }
   }
 
-  query(options: DataQueryRequest<GenericQuery>): Promise<DataQueryResponse> {
-    const query = this.buildQueryParameters(options);
+  query(options: QueryRequest): Promise<DataQueryResponse> {
+    const request = this.processTargets(options);
 
-    if (query.targets.length <= 0) {
+    if (request.targets.length === 0) {
       return Promise.resolve({ data: [] });
     }
 
-    const templateSrv = getTemplateSrv() as any;
-    if (templateSrv.getAdhocFilters) {
-      query.adhocFilters = templateSrv.getAdhocFilters(this.name);
-    } else {
-      query.adhocFilters = [];
-    }
+    // @ts-ignore
+    request.adhocFilters = getTemplateSrv().getAdhocFilters(this.name);
 
     options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
 
     return this.doRequest({
       url: `${this.url}/query`,
-      data: query,
+      data: request,
       method: 'POST',
     });
   }
@@ -81,7 +82,7 @@ export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOption
     }).then(this.mapToTextValue);
   }
 
-  getTagKeys(options?: any): Promise<MetricFindValue[]> {
+  getTagKeys(options?: any): Promise<MetricFindTagKeys[]> {
     return new Promise(resolve => {
       this.doRequest({
         url: `${this.url}/tag-keys`,
@@ -93,7 +94,7 @@ export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOption
     });
   }
 
-  getTagValues(options: any): Promise<MetricFindValue[]> {
+  getTagValues(options: any): Promise<MetricFindTagValues[]> {
     return new Promise(resolve => {
       this.doRequest({
         url: `${this.url}/tag-values`,
@@ -106,7 +107,7 @@ export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOption
   }
 
   annotationQuery(
-    options: AnnotationQueryRequest<GenericQuery & { query: string; iconColor: string }>
+    options: AnnotationQueryRequest<GrafanaTarget & { query: string; iconColor: string }>
   ): Promise<AnnotationEvent[]> {
     const query = getTemplateSrv().replace(options.annotation.query, {}, 'glob');
 
@@ -152,17 +153,15 @@ export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOption
     return getBackendSrv().datasourceRequest(options);
   }
 
-  buildQueryParameters(options: any) {
+  processTargets(options: QueryRequest) {
     options.targets = options.targets
-      .filter((target: any) => {
+      .filter(target => {
         // remove placeholder targets
-        return target.target !== 'select metric';
+        return target.target !== undefined;
       })
-      .map((target: any) => {
-        let data = null;
-
-        if (target.data !== undefined && target.data.trim() !== '') {
-          data = JSON.parse(target.data, (key, value) => {
+      .map(target => {
+        if (target.data.trim() !== '') {
+          target.data = JSON.parse(target.data, (key, value) => {
             if (typeof value === 'string') {
               return value.replace((getTemplateSrv() as any).regex, match => this.cleanMatch(match, options));
             }
@@ -171,18 +170,11 @@ export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOption
           });
         }
 
-        let targetValue = target.target;
-        if (typeof targetValue === 'string') {
-          targetValue = getTemplateSrv().replace(target.target.toString(), options.scopedVars, 'regex');
+        if (typeof target.target === 'string') {
+          target.target = getTemplateSrv().replace(target.target.toString(), options.scopedVars, 'regex');
         }
 
-        return {
-          data,
-          target: targetValue,
-          refId: target.refId,
-          hide: target.hide,
-          type: target.type,
-        };
+        return target;
       });
 
     return options;
@@ -201,19 +193,32 @@ export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOption
   }
 
   getVariables() {
-    const variables: any = {};
-    Object.values(getTemplateSrv().getVariables()).forEach((variable: any) => {
-      let variableValue = variable.current.value;
+    const variables: { [id: string]: TextValuePair } = {};
+    Object.values(getTemplateSrv().getVariables()).forEach(variable => {
+      if (!supportedVariableTypes.includes(variable.type)) {
+        console.warn(`Variable of type "${variable.type}" is not supported`);
+
+        return;
+      }
+
+      if (variable.type === 'adhoc') {
+        // These are being added to request.adhocFilters
+        return;
+      }
+
+      const supportedVariable = variable as MultiValueVariable;
+
+      let variableValue = supportedVariable.current.value;
       if (variableValue === '$__all' || isEqual(variableValue, ['$__all'])) {
-        if (variable.allValue === null || variable.allValue === '') {
-          variableValue = variable.options.slice(1).map((textValuePair: any) => textValuePair.value);
+        if (supportedVariable.allValue === null || supportedVariable.allValue === '') {
+          variableValue = supportedVariable.options.slice(1).map(textValuePair => textValuePair.value);
         } else {
-          variableValue = variable.allValue;
+          variableValue = supportedVariable.allValue;
         }
       }
 
-      variables[variable.id] = {
-        text: variable.current.text,
+      variables[supportedVariable.id] = {
+        text: supportedVariable.current.text,
         value: variableValue,
       };
     });

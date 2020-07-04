@@ -1,5 +1,5 @@
-import { GenericDatasource } from './datasource';
-import { GenericDatasourceQueryCtrl } from './query_ctrl';
+import { Datasource } from './datasource';
+import { QueryCtrl } from './query_ctrl';
 
 class GenericConfigCtrl {
   static templateUrl = 'partials/config.html';
@@ -14,8 +14,8 @@ class GenericAnnotationsQueryCtrl {
 }
 
 export {
-  GenericDatasource as Datasource,
-  GenericDatasourceQueryCtrl as QueryCtrl,
+  Datasource,
+  QueryCtrl,
   GenericConfigCtrl as ConfigCtrl,
   GenericQueryOptionsCtrl as QueryOptionsCtrl,
   GenericAnnotationsQueryCtrl as AnnotationsQueryCtrl,

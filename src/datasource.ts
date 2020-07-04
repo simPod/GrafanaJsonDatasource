@@ -53,9 +53,9 @@ export class GenericDatasource extends DataSourceApi<GenericQuery, GenericOption
 
   testDatasource(): Promise<any> {
     return this.doRequest({
-      url: `${this.url}/`,
+      url: this.url,
       method: 'GET',
-    }).then((response: any) => {
+    }).then(response => {
       if (response.status === 200) {
         return { status: 'success', message: 'Data source is working', title: 'Success' };
       }

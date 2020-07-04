@@ -1,12 +1,50 @@
+import { DateTime } from '@grafana/data/datetime/moment_wrapper';
 import { BackendSrv, getBackendSrv, getTemplateSrv, setBackendSrv, setTemplateSrv } from '@grafana/runtime';
+import { Format } from '../src/format';
 import { Datasource } from '../src/module';
+import { QueryRequest } from '../src/types';
 import TemplateSrvStub from './lib/TemplateSrvStub';
+
+const options = {
+  app: 'dashboard',
+  requestId: 'Q102',
+  timezone: '',
+  panelId: 2,
+  dashboardId: 1893,
+  range: {
+    from: ('2019-11-22T07:23:23.836Z' as unknown) as DateTime,
+    to: ('2019-11-22T10:23:23.836Z' as unknown) as DateTime,
+    raw: {
+      from: 'now-3h',
+      to: 'now',
+    },
+  },
+  interval: '5s',
+  intervalMs: 5000,
+  targets: [],
+  maxDataPoints: 1920,
+  scopedVars: {
+    __interval: {
+      text: '5s',
+      value: '5s',
+    },
+    __interval_ms: {
+      text: '5000',
+      value: 5000,
+    },
+  },
+  startTime: 1574418203842,
+  rangeRaw: {
+    from: 'now-3h',
+    to: 'now',
+  },
+};
 
 describe('GenericDatasource', () => {
   const ds = new Datasource({} as any);
 
   it('should return an empty array when no targets are set', done => {
-    ds.query({ targets: [] }).then(result => {
+    ds.query({ ...options, targets: [] }).then(result => {
       expect(result.data).toHaveLength(0);
       done();
     });
@@ -16,7 +54,6 @@ describe('GenericDatasource', () => {
     setBackendSrv({
       datasourceRequest: request =>
         Promise.resolve({
-          _request: request,
           data: [
             {
               target: 'X',
@@ -30,14 +67,14 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = data => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.query({ targets: ['hits'] }).then(result => {
-      expect(result._request.data.targets).toHaveLength(1);
-
-      const series = result.data[0];
-      expect(series.target).toBe('X');
-      expect(series.datapoints).toHaveLength(3);
-      done();
-    });
+    ds.query({ ...options, targets: [{ refId: 'A', data: '', target: 'hits', type: Format.Timeseries }] }).then(
+      result => {
+        const series = result.data[0];
+        expect(series.target).toBe('X');
+        expect(series.datapoints).toHaveLength(3);
+        done();
+      }
+    );
   });
 
   it('should return the metric target results when a target is set', done => {
@@ -55,7 +92,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = data => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery('search', 'timeseries').then(result => {
+    ds.metricFindQuery('search', Format.Timeseries).then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -97,12 +134,11 @@ describe('GenericDatasource', () => {
         data: ['metric_0', 'metric_1', 'metric_2'],
       });
 
-
     const templateSrvStub = new TemplateSrvStub();
     templateSrvStub.replace = data => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery().then(result => {
+    ds.metricFindQuery('').then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -129,7 +165,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = data => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery('search', 'timeseries').then(result => {
+    ds.metricFindQuery('search', Format.Timeseries).then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -229,7 +265,7 @@ describe('GenericDatasource', () => {
         _request: request,
       });
 
-    ds.getTagValues().then(result => {
+    ds.getTagValues(null).then(result => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe(data[0].text);
       expect(result[0].key).toBe(data[0].key);
@@ -243,39 +279,6 @@ describe('GenericDatasource', () => {
 });
 
 describe('GenericDatasource.prototype.buildQueryTargets', () => {
-  const options = {
-    requestId: 'Q102',
-    timezone: '',
-    panelId: 2,
-    dashboardId: 1893,
-    range: {
-      from: '2019-11-22T07:23:23.836Z',
-      to: '2019-11-22T10:23:23.836Z',
-      raw: {
-        from: 'now-3h',
-        to: 'now',
-      },
-    },
-    interval: '5s',
-    intervalMs: 5000,
-    targets: [],
-    maxDataPoints: 1920,
-    scopedVars: {
-      __interval: {
-        text: '5s',
-        value: '5s',
-      },
-      __interval_ms: {
-        text: '5000',
-        value: 5000,
-      },
-    },
-    startTime: 1574418203842,
-    rangeRaw: {
-      from: 'now-3h',
-      to: 'now',
-    },
-  };
   const REPLACING_TO = JSON.stringify('replaced');
   const REPLACED_VALUE = JSON.parse(REPLACING_TO);
 
@@ -288,7 +291,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
   const ds = new Datasource({} as any);
 
   it('simple key-value', () => {
-    const testcase = {
+    const testcase: QueryRequest = {
       ...options,
       targets: [
         {
@@ -298,13 +301,13 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
           hide: true,
           refId: 'A',
           target: 'TIME_TO_LAST_BYTE',
-          type: 'timeseries',
+          type: Format.Timeseries,
           datasource: 'Frontend Perf',
         },
       ],
     };
 
-    expect(ds.buildQueryParameters(testcase).targets).toMatchObject([
+    expect(ds.processTargets(testcase).targets).toMatchObject([
       {
         data: { A: REPLACED_VALUE },
         target: testcase.targets[0].target,
@@ -329,13 +332,13 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
           hide: false,
           refId: 'A',
           target: 'TIME_TO_LAST_BYTE',
-          type: 'timeseries',
+          type: Format.Timeseries,
           datasource: 'Frontend Perf',
         },
       ],
     };
 
-    expect(ds.buildQueryParameters(testcase).targets).toMatchObject([
+    expect(ds.processTargets(testcase).targets).toMatchObject([
       {
         data: {
           filters: [
@@ -364,13 +367,13 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
           hide: false,
           refId: 'A',
           target: 'TIME_TO_LAST_BYTE',
-          type: 'timeseries',
+          type: Format.Timeseries,
           datasource: 'Frontend Perf',
         },
       ],
     };
 
-    expect(ds.buildQueryParameters(testcase).targets).toMatchObject([
+    expect(ds.processTargets(testcase).targets).toMatchObject([
       {
         data: {
           filters: [{ A: `${REPLACED_VALUE} ms` }],

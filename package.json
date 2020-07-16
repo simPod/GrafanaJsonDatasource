@@ -30,7 +30,7 @@
     "typescript": "^3.9.6"
   },
   "dependencies": {
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.19"
   },
   "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
 }

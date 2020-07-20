@@ -31,7 +31,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
     onChange({ ...query, data: data, target: metric.value, type: formatAs.value });
 
     onRunQuery();
-  }, [formatAs, metric]);
+  }, [data, formatAs, metric]);
 
   const loadMetrics = (query: string) => {
     return datasource.metricFindQuery(query).then(

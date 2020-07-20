@@ -25,9 +25,7 @@
     "@grafana/runtime": "^7.1.0",
     "@grafana/toolkit": "^7.1.0",
     "@grafana/ui": "^7.1.0",
-    "@types/lodash": "^4.14.157",
-    "ts-loader": "^7.0.5",
-    "typescript": "^3.9.6"
+    "@types/lodash": "^4.14.157"
   },
   "dependencies": {
     "lodash": "^4.17.19"

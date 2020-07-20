@@ -1,5 +1,6 @@
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { AsyncSelect, CodeEditor, Label, Select } from '@grafana/ui';
+import { find } from 'lodash';
 
 import React, { ComponentType } from 'react';
 import { DataSource } from './DataSource';
@@ -15,9 +16,11 @@ const formatAsOptions = [
 ];
 
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
-  const [formatAs, setFormatAs] = React.useState<SelectableValue<Format>>(formatAsOptions[0]);
+  const [formatAs, setFormatAs] = React.useState<SelectableValue<Format>>(
+    find(formatAsOptions, option => option.value === query.type) ?? formatAsOptions[0]
+  );
   const [metric, setMetric] = React.useState<SelectableValue<string>>();
-  const [data, setData] = React.useState('');
+  const [data, setData] = React.useState(query.data);
 
   React.useEffect(() => {
     if (formatAs.value === undefined) {
@@ -33,9 +36,15 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
     onRunQuery();
   }, [data, formatAs, metric]);
 
-  const loadMetrics = (query: string) => {
-    return datasource.metricFindQuery(query).then(
-      result => result.map(value => ({ label: value.text, value: value.value })),
+  const loadMetrics = (searchQuery: string) => {
+    return datasource.metricFindQuery(searchQuery).then(
+      result => {
+        const metrics = result.map(value => ({ label: value.text, value: value.value }));
+
+        setMetric(find(metrics, metric => metric.value === query.target));
+
+        return metrics;
+      },
       response => {
         throw new Error(response.statusText);
       }

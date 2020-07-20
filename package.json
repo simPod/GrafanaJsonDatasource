@@ -21,10 +21,10 @@
   },
   "engineStrict": true,
   "devDependencies": {
-    "@grafana/data": "^7.0.5",
-    "@grafana/runtime": "^7.0.5",
-    "@grafana/toolkit": "^7.0.5",
-    "@grafana/ui": "^7.0.5",
+    "@grafana/data": "^7.1.0",
+    "@grafana/runtime": "^7.1.0",
+    "@grafana/toolkit": "^7.1.0",
+    "@grafana/ui": "^7.1.0",
     "@types/lodash": "^4.14.157",
     "ts-loader": "^7.0.5",
     "typescript": "^3.9.6"

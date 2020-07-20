@@ -1,7 +1,7 @@
 import { DateTime } from '@grafana/data/datetime/moment_wrapper';
 import { BackendSrv, getBackendSrv, getTemplateSrv, setBackendSrv, setTemplateSrv } from '@grafana/runtime';
+import { DataSource } from '../src/DataSource';
 import { Format } from '../src/format';
-import { Datasource } from '../src/module';
 import { QueryRequest } from '../src/types';
 import TemplateSrvStub from './lib/TemplateSrvStub';
 
@@ -41,7 +41,7 @@ const options = {
 };
 
 describe('GenericDatasource', () => {
-  const ds = new Datasource({} as any);
+  const ds = new DataSource({} as any);
 
   it('should return an empty array when no targets are set', done => {
     ds.query({ ...options, targets: [] }).then(result => {
@@ -288,7 +288,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
     setTemplateSrv(templateSrvStub);
   });
 
-  const ds = new Datasource({} as any);
+  const ds = new DataSource({} as any);
 
   it('simple key-value', () => {
     const testcase: QueryRequest = {

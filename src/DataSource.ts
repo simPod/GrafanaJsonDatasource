@@ -5,7 +5,7 @@ import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { isEqual, isObject } from 'lodash';
 import {
   GenericOptions,
-  GrafanaTarget,
+  GrafanaQuery,
   MetricFindTagKeys,
   MetricFindTagValues,
   MetricFindValue,
@@ -16,7 +16,7 @@ import {
 
 const supportedVariableTypes = ['adhoc', 'constant', 'custom', 'query'];
 
-export class Datasource extends DataSourceApi<GrafanaTarget, GenericOptions> {
+export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   url: string;
   withCredentials: boolean;
   headers: any;
@@ -107,7 +107,7 @@ export class Datasource extends DataSourceApi<GrafanaTarget, GenericOptions> {
   }
 
   annotationQuery(
-    options: AnnotationQueryRequest<GrafanaTarget & { query: string; iconColor: string }>
+    options: AnnotationQueryRequest<GrafanaQuery & { query: string; iconColor: string }>
   ): Promise<AnnotationEvent[]> {
     const query = getTemplateSrv().replace(options.annotation.query, {}, 'glob');
 

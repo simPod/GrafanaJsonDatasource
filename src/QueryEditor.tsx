@@ -20,7 +20,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
     find(formatAsOptions, option => option.value === query.type) ?? formatAsOptions[0]
   );
   const [metric, setMetric] = React.useState<SelectableValue<string>>();
-  const [data, setData] = React.useState(query.data);
+  const [data, setData] = React.useState(query.data ?? '');
 
   React.useEffect(() => {
     if (formatAs.value === undefined) {

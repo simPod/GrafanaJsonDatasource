@@ -1,5 +1,5 @@
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
-import { AsyncSelect, CodeEditor, Label, Select } from '@grafana/ui';
+import { CodeEditor, Label, Select } from '@grafana/ui';
 import { find } from 'lodash';
 
 import React, { ComponentType } from 'react';
@@ -15,6 +15,12 @@ const formatAsOptions = [
   { label: 'Table', value: Format.Table },
 ];
 
+interface LastQuery {
+  data: string;
+  metric: string;
+  format: string;
+}
+
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
   const [formatAs, setFormatAs] = React.useState<SelectableValue<Format>>(
     find(formatAsOptions, option => option.value === query.type) ?? formatAsOptions[0]
@@ -22,34 +28,79 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
   const [metric, setMetric] = React.useState<SelectableValue<string>>();
   const [data, setData] = React.useState(query.data ?? '');
 
-  React.useEffect(() => {
-    if (formatAs.value === undefined) {
-      return;
-    }
+  const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
 
+  const [metricOptions, setMetricOptions] = React.useState<Array<SelectableValue<string>>>([]);
+  const [isMetricOptionsLoading, setIsMetricOptionsLoading] = React.useState<boolean>(false);
+
+  const loadMetrics = React.useCallback(
+    (type: SelectableValue<Format>) => {
+      const typeValue = type.value!;
+
+      return datasource.metricFindQuery('', undefined, typeValue).then(
+        result => {
+          const metrics = result.map(value => ({ label: value.text, value: value.value }));
+
+          const foundMetric = find(metrics, metric => metric.value === query.target);
+
+          setMetric(foundMetric === undefined ? { label: '', value: '' } : foundMetric);
+
+          return metrics;
+        },
+        response => {
+          setMetric({ label: '', value: '' });
+          setMetricOptions([]);
+
+          throw new Error(response.statusText);
+        }
+      );
+    },
+    [datasource, query.target]
+  );
+
+  const refreshMetricOptions = React.useCallback(
+    (type: SelectableValue<Format>) => {
+      setIsMetricOptionsLoading(true);
+      loadMetrics(type)
+        .then(metrics => {
+          setMetricOptions(metrics);
+        })
+        .finally(() => {
+          setIsMetricOptionsLoading(false);
+        });
+    },
+    [loadMetrics, setMetricOptions, setIsMetricOptionsLoading]
+  );
+
+  // Initializing metric options
+  React.useEffect(() => {
+    refreshMetricOptions(formatAs);
+  }, [formatAs, refreshMetricOptions]);
+
+  React.useEffect(() => {
     if (metric?.value === undefined) {
       return;
     }
 
-    onChange({ ...query, data: data, target: metric.value, type: formatAs.value });
+    if (
+      lastQuery !== null &&
+      metric?.value === lastQuery.metric &&
+      formatAs.value! === lastQuery.format &&
+      data === lastQuery.data
+    ) {
+      return;
+    }
+
+    setLastQuery({
+      data,
+      metric: metric.value,
+      format: formatAs.value!,
+    });
+
+    onChange({ ...query, data, target: metric.value, type: formatAs.value! });
 
     onRunQuery();
   }, [data, formatAs, metric]);
-
-  const loadMetrics = (searchQuery: string) => {
-    return datasource.metricFindQuery(searchQuery).then(
-      result => {
-        const metrics = result.map(value => ({ label: value.text, value: value.value }));
-
-        setMetric(find(metrics, metric => metric.value === query.target));
-
-        return metrics;
-      },
-      response => {
-        throw new Error(response.statusText);
-      }
-    );
-  };
 
   return (
     <>
@@ -66,10 +117,10 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
         </div>
 
         <div className="gf-form">
-          <AsyncSelect
+          <Select
+            isLoading={isMetricOptionsLoading}
             prefix="Metric: "
-            loadOptions={loadMetrics}
-            defaultOptions
+            options={metricOptions}
             placeholder="Select metric"
             allowCustomValue
             value={metric}
@@ -97,5 +148,4 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
       </div>
     </>
   );
-  // }
 };

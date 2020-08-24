@@ -34,11 +34,9 @@ export default class TemplateSrvStub implements TemplateSrv {
     this.data[name] = value;
   }
 
-  init() {
-  }
+  init() {}
 
   fillVariableValuesForUrl() {}
 
-  updateTemplateData() {
-  }
+  updateTemplateData() {}
 }

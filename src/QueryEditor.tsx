@@ -8,6 +8,8 @@ import { Format } from './format';
 
 import { GenericOptions, GrafanaQuery } from './types';
 
+import './css/json-editor.css';
+
 type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 
 const formatAsOptions = [
@@ -134,10 +136,10 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
         <div className="gf-form-label">
           <Label>Additional JSON Data</Label>
         </div>
-        <div className="gf-form">
+        <div className="gf-form grafana-json-datasource-editor">
           <CodeEditor
-            width="500px"
-            height="100px"
+            width="100%"
+            height="175px"
             language="json"
             showLineNumbers={true}
             showMiniMap={data.length > 100}

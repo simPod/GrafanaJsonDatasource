@@ -21,14 +21,15 @@
   },
   "engineStrict": true,
   "devDependencies": {
-    "@grafana/data": "^7.1.5",
-    "@grafana/runtime": "^7.1.5",
-    "@grafana/toolkit": "^7.1.5",
-    "@grafana/ui": "^7.1.5",
-    "@types/lodash": "^4.14.160"
+    "@grafana/data": "^7.2.1",
+    "@grafana/runtime": "^7.2.1",
+    "@grafana/toolkit": "^7.2.1",
+    "@grafana/ui": "^7.2.1",
+    "@types/lodash": "^4.14.162"
   },
   "dependencies": {
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.20",
+    "rxjs": "^6.6.3"
   },
   "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
 }

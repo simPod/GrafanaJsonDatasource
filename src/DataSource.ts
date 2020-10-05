@@ -1,8 +1,8 @@
-import { DataQueryResponse, DataSourceApi, DataSourceInstanceSettings } from '@grafana/data';
-import { AnnotationEvent } from '@grafana/data/types/data';
+import { AnnotationEvent, DataQueryResponse, DataSourceApi, DataSourceInstanceSettings } from '@grafana/data';
 import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
 import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { isEqual, isObject } from 'lodash';
+import { Observable } from 'rxjs';
 import {
   GenericOptions,
   GrafanaQuery,
@@ -33,7 +33,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     }
   }
 
-  query(options: QueryRequest): Promise<DataQueryResponse> {
+  query(options: QueryRequest): Promise<DataQueryResponse> | Observable<DataQueryResponse> {
     const request = this.processTargets(options);
 
     if (request.targets.length === 0) {
@@ -150,7 +150,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     options.withCredentials = this.withCredentials;
     options.headers = this.headers;
 
-    return getBackendSrv().datasourceRequest(options);
+    return getBackendSrv().fetch(options);
   }
 
   processTargets(options: QueryRequest) {

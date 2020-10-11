@@ -35,6 +35,8 @@ When adding datasource add your API endpoint to the `URL` field. That's where da
 
 ## API
 
+An OpenAPI definition is defined at [openapi.yaml](openapi.yaml).
+
 To work with this datasource the backend needs to implement 4 endpoints:
 
 - `GET /` with 200 status code response. Used for "Test connection" on the datasource config page.

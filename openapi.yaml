@@ -1,0 +1,340 @@
+openapi: 3.0.0
+info:
+  title: simPod JSON Datasource API
+  description: API definition for the Grafana plugin simpod json datasource
+                https://github.com/simPod/grafana-json-datasource
+  version: "0.1"
+paths:
+  /:
+    get:
+      summary: "Test connection"
+      description: Used for "Test connection" on the datasource config page
+      operationId: api.endpoints.datasource_health
+      tags:
+        - Health Check
+      responses:
+        '200':
+          description: Positive health check
+  /search:
+    post:
+      summary: List available metrics
+      description: Used by the find metric options on the query tab in panels
+      operationId: api.endpoints.list_metrics
+      tags:
+        - Visualization
+      requestBody:
+        required: false
+        description: The body is sent when using query variables
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                target:
+                  type: string
+                  example: "speed"
+      responses:
+        '200':
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - type: string
+                      example: ["speed", "pressure", "temperature", "latitude", "voltage"]
+                    - type: object
+                      description: List of text and numeric representation of a metrics. For
+                                    example metrics and their (database) IDs
+                      example: [{"text" :"speed", "value": 1}, {"text" :"temperature", "value": 2}]
+                      properties:
+                        text:
+                          type: string
+                        value:
+                          type: number
+  /query:
+    post:
+      summary: Query
+      description: Returns metrics data
+      operationId: api.endpoints.query
+      tags:
+        - Visualization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                panelId:
+                  oneOf:
+                    - type: string
+                      example: Q-1599986187842-0.164611811105138-0
+                    - type: number
+                      example: 1
+                range:
+                  type: object
+                  properties:
+                    from:
+                      type: string
+                      format: date-time
+                    to:
+                      type: string
+                      format: date-time
+                    raw:
+                      $ref: '#/components/schemas/raw-time-frame'
+                rangeRaw:
+                  $ref: '#/components/schemas/raw-time-frame'
+                interval:
+                  type: string
+                  example: 30s
+                intervalMs:
+                  type: number
+                  example: 5500
+                maxDataPoints:
+                  type: number
+                  example: 50
+                targets:
+                  type: array
+                  items:
+                    type: object
+                    required: [target]
+                    properties:
+                      target:
+                        type: string
+                        example: "upper_25"
+                      refId:
+                        type: string
+                      type:
+                        type: string
+                        enum: ["timeseries", "table"]
+                      data:
+                        description: arbitrary "additional data" the user can pass in
+                        type: object
+                scopedVars:
+                  type: object
+                  example:
+                    __interval: {'text': '1s', 'value': '1s'}
+                    __interval_ms: {'text': 1000, 'value': 1000}
+                adhocFilters:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        example: City
+                      operator:
+                        type: string
+                        example: "="
+                      value:
+                        type: string
+                        example: Berlin
+      responses:
+        '200':
+          description: "Can be a 'timeseries' or 'table' response"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  anyOf:
+                    - type: object
+                      description: timeseries case
+                      required: ["target", "datapoints"]
+                      properties:
+                        target:
+                          type: string
+                          example: "upper_25"
+                        datapoints:
+                          type: array
+                          example: [ [2.5, 1557385723416], [3.5, 1557385731634] ]
+                          items:
+                            type: array
+                            description: First value is Metric value as a float.
+                                          Second values is unix timestamp in milliseconds
+                            minItems: 2
+                            maxItems: 2
+                            items:
+                              type: number
+                    - type: object
+                      description: table case
+                      required: ["type", "columns", "rows"]
+                      properties:
+                        type:
+                          type: string
+                          enum: ["table"]
+                        columns:
+                          type: array
+                          items:
+                            type: object
+                            required: ["text"]
+                            example:
+                              - {"text": "Time", "type": "time"}
+                              - {"text": "Country", "type": "string"}
+                              - {"text": "Value", "type": "number"}
+                            properties:
+                              text:
+                                type: string
+                              type:
+                                type: string
+                        rows:
+                          type: array
+                          example: [[1557385723416,"SE",123], [1557385731634,"SE", 456]]
+                          items:
+                            anyOf:
+                              - type: string
+                              - type: number
+  /annotations:
+    post:
+      summary: Annotations
+      description: should return annotations.
+      operationId: api.endpoints.annotations
+      tags:
+        - Visualization
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                range:
+                  type: object
+                  properties:
+                    from:
+                      type: string
+                      format: date-time
+                    to:
+                      type: string
+                      format: date-time
+                rangeRaw:
+                  $ref: '#/components/schemas/raw-time-frame'
+                annotation:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      example: deploy
+                    datasource:
+                      type: string
+                      example: JSON datasource
+                    iconColor:
+                      type: string
+                      example: rgba(255, 96, 96, 1)
+                    enable:
+                      type: boolean
+                    query:
+                      type: string
+                      example: "#deploy"
+                variables:
+                  type: array
+                  items:
+                    anyOf:
+                      - type: number
+                      - type: string
+      responses:
+        '200':
+          description: "Array of annotation objects"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - text
+                    - time
+                  properties:
+                    text:
+                      type: string
+                      example: text shown in body
+                    time:
+                      type: string
+                      format: timestamp
+                    title:
+                      type: string
+                    isRegion:
+                      type: boolean
+                    timeEnd:
+                      type: string
+                      description: required if isRegion is true
+                      format: timestamp
+                    tags:
+                      type: array
+                      items:
+                        type: string
+    options:
+      summary: Annotations
+      description: If the datasource is configured to connect directly to the backend,
+                    OPTIONS endpoint at responds with the correct CORS headers.
+      operationId: api.endpoints.annotation_options
+      tags:
+        - Visualization
+      responses:
+        '200':
+          description: "CORS headers"
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: |
+                  Access-Control-Allow-Headers:accept, content-type
+                  Access-Control-Allow-Methods:POST
+                  Access-Control-Allow-Origin:*
+  /tag-keys:
+    post:
+      summary: Keys for ad hoc filters
+      description: returns possible keys for ad hoc filters
+      operationId: api.endpoints.tag_keys
+      tags:
+        - Ad Hoc Filters
+      responses:
+        '200':
+          description: List of ad hoc filter keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                    text:
+                      type: string
+                example:
+                  - {"type":"string","text":"City"}
+                  - {"type":"string","text":"Country"}
+  /tag-values:
+    post:
+      summary: Values for ad hoc filters
+      description: returns possible values for ad hoc filters
+      operationId: api.endpoints.tag_values
+      tags:
+        - Ad Hoc Filters
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [key]
+              properties:
+                key:
+                  type: string
+      responses:
+        '200':
+          description: A valid response
+components:
+  schemas:
+    raw-time-frame:
+      type: object
+      properties:
+        from:
+          type: string
+          example: now-1h
+        to:
+          type: string
+          example: now

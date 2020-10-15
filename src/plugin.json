@@ -9,7 +9,7 @@
     "annotations": true,
     "info": {
         "author": {
-            "name": "Open Source Friends"
+            "name": "Šimon Podlipský"
         },
         "description": "JSON over HTTP datasource",
         "logos": {

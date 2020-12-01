@@ -14,7 +14,7 @@ import {
   TextValuePair,
 } from './types';
 
-const supportedVariableTypes = ['adhoc', 'constant', 'custom', 'query'];
+const supportedVariableTypes = ['adhoc', 'constant', 'custom', 'query', 'textbox'];
 
 export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   url: string;

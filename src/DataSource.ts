@@ -1,5 +1,4 @@
-import { DataQueryResponse, DataSourceApi, DataSourceInstanceSettings } from '@grafana/data';
-import { AnnotationEvent } from '@grafana/data/types/data';
+import { AnnotationEvent, DataQueryResponse, DataSourceApi, DataSourceInstanceSettings } from '@grafana/data';
 import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
 import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { isEqual, isObject } from 'lodash';

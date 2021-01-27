@@ -2,11 +2,9 @@
     "name": "JSON",
     "id": "simpod-json-datasource",
     "type": "datasource",
-    "partials": {
-        "config": "partials/config.html"
-    },
-    "metrics": true,
     "annotations": true,
+    "metrics": true,
+    "logs": true,
     "info": {
         "author": {
             "name": "Šimon Podlipský"

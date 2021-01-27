@@ -35,7 +35,7 @@ When adding datasource add your API endpoint to the `URL` field. That's where da
 
 ## API
 
-An OpenAPI definition is defined at [openapi.yaml](openapi.yaml).
+An OpenAPI definition is defined at [openapi.yaml](https://github.com/simPod/GrafanaJsonDatasource/blob/master/openapi.yaml).
 
 To work with this datasource the backend needs to implement 4 endpoints:
 

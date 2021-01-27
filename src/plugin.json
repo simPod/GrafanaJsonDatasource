@@ -10,6 +10,7 @@
             "name": "Šimon Podlipský"
         },
         "description": "JSON over HTTP datasource",
+        "keywords": ["json", "api"],
         "logos": {
             "small": "img/json-logo.svg",
             "large": "img/json-logo.svg"
@@ -28,7 +29,7 @@
         "updated": "%TODAY%"
     },
     "dependencies": {
-        "grafanaVersion": "7.3.x",
+        "grafanaDependency": ">=7.3.0",
         "plugins": [ ]
     }
 }

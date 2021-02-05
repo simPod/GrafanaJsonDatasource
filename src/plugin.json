@@ -9,7 +9,7 @@
         "author": {
             "name": "Šimon Podlipský"
         },
-        "description": "JSON over HTTP datasource",
+        "description": "Load JSON data over your arbitrary HTTP backend",
         "keywords": ["json", "api"],
         "logos": {
             "small": "img/json-logo.svg",

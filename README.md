@@ -1,6 +1,10 @@
-# JSON Datasource – a generic backend datasource
+# JSON API Grafana Datasource
 
-The JSON Datasource executes JSON requests against arbitrary backends.   
+[![Build](https://github.com/simPod/GrafanaJsonDatasource/workflows/CI/badge.svg)](https://github.com/simPod/GrafanaJsonDatasource/actions?query=workflow%3A%22CI%22)
+[![Marketplace](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=marketplace&prefix=v&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22simpod-json-datasource%22%29%5D.version&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/simpod-json-datasource)
+[![Downloads](https://img.shields.io/badge/dynamic/json?logo=grafana&color=F47A20&label=downloads&query=%24.items%5B%3F%28%40.slug%20%3D%3D%20%22simpod-json-datasource%22%29%5D.downloads&url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins)](https://grafana.com/grafana/plugins/simpod-json-datasource)
+
+The JSON Datasource executes requests against arbitrary backends and parses JSON response into Grafana dataframes.   
 _JSON Datasource is built on top of the [Simple JSON Datasource](https://github.com/grafana/simple-json-datasource)._ It has refactored code, additional features and active development.
 
 ## Contents

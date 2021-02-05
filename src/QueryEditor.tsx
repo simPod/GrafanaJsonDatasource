@@ -25,7 +25,7 @@ interface LastQuery {
 
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
   const [formatAs, setFormatAs] = React.useState<SelectableValue<Format>>(
-    find(formatAsOptions, option => option.value === query.type) ?? formatAsOptions[0]
+    find(formatAsOptions, (option) => option.value === query.type) ?? formatAsOptions[0]
   );
   const [metric, setMetric] = React.useState<SelectableValue<string>>();
   const [data, setData] = React.useState(query.data ?? '');
@@ -40,16 +40,16 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
       const typeValue = type.value!;
 
       return datasource.metricFindQuery('', undefined, typeValue).then(
-        result => {
-          const metrics = result.map(value => ({ label: value.text, value: value.value }));
+        (result) => {
+          const metrics = result.map((value) => ({ label: value.text, value: value.value }));
 
-          const foundMetric = find(metrics, metric => metric.value === query.target);
+          const foundMetric = find(metrics, (metric) => metric.value === query.target);
 
           setMetric(foundMetric === undefined ? { label: '', value: '' } : foundMetric);
 
           return metrics;
         },
-        response => {
+        (response) => {
           setMetric({ label: '', value: '' });
           setMetricOptions([]);
 
@@ -64,7 +64,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
     (type: SelectableValue<Format>) => {
       setIsMetricOptionsLoading(true);
       loadMetrics(type)
-        .then(metrics => {
+        .then((metrics) => {
           setMetricOptions(metrics);
         })
         .finally(() => {
@@ -112,7 +112,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
             prefix="Format As: "
             options={formatAsOptions}
             defaultValue={formatAs}
-            onChange={v => {
+            onChange={(v) => {
               setFormatAs(v);
             }}
           />
@@ -126,7 +126,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
             placeholder="Select metric"
             allowCustomValue
             value={metric}
-            onChange={v => {
+            onChange={(v) => {
               setMetric(v);
             }}
           />
@@ -144,7 +144,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
             showLineNumbers={true}
             showMiniMap={data.length > 100}
             value={data}
-            onBlur={value => setData(value)}
+            onBlur={(value) => setData(value)}
           />
         </div>
       </div>

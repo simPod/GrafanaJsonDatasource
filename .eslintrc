@@ -5,6 +5,7 @@
       "files": ["./**/*.{ts,tsx}"],
       "extends": ["@grafana/eslint-config"],
       "rules": {
+        "react/prop-types": "off",
         "react-hooks/rules-of-hooks": "off",
         "react-hooks/exhaustive-deps": "off"
       }

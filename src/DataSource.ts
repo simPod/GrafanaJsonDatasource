@@ -55,7 +55,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     return this.doRequest({
       url: this.url,
       method: 'GET',
-    }).then(response => {
+    }).then((response) => {
       if (response.status === 200) {
         return { status: 'success', message: 'Data source is working', title: 'Success' };
       }
@@ -82,7 +82,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   getTagKeys(options?: any): Promise<MetricFindTagKeys[]> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.doRequest({
         url: `${this.url}/tag-keys`,
         method: 'POST',
@@ -94,7 +94,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   getTagValues(options: any): Promise<MetricFindTagValues[]> {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.doRequest({
         url: `${this.url}/tag-values`,
         method: 'POST',
@@ -154,15 +154,15 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   processTargets(options: QueryRequest) {
     options.targets = options.targets
-      .filter(target => {
+      .filter((target) => {
         // remove placeholder targets
         return target.target !== undefined;
       })
-      .map(target => {
+      .map((target) => {
         if (target.data.trim() !== '') {
           target.data = JSON.parse(target.data, (key, value) => {
             if (typeof value === 'string') {
-              return value.replace((getTemplateSrv() as any).regex, match => this.cleanMatch(match, options));
+              return value.replace((getTemplateSrv() as any).regex, (match) => this.cleanMatch(match, options));
             }
 
             return value;
@@ -193,7 +193,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   getVariables() {
     const variables: { [id: string]: TextValuePair } = {};
-    Object.values(getTemplateSrv().getVariables()).forEach(variable => {
+    Object.values(getTemplateSrv().getVariables()).forEach((variable) => {
       if (!supportedVariableTypes.includes(variable.type)) {
         console.warn(`Variable of type "${variable.type}" is not supported`);
 
@@ -210,7 +210,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       let variableValue = supportedVariable.current.value;
       if (variableValue === '$__all' || isEqual(variableValue, ['$__all'])) {
         if (supportedVariable.allValue === null || supportedVariable.allValue === '') {
-          variableValue = supportedVariable.options.slice(1).map(textValuePair => textValuePair.value);
+          variableValue = supportedVariable.options.slice(1).map((textValuePair) => textValuePair.value);
         } else {
           variableValue = supportedVariable.allValue;
         }

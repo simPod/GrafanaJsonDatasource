@@ -386,3 +386,101 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
     ]);
   });
 });
+
+describe('GenericDatasource.prototype.buildQueryTargets', () => {
+  const REPLACING_NUMBER_TO = JSON.stringify(15);
+  const REPLACED_NUMBER_VALUE = JSON.parse(REPLACING_NUMBER_TO);
+
+  const templateSrvStub = new TemplateSrvStub();
+  templateSrvStub.replace = (str) => (str.match((getTemplateSrv() as any).regex) ? REPLACING_NUMBER_TO : str);
+  beforeEach(() => {
+    setTemplateSrv(templateSrvStub);
+  });
+
+  const ds = new DataSource({} as any);
+
+  it('random json with number placeholder', () => {
+    const testcase = {
+      ...options,
+      targets: [
+        {
+          data: `{
+					"filters": [
+						{"key": "SOME", "value": $interval},
+						{"key": "SOME2", "value": $\{function\}}
+					]
+				}`,
+          hide: false,
+          refId: 'A',
+          target: 'TIME_TO_LAST_BYTE',
+          type: Format.Timeseries,
+          datasource: 'Frontend Perf',
+        },
+      ],
+    };
+
+    expect(ds.processTargets(testcase).targets).toMatchObject([
+      {
+        data: {
+          filters: [
+            { key: 'SOME', value: REPLACED_NUMBER_VALUE },
+            { key: 'SOME2', value: REPLACED_NUMBER_VALUE },
+          ],
+        },
+        target: testcase.targets[0].target,
+        refId: testcase.targets[0].refId,
+        hide: testcase.targets[0].hide,
+        type: testcase.targets[0].type,
+      },
+    ]);
+  });
+});
+
+describe('GenericDatasource.prototype.buildQueryTargets', () => {
+  const REPLACING_BOOLEAN_TO = JSON.stringify(true);
+  const REPLACED_BOOLEAN_VALUE = JSON.parse(REPLACING_BOOLEAN_TO);
+
+  const templateSrvStub = new TemplateSrvStub();
+  templateSrvStub.replace = (str) => (str.match((getTemplateSrv() as any).regex) ? REPLACING_BOOLEAN_TO : str);
+  beforeEach(() => {
+    setTemplateSrv(templateSrvStub);
+  });
+
+  const ds = new DataSource({} as any);
+
+  it('random json with boolean placeholder', () => {
+    const testcase = {
+      ...options,
+      targets: [
+        {
+          data: `{
+					"filters": [
+						{"key": "SOME", "value": $interval},
+						{"key": "SOME2", "value": $\{function\}}
+					]
+				}`,
+          hide: false,
+          refId: 'A',
+          target: 'TIME_TO_LAST_BYTE',
+          type: Format.Timeseries,
+          datasource: 'Frontend Perf',
+        },
+      ],
+    };
+
+    expect(ds.processTargets(testcase).targets).toMatchObject([
+      {
+        data: {
+          filters: [
+            { key: 'SOME', value: REPLACED_BOOLEAN_VALUE },
+            { key: 'SOME2', value: REPLACED_BOOLEAN_VALUE },
+          ],
+        },
+        target: testcase.targets[0].target,
+        refId: testcase.targets[0].refId,
+        hide: testcase.targets[0].hide,
+        type: testcase.targets[0].type,
+      },
+    ]);
+  });
+});

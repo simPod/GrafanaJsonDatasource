@@ -160,13 +160,11 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       })
       .map((target) => {
         if (target.data.trim() !== '') {
-          target.data = JSON.parse(target.data, (key, value) => {
-            if (typeof value === 'string') {
-              return value.replace((getTemplateSrv() as any).regex, (match) => this.cleanMatch(match, options));
-            }
+          if (typeof target.data === 'string') {
+            target.data = target.data.replace((getTemplateSrv() as any).regex, (match) => this.cleanMatch(match, options));
+          }
 
-            return value;
-          });
+          target.data = JSON.parse(target.data);
         }
 
         if (typeof target.target === 'string') {

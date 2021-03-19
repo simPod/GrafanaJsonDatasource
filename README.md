@@ -57,11 +57,21 @@ Those two urls are optional:
 
 Grafana issues this request on 
 
-1. _Variables > New/Edit_ page. `Query` field value is passed in a body as 
+1. _Variables > New/Edit_ page. `Query` field value is passed in a body as below (template variables are expanded as regex by default)
 
 ```json
 { "target": "query field value" }
 ```
+
+Alternatively, if you provide a full valid JSON string in the query field, it will be passed in the body as a native JSON object, and template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
+```string
+{"selectedservers":$myservers}
+```
+will be expanded to
+```json
+{"selectedservers":["server1","server2"]}
+```
+
 
 2. `Panel > Queries` page. `Format As` and `Metric` values are passed in a body as
 

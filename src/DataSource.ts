@@ -69,10 +69,15 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   metricFindQuery(query: string, options?: any, type?: string): Promise<MetricFindValue[]> {
-    const interpolated = {
-      type,
-      target: getTemplateSrv().replace(query, undefined, 'regex'),
-    };
+    let interpolated;
+    try {
+      interpolated = JSON.parse(getTemplateSrv().replace(query, undefined, 'json'));
+    } catch (e) {
+      interpolated = {
+        type,
+        target: getTemplateSrv().replace(query, undefined, 'regex')
+      };
+    }
 
     return this.doRequest({
       url: `${this.url}/search`,

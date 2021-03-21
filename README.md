@@ -57,7 +57,7 @@ Those two urls are optional:
 
 Grafana issues this request on 
 
-1. _Variables > New/Edit_ page. `Query` field value is passed in a body as below (template variables are expanded as regex by default)
+1. _Variables > New/Edit_ page. `Query` field value is passed in a body as shown below (template variables are expanded as regex by default)
 
 ```json
 { "target": "query field value" }

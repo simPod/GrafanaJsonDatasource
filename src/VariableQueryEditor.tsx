@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { VariableQuery } from './types';
 import { InlineFieldRow, InlineField, InlineSwitch, Input } from '@grafana/ui';
 import { getTemplateSrv } from '@grafana/runtime';
-import { } from '@emotion/core'; // This can be removed in the next release of @grafana/ui https://github.com/grafana/grafana/pull/31479
+import {} from '@emotion/core'; // This can be removed in the next release of @grafana/ui https://github.com/grafana/grafana/pull/31479
 
 interface VariableQueryProps {
   query: VariableQuery;
@@ -37,14 +37,14 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
       setState({ ['query']: legacyOrNew, ['asJson']: false });
       return legacyOrNew;
     }
-  }
+  };
 
   function checkValidJSON(query: VariableQuery) {
     if (state.asJson) {
       try {
-        JSON.parse(getTemplateSrv().replace(state.query, undefined, 'json'))
+        JSON.parse(getTemplateSrv().replace(state.query, undefined, 'json'));
       } catch (e) {
-        return true
+        return true;
       }
     }
     return false;
@@ -67,4 +67,3 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
     </>
   );
 };
-

@@ -20,6 +20,11 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
       ...state,
       [event.currentTarget.name]: event.currentTarget.value,
     });
+  const handleChangeSwitch = (event: React.FormEvent<HTMLInputElement>) =>
+    setState({
+      ...state,
+      [event.currentTarget.name]: event.currentTarget.checked,
+    });
 
   return (
     <>
@@ -32,7 +37,7 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
           label="Raw JSON"
           tooltip="When enabled, the query string is parsed as a JSON object. Otherwise when disabled, the query string is placed into a 'target' key to create a JSON object."
         >
-          <InlineSwitch name="asJson" onBlur={saveQuery} onChange={handleChange} value={state.asJson} />
+          <InlineSwitch name="asJson" onBlur={saveQuery} onChange={handleChangeSwitch} value={state.asJson} />
         </InlineField>
       </InlineFieldRow>
     </>

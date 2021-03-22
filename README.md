@@ -63,7 +63,7 @@ Grafana issues this request on
 { "target": "query field value" }
 ```
 
-Alternatively, if you provide a full valid JSON string in the query field, it will be passed in the body as a native JSON object, and template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
+Alternatively, flick on the "Raw JSON" switch to provide a full valid JSON string in the query field which will be passed in the request body as a native JSON object. Template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
 ```string
 {"selectedservers":$myservers}
 ```

@@ -6,7 +6,7 @@ import React, { ComponentType } from 'react';
 import { DataSource } from './DataSource';
 import { Format } from './format';
 
-import { GenericOptions, GrafanaQuery } from './types';
+import { GenericOptions, GrafanaQuery, VariableQuery } from './types';
 
 import './css/json-editor.css';
 
@@ -21,6 +21,11 @@ interface LastQuery {
   data: string;
   metric: string;
   format: string;
+}
+
+const blankVar: VariableQuery = {
+  query:"", 
+  asJson:false
 }
 
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
@@ -39,7 +44,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
     (type: SelectableValue<Format>) => {
       const typeValue = type.value!;
 
-      return datasource.metricFindQuery('', undefined, typeValue).then(
+      return datasource.metricFindQuery(blankVar, undefined, typeValue).then(
         (result) => {
           const metrics = result.map((value) => ({ label: value.text, value: value.value }));
 

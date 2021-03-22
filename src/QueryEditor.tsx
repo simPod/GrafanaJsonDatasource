@@ -24,9 +24,9 @@ interface LastQuery {
 }
 
 const blankVar: VariableQuery = {
-  query:"", 
-  asJson:false
-}
+  query: '',
+  asJson: false,
+};
 
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
   const [formatAs, setFormatAs] = React.useState<SelectableValue<Format>>(

@@ -79,7 +79,14 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     });
   }
 
-  metricFindQuery(query: VariableQuery, options?: any, type?: string): Promise<MetricFindValue[]> {
+  metricFindQuery(legacyOrNew: VariableQuery | string, options?: any, type?: string): Promise<MetricFindValue[]> {
+    let query: VariableQuery;
+    if (typeof legacyOrNew === 'object') {
+      query = legacyOrNew;
+    } else {
+      query = {'query': legacyOrNew, 'asJson': false};
+    }
+
     let interpolated;
     if (query.asJson) {
       interpolated = JSON.parse(getTemplateSrv().replace(query.query, undefined, 'json'));

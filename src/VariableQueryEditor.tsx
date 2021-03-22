@@ -10,9 +10,12 @@ interface VariableQueryProps {
 
 export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, query }) => {
   const [state, setState] = useState(query);
-
+  let asJsonString = '';
+  if (state.asJson){
+    asJsonString = ' (JSON)';
+  }
   const saveQuery = () => {
-    onChange(state, `${state.query} (${state.asJson})`);
+    onChange(state, `${state.query}` + asJsonString);
   };
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) =>
@@ -26,11 +29,23 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
       [event.currentTarget.name]: event.currentTarget.checked,
     });
 
+  const legacySupport = (legacyOrNew: VariableQuery | string) => {
+    console.log(legacyOrNew);
+    if (typeof legacyOrNew === 'object') {
+      console.log("State was object");
+      return legacyOrNew.query;
+    } else {
+      console.log("State was string");
+      setState({['query']: legacyOrNew, ['asJson']: false});
+      return legacyOrNew;
+    }
+  }
+
   return (
     <>
       <InlineFieldRow>
         <InlineField label="Query" labelWidth={8}>
-          <Input name="query" width={99} onBlur={saveQuery} onChange={handleChange} value={state.query} />
+          <Input name="query" width={99} onBlur={saveQuery} onChange={handleChange} value={legacySupport(state)} />
         </InlineField>
         <InlineField
           labelWidth={14}

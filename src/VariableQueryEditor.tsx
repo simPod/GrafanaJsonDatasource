@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { VariableQuery } from './types';
 import { InlineFieldRow, InlineField, InlineSwitch, Input } from '@grafana/ui';
-import { } from '@emotion/core'; // This can be removed in the next release of @grafana/ui https://github.com/grafana/grafana/pull/31479
+import {} from '@emotion/core'; // This can be removed in the next release of @grafana/ui https://github.com/grafana/grafana/pull/31479
 
 interface VariableQueryProps {
   query: VariableQuery;
@@ -25,23 +25,14 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
     <>
       <InlineFieldRow>
         <InlineField label="Query" labelWidth={8}>
-          <Input name="query"
-            width={99}
-            onBlur={saveQuery}
-            onChange={handleChange}
-            value={state.query}
-          />
+          <Input name="query" width={99} onBlur={saveQuery} onChange={handleChange} value={state.query} />
         </InlineField>
         <InlineField
           labelWidth={14}
           label="Raw JSON"
-          tooltip="When enabled, the query string is parsed as a JSON object. Otherwise when disabled, the query string is placed into a 'target' key to create a JSON object.">
-          <InlineSwitch
-            name="asJson"
-            onBlur={saveQuery}
-            onChange={handleChange}
-            value={state.asJson}
-          />
+          tooltip="When enabled, the query string is parsed as a JSON object. Otherwise when disabled, the query string is placed into a 'target' key to create a JSON object."
+        >
+          <InlineSwitch name="asJson" onBlur={saveQuery} onChange={handleChange} value={state.asJson} />
         </InlineField>
       </InlineFieldRow>
     </>

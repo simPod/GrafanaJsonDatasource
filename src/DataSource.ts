@@ -87,7 +87,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       interpolated = {
         type,
         target: getTemplateSrv().replace(query.query, undefined, 'regex'),
-      }
+      };
     }
 
     return this.doRequest({

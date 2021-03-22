@@ -32,7 +32,7 @@ See [here](https://grafana.com/grafana/plugins/simpod-json-datasource/) for more
 
 When adding datasource add your API endpoint to the `URL` field. That's where datasource will make requests to.
 
-![Datasource setup](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/datasource-setup.png)
+![Datasource setup](./docs/images/datasource-setup.png)
 
 
 ## API
@@ -63,7 +63,10 @@ Grafana issues this request on
 { "target": "query field value" }
 ```
 
-Alternatively, flick on the "Raw JSON" switch to provide a full valid JSON string in the query field which will be passed in the request body as a native JSON object. Template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
+Alternatively, flick on the "Raw JSON" switch to provide a full valid JSON string in the query field which will be passed in the request body as a native JSON object.
+![Raw JSON Switch](./docs/images/template-var-query-raw-json.png)
+
+Template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
 ```string
 {"selectedservers":$myservers}
 ```
@@ -71,6 +74,7 @@ will be expanded to
 ```json
 {"selectedservers":["server1","server2"]}
 ```
+
 
 
 2. `Panel > Queries` page. `Format As` and `Metric` values are passed in a body as
@@ -190,7 +194,7 @@ Example `table` response to be returned if the metric selected is `"type": "tabl
 
 #### Additional data
 
-![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/additional-data-input.gif)
+![Additional data input](./docs/images/additional-data-input.gif)
 
 Sending additional data for each metric is supported via the Additional JSON Data input field that allows you to enter JSON.
 
@@ -202,7 +206,7 @@ For example when `{ "additional": "optional json" }` is entered into Additional 
 
 You can also enter variables:
 
-![Additional data varible input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/additional-data-variable-input.png)
+![Additional data varible input](./docs/images/additional-data-variable-input.png)
 
 ### /annotations
 

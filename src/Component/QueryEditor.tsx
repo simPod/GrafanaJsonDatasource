@@ -1,13 +1,14 @@
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
-import { CodeEditor, InlineField, InlineFieldRow, InlineLabel, Select } from '@grafana/ui';
+import { CodeEditor, Label, Select } from '@grafana/ui';
 import { find } from 'lodash';
 
 import React, { ComponentType } from 'react';
-import AutoSizer from 'react-virtualized-auto-sizer';
-import { DataSource } from '../DataSource';
-import { Format } from '../format';
+import { DataSource } from './DataSource';
+import { Format } from './format';
 
-import { GenericOptions, GrafanaQuery } from '../types';
+import { GenericOptions, GrafanaQuery, VariableQuery } from './types';
+
+import './css/json-editor.css';
 
 type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 
@@ -20,6 +21,11 @@ interface LastQuery {
   data: string;
   metric: string;
   format: string;
+}
+
+const blankVar: VariableQuery = {
+  query:"", 
+  asJson:false
 }
 
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
@@ -38,7 +44,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
     (type: SelectableValue<Format>) => {
       const typeValue = type.value!;
 
-      return datasource.metricFindQuery('', undefined, typeValue).then(
+      return datasource.metricFindQuery(blankVar, undefined, typeValue).then(
         (result) => {
           const metrics = result.map((value) => ({ label: value.text, value: value.value }));
 
@@ -79,7 +85,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
   }, [formatAs, refreshMetricOptions]);
 
   React.useEffect(() => {
-    if (metric?.value === undefined || metric?.value === '') {
+    if (metric?.value === undefined) {
       return;
     }
 
@@ -105,8 +111,8 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
 
   return (
     <>
-      <InlineFieldRow>
-        <InlineField>
+      <div className="gf-form-inline">
+        <div className="gf-form">
           <Select
             prefix="Format As: "
             options={formatAsOptions}
@@ -115,9 +121,9 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
               setFormatAs(v);
             }}
           />
-        </InlineField>
+        </div>
 
-        <InlineField>
+        <div className="gf-form">
           <Select
             isLoading={isMetricOptionsLoading}
             prefix="Metric: "
@@ -129,26 +135,24 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
               setMetric(v);
             }}
           />
-        </InlineField>
-      </InlineFieldRow>
-      <InlineFieldRow>
-        <AutoSizer disableHeight>
-          {({ width }) => (
-            <div style={{ width: width + 'px' }}>
-              <InlineLabel>Body</InlineLabel>
-              <CodeEditor
-                width="100%"
-                height="200px"
-                language="json"
-                showLineNumbers={true}
-                showMiniMap={data.length > 100}
-                value={data}
-                onBlur={(value) => setData(value)}
-              />
-            </div>
-          )}
-        </AutoSizer>
-      </InlineFieldRow>
+        </div>
+      </div>
+      <div className="gf-form gf-form--alt">
+        <div className="gf-form-label">
+          <Label>Additional JSON Data</Label>
+        </div>
+        <div className="gf-form grafana-json-datasource-editor">
+          <CodeEditor
+            width="100%"
+            height="175px"
+            language="json"
+            showLineNumbers={true}
+            showMiniMap={data.length > 100}
+            value={data}
+            onBlur={(value) => setData(value)}
+          />
+        </div>
+      </div>
     </>
   );
 };

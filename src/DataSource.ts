@@ -15,6 +15,7 @@ import {
   MetricFindTagValues,
   MetricFindValue,
   MultiValueVariable,
+  VariableQuery,
   QueryRequest,
   TextValuePair,
 } from './types';
@@ -78,15 +79,15 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     });
   }
 
-  metricFindQuery(query: string, options?: any, type?: string): Promise<MetricFindValue[]> {
+  metricFindQuery(query: VariableQuery, options?: any, type?: string): Promise<MetricFindValue[]> {
     let interpolated;
-    try {
-      interpolated = JSON.parse(getTemplateSrv().replace(query, undefined, 'json'));
-    } catch (e) {
+    if (query.asJson) {
+      interpolated = JSON.parse(getTemplateSrv().replace(query.query, undefined, 'json'));
+    } else {
       interpolated = {
         type,
-        target: getTemplateSrv().replace(query, undefined, 'regex'),
-      };
+        target: getTemplateSrv().replace(query.query, undefined, 'regex'),
+      }
     }
 
     return this.doRequest({

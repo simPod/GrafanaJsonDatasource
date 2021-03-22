@@ -1,6 +1,5 @@
 # Changelog
 
-## v0.2.3
+## v0.2.5
 
-- Upgrade deps to @grafana v7.3
-- Require Grafana 7.3
+- Dashboard Editors can now send template variable query strings to the backend as raw JSON with a switch in the variables editor.

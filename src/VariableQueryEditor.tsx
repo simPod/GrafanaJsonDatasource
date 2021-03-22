@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { VariableQuery } from './types';
 import { InlineFieldRow, InlineField, InlineSwitch, Input } from '@grafana/ui';
-import {} from '@emotion/core'; // This can be removed in the next release of @grafana/ui https://github.com/grafana/grafana/pull/31479
+import { getTemplateSrv } from '@grafana/runtime';
+import { } from '@emotion/core'; // This can be removed in the next release of @grafana/ui https://github.com/grafana/grafana/pull/31479
 
 interface VariableQueryProps {
   query: VariableQuery;
@@ -11,7 +12,7 @@ interface VariableQueryProps {
 export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, query }) => {
   const [state, setState] = useState(query);
   let asJsonString = '';
-  if (state.asJson){
+  if (state.asJson) {
     asJsonString = ' (JSON)';
   }
   const saveQuery = () => {
@@ -30,22 +31,30 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
     });
 
   const legacySupport = (legacyOrNew: VariableQuery | string) => {
-    console.log(legacyOrNew);
     if (typeof legacyOrNew === 'object') {
-      console.log("State was object");
       return legacyOrNew.query;
     } else {
-      console.log("State was string");
-      setState({['query']: legacyOrNew, ['asJson']: false});
+      setState({ ['query']: legacyOrNew, ['asJson']: false });
       return legacyOrNew;
     }
+  }
+
+  function checkValidJSON(query: VariableQuery) {
+    if (state.asJson) {
+      try {
+        JSON.parse(getTemplateSrv().replace(state.query, undefined, 'json'))
+      } catch (e) {
+        return true
+      }
+    }
+    return false;
   }
 
   return (
     <>
       <InlineFieldRow>
-        <InlineField label="Query" labelWidth={8}>
-          <Input name="query" width={99} onBlur={saveQuery} onChange={handleChange} value={legacySupport(state)} />
+        <InlineField label="Query" invalid={checkValidJSON(state)} grow>
+          <Input name="query" onBlur={saveQuery} onChange={handleChange} value={legacySupport(state)} />
         </InlineField>
         <InlineField
           labelWidth={14}
@@ -58,3 +67,4 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
     </>
   );
 };
+

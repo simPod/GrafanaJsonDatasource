@@ -41,10 +41,15 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
 
   function checkValidJSON(query: VariableQuery) {
     if (state.asJson) {
+      const jsonString = getTemplateSrv().replace(state.query, undefined, 'json');
       try {
-        JSON.parse(getTemplateSrv().replace(state.query, undefined, 'json'));
+        JSON.parse(jsonString);
       } catch (e) {
-        return true;
+        if (e.name === 'SyntaxError') {
+          return true;
+        }
+        
+        throw e;
       }
     }
     return false;

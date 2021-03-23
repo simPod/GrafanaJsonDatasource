@@ -84,11 +84,11 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     if (typeof legacyOrNew === 'object') {
       query = legacyOrNew;
     } else {
-      query = { query: legacyOrNew, asJson: false };
+      query = { query: legacyOrNew, format: 'string' };
     }
 
     let interpolated;
-    if (query.asJson) {
+    if (query.format === 'json') {
       interpolated = JSON.parse(getTemplateSrv().replace(query.query, undefined, 'json'));
     } else {
       interpolated = {

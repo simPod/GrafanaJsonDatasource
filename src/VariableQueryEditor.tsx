@@ -12,7 +12,7 @@ interface VariableQueryProps {
 export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, query }) => {
   const [state, setState] = useState(query);
   let asJsonString = '';
-  if (state.asJson) {
+  if (state.format == 'json') {
     asJsonString = ' (JSON)';
   }
   const saveQuery = () => {
@@ -27,20 +27,20 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
   const handleChangeSwitch = (event: React.FormEvent<HTMLInputElement>) =>
     setState({
       ...state,
-      [event.currentTarget.name]: event.currentTarget.checked,
+      [event.currentTarget.name]: event.currentTarget.checked == true ? 'json' : 'string',
     });
 
   const legacySupport = (legacyOrNew: VariableQuery | string) => {
     if (typeof legacyOrNew === 'object') {
       return legacyOrNew.query;
     } else {
-      setState({ ['query']: legacyOrNew, ['asJson']: false });
+      setState({ ['query']: legacyOrNew, ['format']: 'string' });
       return legacyOrNew;
     }
   };
 
-  function checkValidJSON(query: VariableQuery) {
-    if (state.asJson) {
+  const checkValidJSON = (query: VariableQuery) => {
+    if (state.format === 'json') {
       const jsonString = getTemplateSrv().replace(state.query, undefined, 'json');
       try {
         JSON.parse(jsonString);
@@ -48,12 +48,19 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
         if (e.name === 'SyntaxError') {
           return true;
         }
-        
+
         throw e;
       }
     }
     return false;
-  }
+  };
+
+  const jsonSwitchCheck = (format: string) => {
+    if (format === 'json') {
+      return true;
+    }
+    return false;
+  };
 
   return (
     <>
@@ -66,7 +73,12 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
           label="Raw JSON"
           tooltip="When enabled, the query string is parsed as a JSON object. Otherwise when disabled, the query string is placed into a 'target' key to create a JSON object."
         >
-          <InlineSwitch name="asJson" onBlur={saveQuery} onChange={handleChangeSwitch} value={state.asJson} />
+          <InlineSwitch
+            name="format"
+            onBlur={saveQuery}
+            onChange={handleChangeSwitch}
+            value={jsonSwitchCheck(state.format)}
+          />
         </InlineField>
       </InlineFieldRow>
     </>

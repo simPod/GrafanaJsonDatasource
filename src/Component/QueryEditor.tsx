@@ -25,7 +25,7 @@ interface LastQuery {
 
 const blankVar: VariableQuery = {
   query: '',
-  asJson: false,
+  format: 'string',
 };
 
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {

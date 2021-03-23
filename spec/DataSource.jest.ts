@@ -195,7 +195,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:`{"target":"search"}`, asJson: true}, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({query:`{"target":"search"}`, format: 'json'}, Format.Timeseries).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');

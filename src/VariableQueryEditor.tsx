@@ -12,7 +12,7 @@ interface VariableQueryProps {
 export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, query }) => {
   const [state, setState] = useState(query);
   let asJsonString = '';
-  if (state.format == 'json') {
+  if (state.format === 'json') {
     asJsonString = ' (JSON)';
   }
   const saveQuery = () => {
@@ -27,7 +27,7 @@ export const VariableQueryEditor: React.FC<VariableQueryProps> = ({ onChange, qu
   const handleChangeSwitch = (event: React.FormEvent<HTMLInputElement>) =>
     setState({
       ...state,
-      [event.currentTarget.name]: event.currentTarget.checked == true ? 'json' : 'string',
+      [event.currentTarget.name]: event.currentTarget.checked === true ? 'json' : 'string',
     });
 
   const legacySupport = (legacyOrNew: VariableQuery | string) => {

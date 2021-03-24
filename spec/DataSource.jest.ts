@@ -95,7 +95,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:'search', asJson: false}, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({query:'search', format: 'string'}, Format.Timeseries).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -118,7 +118,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:'', asJson: false}).then((result) => {
+    ds.metricFindQuery({query:'', format: 'string'}).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -141,7 +141,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:'', asJson: false}).then((result) => {
+    ds.metricFindQuery({query:'', format: 'string'}).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -168,7 +168,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:'search', asJson: false}, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({query:'search', format: 'string'}, Format.Timeseries).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');

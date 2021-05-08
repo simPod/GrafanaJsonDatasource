@@ -32,7 +32,7 @@
     "@types/lodash": "^4.14.168"
   },
   "dependencies": {
-    "lodash": "^4.17.20"
+    "lodash": "^4.17.21"
   },
   "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
 }

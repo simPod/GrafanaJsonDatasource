@@ -80,7 +80,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
   }, [formatAs, refreshMetricOptions]);
 
   React.useEffect(() => {
-    if (metric?.value === undefined) {
+    if (metric?.value === undefined || metric?.value === '') {
       return;
     }
 

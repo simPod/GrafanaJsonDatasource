@@ -3,12 +3,12 @@ import { CodeEditor, Label, Select } from '@grafana/ui';
 import { find } from 'lodash';
 
 import React, { ComponentType } from 'react';
-import { DataSource } from './DataSource';
-import { Format } from './format';
+import { DataSource } from '../DataSource';
+import { Format } from '../format';
 
-import { GenericOptions, GrafanaQuery } from './types';
+import { GenericOptions, GrafanaQuery } from '../types';
 
-import './css/json-editor.css';
+import '../css/json-editor.css';
 
 type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 

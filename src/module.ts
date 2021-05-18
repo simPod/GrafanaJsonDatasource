@@ -1,7 +1,7 @@
 import { DataSourcePlugin } from '@grafana/data';
-import { ConfigEditor } from './ConfigEditor';
+import { ConfigEditor } from './Component/ConfigEditor';
+import { QueryEditor } from './Component/QueryEditor';
 import { DataSource } from './DataSource';
-import { QueryEditor } from './QueryEditor';
 import { GenericOptions, GrafanaQuery } from './types';
 
 class GenericAnnotationsQueryCtrl {

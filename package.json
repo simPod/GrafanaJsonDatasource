@@ -29,10 +29,12 @@
     "@grafana/runtime": "^7.4.0",
     "@grafana/toolkit": "^7.4.0",
     "@grafana/ui": "^7.4.0",
-    "@types/lodash": "^4.14.168"
+    "@types/lodash": "^4.14.169",
+    "@types/react-virtualized-auto-sizer": "^1.0.0"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "react-virtualized-auto-sizer": "^1.0.5"
   },
   "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
 }

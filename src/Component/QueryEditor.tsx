@@ -1,14 +1,13 @@
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
-import { CodeEditor, Label, Select } from '@grafana/ui';
+import { CodeEditor, InlineField, InlineFieldRow, InlineLabel, Select } from '@grafana/ui';
 import { find } from 'lodash';
 
 import React, { ComponentType } from 'react';
+import AutoSizer from 'react-virtualized-auto-sizer';
 import { DataSource } from '../DataSource';
 import { Format } from '../format';
 
 import { GenericOptions, GrafanaQuery } from '../types';
-
-import '../css/json-editor.css';
 
 type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 
@@ -106,8 +105,8 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
 
   return (
     <>
-      <div className="gf-form-inline">
-        <div className="gf-form">
+      <InlineFieldRow>
+        <InlineField>
           <Select
             prefix="Format As: "
             options={formatAsOptions}
@@ -116,9 +115,9 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
               setFormatAs(v);
             }}
           />
-        </div>
+        </InlineField>
 
-        <div className="gf-form">
+        <InlineField>
           <Select
             isLoading={isMetricOptionsLoading}
             prefix="Metric: "
@@ -130,24 +129,26 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
               setMetric(v);
             }}
           />
-        </div>
-      </div>
-      <div className="gf-form gf-form--alt">
-        <div className="gf-form-label">
-          <Label>Additional JSON Data</Label>
-        </div>
-        <div className="gf-form grafana-json-datasource-editor">
-          <CodeEditor
-            width="100%"
-            height="175px"
-            language="json"
-            showLineNumbers={true}
-            showMiniMap={data.length > 100}
-            value={data}
-            onBlur={(value) => setData(value)}
-          />
-        </div>
-      </div>
+        </InlineField>
+      </InlineFieldRow>
+      <InlineFieldRow>
+        <AutoSizer disableHeight>
+          {({ width }) => (
+            <div style={{ width: width + 'px' }}>
+              <InlineLabel>Body</InlineLabel>
+              <CodeEditor
+                width="100%"
+                height="200px"
+                language="json"
+                showLineNumbers={true}
+                showMiniMap={data.length > 100}
+                value={data}
+                onBlur={(value) => setData(value)}
+              />
+            </div>
+          )}
+        </AutoSizer>
+      </InlineFieldRow>
     </>
   );
 };

@@ -11,6 +11,7 @@ import {
   MultiValueVariable,
   QueryRequest,
   TextValuePair,
+  VariableQuery,
 } from './types';
 
 const supportedVariableTypes = ['adhoc', 'constant', 'custom', 'query', 'textbox'];
@@ -68,11 +69,17 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     });
   }
 
-  metricFindQuery(query: string, options?: any, type?: string): Promise<MetricFindValue[]> {
-    const interpolated = {
-      type,
-      target: getTemplateSrv().replace(query, undefined, 'regex'),
-    };
+  metricFindQuery(legacyOrNew: VariableQuery | string, options?: any, type?: string): Promise<MetricFindValue[]> {
+    const query: VariableQuery =
+      typeof legacyOrNew === 'string' ? { query: legacyOrNew, format: 'string' } : legacyOrNew;
+
+    const interpolated =
+      query.format === 'json'
+        ? JSON.parse(getTemplateSrv().replace(query.query, undefined, 'json'))
+        : {
+            type,
+            target: getTemplateSrv().replace(query.query, undefined, 'regex'),
+          };
 
     return this.doRequest({
       url: `${this.url}/search`,

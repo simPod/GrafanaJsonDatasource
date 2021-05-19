@@ -92,7 +92,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery('search', Format.Timeseries).then((result) => {
+    ds.metricFindQuery({query:'search', format: 'string'}, Format.Timeseries).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -115,7 +115,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery('').then((result) => {
+    ds.metricFindQuery({query:'', format: 'string'}).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -138,7 +138,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery('').then((result) => {
+    ds.metricFindQuery({query:'', format: 'string'}).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -165,7 +165,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data;
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery('search', Format.Timeseries).then((result) => {
+    ds.metricFindQuery({query:'search', format: 'string'}, Format.Timeseries).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -176,7 +176,34 @@ describe('GenericDatasource', () => {
       done();
     });
   });
+  
+  it('should accept raw json instead of a target/string query for template vars', (done) => {
+    getBackendSrv().datasourceRequest = (request) => {
+      const target = request.data.target;
+      const result = [target + '_0', target + '_1', target + '_2'];
 
+      return Promise.resolve({
+        _request: request,
+        data: result,
+      });
+    };
+
+    const templateSrvStub = new TemplateSrvStub();
+    templateSrvStub.replace = (data) => data;
+    setTemplateSrv(templateSrvStub);
+
+    ds.metricFindQuery({query:`{"target":"search"}`, format: 'json'}, Format.Timeseries).then((result) => {
+      expect(result).toHaveLength(3);
+      expect(result[0].text).toBe('search_0');
+      expect(result[0].value).toBe('search_0');
+      expect(result[1].text).toBe('search_1');
+      expect(result[1].value).toBe('search_1');
+      expect(result[2].text).toBe('search_2');
+      expect(result[2].value).toBe('search_2');
+      done();
+    });
+  });
+  
   it('should return data as text and as value', (done) => {
     const result = ds.mapToTextValue({ data: ['zero', 'one', 'two'] });
 

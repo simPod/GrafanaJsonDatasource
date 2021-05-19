@@ -61,6 +61,8 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     });
   }
 
+  annotations = {};
+
   testDatasource(): Promise<any> {
     return this.doRequest({
       url: this.url,

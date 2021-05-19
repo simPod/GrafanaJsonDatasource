@@ -4,11 +4,6 @@ import { QueryEditor } from './Component/QueryEditor';
 import { DataSource } from './DataSource';
 import { GenericOptions, GrafanaQuery } from './types';
 
-class GenericAnnotationsQueryCtrl {
-  static templateUrl = 'partials/annotations.editor.html';
-}
-
 export const plugin = new DataSourcePlugin<DataSource, GrafanaQuery, GenericOptions>(DataSource)
-  .setAnnotationQueryCtrl(GenericAnnotationsQueryCtrl)
   .setConfigEditor(ConfigEditor)
   .setQueryEditor(QueryEditor);

@@ -13,7 +13,6 @@ The JSON Datasource executes requests against arbitrary backends and parses JSON
 - [API](#api)
   - [/search](#search)
   - [/query](#query)
-  - [/annotations](#annotations)
   - [/tag-keys](#tag-keys)
   - [/tag-values](#tag-values)
 - [Development Setup](#development-setup)
@@ -42,9 +41,8 @@ An OpenAPI definition is defined at [openapi.yaml](https://github.com/simPod/Gra
 To work with this datasource the backend needs to implement 4 endpoints:
 
 - `GET /` with 200 status code response. Used for "Test connection" on the datasource config page.
-- `POST /search` returning available metrics when invoked.
-- `POST /query` returning metrics based on input.
-- `POST /annotations` returning annotations.
+- `POST /search` to return available metrics.
+- `POST /query` to return panel data or annotations.
 
 Those two urls are optional:
 
@@ -195,68 +193,7 @@ For example when `{ "additional": "optional json" }` is entered into Additional 
 
 You can also enter variables:
 
-![Additional data varible input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/additional-data-variable-input.png)
-
-### /annotations
-
-`POST /annotations`
-
-The JSON request body looks like this:
-
-```json
-{
-  "range": {
-    "from": "2016-04-15T13:44:39.070Z",
-    "to": "2016-04-15T14:44:39.070Z"
-  },
-  "rangeRaw": {
-    "from": "now-1h",
-    "to": "now"
-  },
-  "annotation": {
-    "name": "deploy",
-    "datasource": "JSON Datasource",
-    "iconColor": "rgba(255, 96, 96, 1)",
-    "enable": true,
-    "query": "#deploy"
-  },
-   "variables": []
-}
-```
-
-Grafana expects a response containing an array of annotation objects.
-
-Field explanation:
-* `text` - Text for the annotation. (required)
-* `title` - The title for the annotation tooltip. (optional)
-* `isRegion` - Whether is region. (optional) (http://docs.grafana.org/reference/annotations/#adding-regions-events)
-* `time` - Time since UNIX Epoch in milliseconds. (required)
-* `timeEnd` - Time since UNIX Epoch in milliseconds (required if `isRegion` is true )
-* `tags` - Tags for the annotation. (optional)
-
-```json
-[
-  {
-    "text": "text shown in body",
-    "title": "Annotation Title",
-    "isRegion": true,
-    "time": "timestamp",
-    "timeEnd": "timestamp",
-    "tags": ["tag1"]
-  }
-]
-```
-
-
-Note: If the datasource is configured to connect directly to the backend, you
-also need to implement `OPTIONS /annotations` that responds
-with the correct CORS headers:
-
-```
-Access-Control-Allow-Headers:accept, content-type
-Access-Control-Allow-Methods:POST
-Access-Control-Allow-Origin:*
-```
+![Additional data variable input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/additional-data-variable-input.png)
 
 ### /tag-keys
 

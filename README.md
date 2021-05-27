@@ -135,10 +135,7 @@ Example `timeseries` request:
 }
 ```
 
-You can return anything that is or can be converted to a Grafana DataFrame using [this function](https://github.com/grafana/grafana/blob/1e024f22b8f767da01c9322f489d7b71aeec19c3/packages/grafana-data/src/dataframe/processDataFrame.ts#L284).
-Returned data will be mapped to a DataFrame through that.
-
-Example `timeseries` response (metric value as a float , unix timestamp in milliseconds):
+Example `timeseries` response (metric value as a float , unixtimestamp in milliseconds):
 
 ```json
 [

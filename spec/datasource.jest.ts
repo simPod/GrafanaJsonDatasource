@@ -1,4 +1,3 @@
-import { isDataFrame } from '@grafana/data';
 import { DateTime } from '@grafana/data/datetime/moment_wrapper';
 import { BackendSrv, getBackendSrv, getTemplateSrv, setBackendSrv, setTemplateSrv } from '@grafana/runtime';
 import { DataSource } from '../src/DataSource';
@@ -58,7 +57,7 @@ describe('GenericDatasource', () => {
           data: [
             {
               target: 'X',
-              datapoints: [[1, 1621077300000], [2, 1621077600000], [3, 1621077900000]],
+              datapoints: [1, 2, 3],
             },
           ],
         }),
@@ -71,10 +70,8 @@ describe('GenericDatasource', () => {
     ds.query({ ...options, targets: [{ refId: 'A', data: '', target: 'hits', type: Format.Timeseries }] }).then(
       (result) => {
         const series = result.data[0];
-        expect(isDataFrame(series)).toBe(true);
-        expect(series.name).toBe('X');
-        expect(series.length).toBe(3);
-        expect(series.fields[0].values).toHaveLength(3);
+        expect(series.target).toBe('X');
+        expect(series.datapoints).toHaveLength(3);
         done();
       }
     );

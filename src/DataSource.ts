@@ -1,10 +1,4 @@
-import {
-  AnnotationEvent,
-  DataQueryResponse,
-  DataSourceApi,
-  DataSourceInstanceSettings,
-  toDataFrame,
-} from '@grafana/data';
+import { AnnotationEvent, DataQueryResponse, DataSourceApi, DataSourceInstanceSettings } from '@grafana/data';
 import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
 import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { isEqual, isObject } from 'lodash';
@@ -55,10 +49,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       url: `${this.url}/query`,
       data: request,
       method: 'POST',
-    }).then((entry) => {
-      entry.data = entry.data.map(toDataFrame);
-
-      return entry;
     });
   }
 

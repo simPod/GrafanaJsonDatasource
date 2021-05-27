@@ -32,7 +32,7 @@ See [here](https://grafana.com/grafana/plugins/simpod-json-datasource/) for more
 
 When adding datasource add your API endpoint to the `URL` field. That's where datasource will make requests to.
 
-![Datasource setup](./docs/images/datasource-setup.png)
+![Datasource setup](https://raw.githubusercontent.com/simPod/grafana-json-datasource/v0.2.x/docs/images/datasource-setup.png)
 
 
 ## API

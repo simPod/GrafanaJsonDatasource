@@ -23,6 +23,11 @@ export interface GrafanaQuery extends DataQuery {
 
 export interface GenericOptions extends DataSourceJsonData {}
 
+export interface VariableQuery {
+  query: string;
+  format: 'string' | 'json';
+}
+
 export interface MetricFindValue extends MetricFindValue {
   value: any;
   text: string;

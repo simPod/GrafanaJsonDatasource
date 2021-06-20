@@ -26,15 +26,6 @@ export const VariableQueryEditor: React.FC<Props> = ({ onChange, query }) => {
       [event.currentTarget.name]: event.currentTarget.checked === true ? 'json' : 'string',
     });
 
-  const legacySupport = (legacyOrNew: VariableQuery | string) => {
-    if (typeof legacyOrNew === 'string') {
-      setVariableQuery({ ['query']: legacyOrNew, ['format']: 'string' });
-      return legacyOrNew;
-    }
-
-    return legacyOrNew.query;
-  };
-
   const checkValidJSON = (query: VariableQuery) => {
     if (variableQuery.format === 'json') {
       const jsonString = getTemplateSrv().replace(variableQuery.query, undefined, 'json');
@@ -60,7 +51,7 @@ export const VariableQueryEditor: React.FC<Props> = ({ onChange, query }) => {
     <>
       <InlineFieldRow>
         <InlineField label="Query" invalid={checkValidJSON(variableQuery)} grow>
-          <Input name="query" onBlur={saveQuery} onChange={handleChange} value={legacySupport(variableQuery)} />
+          <Input name="query" onBlur={saveQuery} onChange={handleChange} value={variableQuery.query} />
         </InlineField>
         <InlineField
           labelWidth={14}

@@ -55,11 +55,25 @@ Those two urls are optional:
 
 Grafana issues this request on 
 
-1. _Variables > New/Edit_ page. `Query` field value is passed in a body as 
+1. _Variables > New/Edit_ page. `Query` field value is passed in a body as shown below (template variables are expanded as regex by default)
 
 ```json
 { "target": "query field value" }
 ```
+
+Alternatively, flick on the "Raw JSON" switch to provide a full valid JSON string in the query field which will be passed in the request body as a native JSON object.
+![Raw JSON Switch](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/template-var-query-raw-json.png)
+
+Template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
+```string
+{"selectedservers":$myservers}
+```
+will be expanded to
+```json
+{"selectedservers":["server1","server2"]}
+```
+
+
 
 2. `Panel > Queries` page. `Format As` and `Metric` values are passed in a body as
 

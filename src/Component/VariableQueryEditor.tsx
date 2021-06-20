@@ -2,7 +2,6 @@ import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineFieldRow, InlineSwitch, Input } from '@grafana/ui';
 import React, { useState } from 'react';
 import { VariableQuery } from '../types';
-import {} from '@emotion/core'; // This can be removed in the next release of @grafana/ui https://github.com/grafana/grafana/pull/31479
 
 interface Props {
   query: VariableQuery;

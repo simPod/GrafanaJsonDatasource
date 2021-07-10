@@ -12,8 +12,8 @@ const options = {
   panelId: 2,
   dashboardId: 1893,
   range: {
-    from: '2019-11-22T07:23:23.836Z' as unknown as DateTime,
-    to: '2019-11-22T10:23:23.836Z' as unknown as DateTime,
+    from: ('2019-11-22T07:23:23.836Z' as unknown) as DateTime,
+    to: ('2019-11-22T10:23:23.836Z' as unknown) as DateTime,
     raw: {
       from: 'now-3h',
       to: 'now',

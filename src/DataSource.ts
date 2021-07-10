@@ -64,21 +64,39 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   annotations = {};
 
-  testDatasource(): Promise<any> {
-    return this.doRequest({
-      url: this.url,
-      method: 'GET',
-    }).then((response) => {
+  async testDatasource() {
+    const errorMessageBase = 'Data source is not working';
+
+    try {
+      const response = await this.doRequest({
+        url: this.url,
+        method: 'GET',
+      });
+
       if (response.status === 200) {
         return { status: 'success', message: 'Data source is working', title: 'Success' };
       }
 
       return {
+        message: response.statusText ? response.statusText : errorMessageBase,
         status: 'error',
-        message: `Data source is not working: ${response.message}`,
         title: 'Error',
       };
-    });
+    } catch (err) {
+      if (typeof err === 'string') {
+        return {
+          status: 'error',
+          message: err,
+        };
+      }
+
+      let message = err.statusText ?? errorMessageBase;
+      if (err.data?.error?.code !== undefined) {
+        message += `: ${err.data.error.code}. ${err.data.error.message}`;
+      }
+
+      return { status: 'error', message, title: 'Error' };
+    }
   }
 
   metricFindQuery(variableQuery: VariableQuery, options?: any, type?: string): Promise<MetricFindValue[]> {

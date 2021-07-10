@@ -13,8 +13,8 @@ const options = {
   panelId: 2,
   dashboardId: 1893,
   range: {
-    from: ('2019-11-22T07:23:23.836Z' as unknown) as DateTime,
-    to: ('2019-11-22T10:23:23.836Z' as unknown) as DateTime,
+    from: '2019-11-22T07:23:23.836Z' as unknown as DateTime,
+    to: '2019-11-22T10:23:23.836Z' as unknown as DateTime,
     raw: {
       from: 'now-3h',
       to: 'now',
@@ -58,14 +58,18 @@ describe('GenericDatasource', () => {
           data: [
             {
               target: 'X',
-              datapoints: [[1, 1621077300000], [2, 1621077600000], [3, 1621077900000]],
+              datapoints: [
+                [1, 1621077300000],
+                [2, 1621077600000],
+                [3, 1621077900000],
+              ],
             },
           ],
         }),
     } as BackendSrv);
 
     const templateSrvStub = new TemplateSrvStub();
-    templateSrvStub.replace = (data) => data;
+    templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
     ds.query({ ...options, targets: [{ refId: 'A', data: '', target: 'hits', type: Format.Timeseries }] }).then(
@@ -92,10 +96,10 @@ describe('GenericDatasource', () => {
     };
 
     const templateSrvStub = new TemplateSrvStub();
-    templateSrvStub.replace = (data) => data;
+    templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:'search', format: 'string'}, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({ query: 'search', format: 'string' }, Format.Timeseries).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -115,10 +119,10 @@ describe('GenericDatasource', () => {
       });
 
     const templateSrvStub = new TemplateSrvStub();
-    templateSrvStub.replace = (data) => data;
+    templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:'', format: 'string'}).then((result) => {
+    ds.metricFindQuery({ query: '', format: 'string' }).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -138,10 +142,10 @@ describe('GenericDatasource', () => {
       });
 
     const templateSrvStub = new TemplateSrvStub();
-    templateSrvStub.replace = (data) => data;
+    templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:'', format: 'string'}).then((result) => {
+    ds.metricFindQuery({ query: '', format: 'string' }).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -165,10 +169,10 @@ describe('GenericDatasource', () => {
     };
 
     const templateSrvStub = new TemplateSrvStub();
-    templateSrvStub.replace = (data) => data;
+    templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:'search', format: 'string'}, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({ query: 'search', format: 'string' }, Format.Timeseries).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -179,7 +183,7 @@ describe('GenericDatasource', () => {
       done();
     });
   });
-  
+
   it('should accept raw json instead of a target/string query for template vars', (done) => {
     getBackendSrv().datasourceRequest = (request) => {
       const target = request.data.target;
@@ -192,10 +196,10 @@ describe('GenericDatasource', () => {
     };
 
     const templateSrvStub = new TemplateSrvStub();
-    templateSrvStub.replace = (data) => data;
+    templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({query:`{"target":"search"}`, format: 'json'}, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({ query: `{"target":"search"}`, format: 'json' }, Format.Timeseries).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -206,7 +210,7 @@ describe('GenericDatasource', () => {
       done();
     });
   });
-  
+
   it('should return data as text and as value', (done) => {
     const result = ds.mapToTextValue({ data: ['zero', 'one', 'two'] });
 
@@ -313,7 +317,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
   const REPLACED_VALUE = JSON.parse(REPLACING_TO);
 
   const templateSrvStub = new TemplateSrvStub();
-  templateSrvStub.replace = (str) => (str.match((getTemplateSrv() as any).regex) ? REPLACING_TO : str);
+  templateSrvStub.replace = (str) => (str?.match((getTemplateSrv() as any).regex) ? REPLACING_TO : str ?? '');
   beforeEach(() => {
     setTemplateSrv(templateSrvStub);
   });
@@ -422,7 +426,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
   const REPLACED_NUMBER_VALUE = JSON.parse(REPLACING_NUMBER_TO);
 
   const templateSrvStub = new TemplateSrvStub();
-  templateSrvStub.replace = (str) => (str.match((getTemplateSrv() as any).regex) ? REPLACING_NUMBER_TO : str);
+  templateSrvStub.replace = (str) => (str?.match((getTemplateSrv() as any).regex) ? REPLACING_NUMBER_TO : str ?? '');
   beforeEach(() => {
     setTemplateSrv(templateSrvStub);
   });
@@ -471,7 +475,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
   const REPLACED_BOOLEAN_VALUE = JSON.parse(REPLACING_BOOLEAN_TO);
 
   const templateSrvStub = new TemplateSrvStub();
-  templateSrvStub.replace = (str) => (str.match((getTemplateSrv() as any).regex) ? REPLACING_BOOLEAN_TO : str);
+  templateSrvStub.replace = (str) => (str?.match((getTemplateSrv() as any).regex) ? REPLACING_BOOLEAN_TO : str ?? '');
   beforeEach(() => {
     setTemplateSrv(templateSrvStub);
   });

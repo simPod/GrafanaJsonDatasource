@@ -62,7 +62,7 @@ Grafana issues this request on
 ```
 
 Alternatively, flick on the "Raw JSON" switch to provide a full valid JSON string in the query field which will be passed in the request body as a native JSON object.
-![Raw JSON Switch](https://raw.githubusercontent.com/simPod/grafana-json-datasource/master/docs/images/template-var-query-raw-json.png)
+![Raw JSON Switch](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.3.x/docs/images/template-var-query-raw-json.png)
 
 Template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
 ```string

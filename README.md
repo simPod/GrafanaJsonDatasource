@@ -73,12 +73,10 @@ will be expanded to
 {"selectedservers":["server1","server2"]}
 ```
 
-
-
 2. `Panel > Queries` page. `Format As` and `Metric` values are passed in a body as
 
 ```json
-{ "type": "timeseries", "target": "upper_50" }
+{ "target": "upper_50" }
 ```
 
 The way you handle those values is up to you.
@@ -101,7 +99,7 @@ Example map response:
 
 `POST /query`
 
-Example `timeseries` request:
+Example request:
 
 ```json
 {
@@ -122,8 +120,8 @@ Example `timeseries` request:
   "intervalMs": 30000,
   "maxDataPoints": 550,
   "targets": [
-     { "target": "Packets", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } },
-     { "target": "Errors", "refId": "B", "type": "timeseries" }
+     { "target": "Packets", "refId": "A", "payload": { "additional": "optional json" } },
+     { "target": "Errors", "refId": "B" }
   ],
   "adhocFilters": [{
     "key": "City",
@@ -133,10 +131,10 @@ Example `timeseries` request:
 }
 ```
 
-You can return anything that is or can be converted to a Grafana DataFrame using [this function](https://github.com/grafana/grafana/blob/1e024f22b8f767da01c9322f489d7b71aeec19c3/packages/grafana-data/src/dataframe/processDataFrame.ts#L284).
-Returned data will be mapped to a DataFrame through that.
+**Response body can contain anything that is or can be converted to a Grafana DataFrame using [this function](https://github.com/grafana/grafana/blob/1e024f22b8f767da01c9322f489d7b71aeec19c3/packages/grafana-data/src/dataframe/processDataFrame.ts#L284).
+Returned data will be mapped to a DataFrame through that.**
 
-Example `timeseries` response (metric value as a float , unix timestamp in milliseconds):
+Example response (metric value as a float , unix timestamp in milliseconds):
 
 ```json
 [
@@ -171,10 +169,6 @@ Example `timeseries` response (metric value as a float , unix timestamp in milli
 ]
 ```
 
-_The relation between `target` in request and response is 1:n. You can return multiple targets in response for one requested `target`._
-
-Example `table` response to be returned if the metric selected is `"type": "table"`:
-
 ```json
 [
   {
@@ -193,16 +187,16 @@ Example `table` response to be returned if the metric selected is `"type": "tabl
 ]
 ```
 
-#### Additional data
+_The relation between `target` in request and response is 1:n. You can return multiple targets in response for one requested `target`._
 
-![Additional data input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.3.x/docs/images/additional-data-input.gif)
+#### Payload
 
-Sending additional data for each metric is supported via the Additional JSON Data input field that allows you to enter JSON.
+Sending additional data for each metric is supported via the `Payload` input field that allows you to enter any JSON string.
 
-For example when `{ "additional": "optional json" }` is entered into Additional JSON Data input, it is attached to the target data under `"data"` key:
+For example, when `{ "additional": "optional json" }` is entered into `Payload` input, it is attached to the target data under `"payload"` key:
 
 ```json
-{ "target": "upper_50", "refId": "A", "type": "timeseries", "data": { "additional": "optional json" } }
+{ "target": "upper_50", "refId": "A", "payload": { "additional": "optional json" } }
 ```
 
 You can also enter variables:

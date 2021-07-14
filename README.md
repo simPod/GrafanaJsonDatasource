@@ -248,9 +248,9 @@ The tag values api returns:
 ]
 ```
 
-## Development Setup
+## Development
 
-This plugin requires node 6.10.0. Use of [Yarn](https://yarnpkg.com/lang/en/docs/install/) is encouraged to build.
+Use of [Yarn](https://yarnpkg.com/lang/en/docs/install/) is encouraged to build.
 
 ```sh
 yarn install

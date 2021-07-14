@@ -2,7 +2,6 @@ import { isDataFrame } from '@grafana/data';
 import { DateTime } from '@grafana/data/datetime/moment_wrapper';
 import { BackendSrv, getBackendSrv, getTemplateSrv, setBackendSrv, setTemplateSrv } from '@grafana/runtime';
 import { DataSource } from '../src/DataSource';
-import { Format } from '../src/format';
 import { QueryRequest } from '../src/types';
 import TemplateSrvStub from './lib/TemplateSrvStub';
 
@@ -72,16 +71,14 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.query({ ...options, targets: [{ refId: 'A', data: '', target: 'hits', type: Format.Timeseries }] }).then(
-      (result) => {
-        const series = result.data[0];
-        expect(isDataFrame(series)).toBe(true);
-        expect(series.name).toBe('X');
-        expect(series.length).toBe(3);
-        expect(series.fields[0].values).toHaveLength(3);
-        done();
-      }
-    );
+    ds.query({ ...options, targets: [{ refId: 'A', payload: '', target: 'hits' }] }).then((result) => {
+      const series = result.data[0];
+      expect(isDataFrame(series)).toBe(true);
+      expect(series.name).toBe('X');
+      expect(series.length).toBe(3);
+      expect(series.fields[0].values).toHaveLength(3);
+      done();
+    });
   });
 
   it('should return the metric target results when a target is set', (done) => {
@@ -99,7 +96,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({ query: 'search', format: 'string' }, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({ query: 'search', format: 'string' }).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -172,7 +169,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({ query: 'search', format: 'string' }, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({ query: 'search', format: 'string' }).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -199,7 +196,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({ query: `{"target":"search"}`, format: 'json' }, Format.Timeseries).then((result) => {
+    ds.metricFindQuery({ query: `{"target":"search"}`, format: 'json' }).then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -329,13 +326,12 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       ...options,
       targets: [
         {
-          data: `{
+          payload: `{
 					"A": "[[value]]"
 				}`,
           hide: true,
           refId: 'A',
           target: 'TIME_TO_LAST_BYTE',
-          type: Format.Timeseries,
           datasource: 'Frontend Perf',
         },
       ],
@@ -343,11 +339,10 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
 
     expect(ds.processTargets(testcase).targets).toMatchObject([
       {
-        data: { A: REPLACED_VALUE },
+        payload: { A: REPLACED_VALUE },
         target: testcase.targets[0].target,
         refId: testcase.targets[0].refId,
         hide: testcase.targets[0].hide,
-        type: testcase.targets[0].type,
       },
     ]);
   });
@@ -357,7 +352,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       ...options,
       targets: [
         {
-          data: `{
+          payload: `{
 					"filters": [
 						{"key": "SOME", "value": "$interval"},
 						{"key": "SOME2", "value": "$\{function\}"}
@@ -366,7 +361,6 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
           hide: false,
           refId: 'A',
           target: 'TIME_TO_LAST_BYTE',
-          type: Format.Timeseries,
           datasource: 'Frontend Perf',
         },
       ],
@@ -374,7 +368,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
 
     expect(ds.processTargets(testcase).targets).toMatchObject([
       {
-        data: {
+        payload: {
           filters: [
             { key: 'SOME', value: REPLACED_VALUE },
             { key: 'SOME2', value: REPLACED_VALUE },
@@ -383,7 +377,6 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
         target: testcase.targets[0].target,
         refId: testcase.targets[0].refId,
         hide: testcase.targets[0].hide,
-        type: testcase.targets[0].type,
       },
     ]);
   });
@@ -393,7 +386,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       ...options,
       targets: [
         {
-          data: `{
+          payload: `{
 					"filters": [
 						{"A": "$interval ms"}
 					]
@@ -401,7 +394,6 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
           hide: false,
           refId: 'A',
           target: 'TIME_TO_LAST_BYTE',
-          type: Format.Timeseries,
           datasource: 'Frontend Perf',
         },
       ],
@@ -409,13 +401,12 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
 
     expect(ds.processTargets(testcase).targets).toMatchObject([
       {
-        data: {
+        payload: {
           filters: [{ A: `${REPLACED_VALUE} ms` }],
         },
         target: testcase.targets[0].target,
         refId: testcase.targets[0].refId,
         hide: testcase.targets[0].hide,
-        type: testcase.targets[0].type,
       },
     ]);
   });
@@ -438,7 +429,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       ...options,
       targets: [
         {
-          data: `{
+          payload: `{
 					"filters": [
 						{"key": "SOME", "value": $interval},
 						{"key": "SOME2", "value": $\{function\}}
@@ -447,7 +438,6 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
           hide: false,
           refId: 'A',
           target: 'TIME_TO_LAST_BYTE',
-          type: Format.Timeseries,
           datasource: 'Frontend Perf',
         },
       ],
@@ -455,7 +445,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
 
     expect(ds.processTargets(testcase).targets).toMatchObject([
       {
-        data: {
+        payload: {
           filters: [
             { key: 'SOME', value: REPLACED_NUMBER_VALUE },
             { key: 'SOME2', value: REPLACED_NUMBER_VALUE },
@@ -464,7 +454,6 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
         target: testcase.targets[0].target,
         refId: testcase.targets[0].refId,
         hide: testcase.targets[0].hide,
-        type: testcase.targets[0].type,
       },
     ]);
   });
@@ -487,7 +476,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       ...options,
       targets: [
         {
-          data: `{
+          payload: `{
 					"filters": [
 						{"key": "SOME", "value": $interval},
 						{"key": "SOME2", "value": $\{function\}}
@@ -496,7 +485,6 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
           hide: false,
           refId: 'A',
           target: 'TIME_TO_LAST_BYTE',
-          type: Format.Timeseries,
           datasource: 'Frontend Perf',
         },
       ],
@@ -504,7 +492,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
 
     expect(ds.processTargets(testcase).targets).toMatchObject([
       {
-        data: {
+        payload: {
           filters: [
             { key: 'SOME', value: REPLACED_BOOLEAN_VALUE },
             { key: 'SOME2', value: REPLACED_BOOLEAN_VALUE },
@@ -513,7 +501,6 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
         target: testcase.targets[0].target,
         refId: testcase.targets[0].refId,
         hide: testcase.targets[0].hide,
-        type: testcase.targets[0].type,
       },
     ]);
   });

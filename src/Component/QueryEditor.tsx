@@ -5,29 +5,19 @@ import { find } from 'lodash';
 import React, { ComponentType } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import { DataSource } from '../DataSource';
-import { Format } from '../format';
 
 import { GenericOptions, GrafanaQuery } from '../types';
 
 type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 
-const formatAsOptions = [
-  { label: 'Time series', value: Format.Timeseries },
-  { label: 'Table', value: Format.Table },
-];
-
 interface LastQuery {
-  data: string;
+  payload: string;
   metric: string;
-  format: string;
 }
 
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
-  const [formatAs, setFormatAs] = React.useState<SelectableValue<Format>>(
-    find(formatAsOptions, (option) => option.value === query.type) ?? formatAsOptions[0]
-  );
   const [metric, setMetric] = React.useState<SelectableValue<string>>();
-  const [data, setData] = React.useState(query.data ?? '');
+  const [payload, setPayload] = React.useState(query.payload ?? '');
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
 
@@ -35,10 +25,8 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
   const [isMetricOptionsLoading, setIsMetricOptionsLoading] = React.useState<boolean>(false);
 
   const loadMetrics = React.useCallback(
-    (type: SelectableValue<Format>) => {
-      const typeValue = type.value!;
-
-      return datasource.metricFindQuery({ query: '', format: 'string' }, undefined, typeValue).then(
+    () =>
+      datasource.metricFindQuery({ query: '', format: 'string' }, undefined).then(
         (result) => {
           const metrics = result.map((value) => ({ label: value.text, value: value.value }));
 
@@ -54,69 +42,43 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
 
           throw new Error(response.statusText);
         }
-      );
-    },
+      ),
     [datasource, query.target]
   );
 
-  const refreshMetricOptions = React.useCallback(
-    (type: SelectableValue<Format>) => {
-      setIsMetricOptionsLoading(true);
-      loadMetrics(type)
-        .then((metrics) => {
-          setMetricOptions(metrics);
-        })
-        .finally(() => {
-          setIsMetricOptionsLoading(false);
-        });
-    },
-    [loadMetrics, setMetricOptions, setIsMetricOptionsLoading]
-  );
+  const refreshMetricOptions = React.useCallback(() => {
+    setIsMetricOptionsLoading(true);
+    loadMetrics()
+      .then((metrics) => {
+        setMetricOptions(metrics);
+      })
+      .finally(() => {
+        setIsMetricOptionsLoading(false);
+      });
+  }, [loadMetrics, setMetricOptions, setIsMetricOptionsLoading]);
 
   // Initializing metric options
-  React.useEffect(() => {
-    refreshMetricOptions(formatAs);
-  }, [formatAs, refreshMetricOptions]);
+  React.useEffect(() => refreshMetricOptions(), []);
 
   React.useEffect(() => {
     if (metric?.value === undefined || metric?.value === '') {
       return;
     }
 
-    if (
-      lastQuery !== null &&
-      metric?.value === lastQuery.metric &&
-      formatAs.value! === lastQuery.format &&
-      data === lastQuery.data
-    ) {
+    if (lastQuery !== null && metric?.value === lastQuery.metric && payload === lastQuery.payload) {
       return;
     }
 
-    setLastQuery({
-      data,
-      metric: metric.value,
-      format: formatAs.value!,
-    });
+    setLastQuery({ payload, metric: metric.value });
 
-    onChange({ ...query, data, target: metric.value, type: formatAs.value! });
+    onChange({ ...query, payload, target: metric.value });
 
     onRunQuery();
-  }, [data, formatAs, metric]);
+  }, [payload, metric]);
 
   return (
     <>
       <InlineFieldRow>
-        <InlineField>
-          <Select
-            prefix="Format As: "
-            options={formatAsOptions}
-            defaultValue={formatAs}
-            onChange={(v) => {
-              setFormatAs(v);
-            }}
-          />
-        </InlineField>
-
         <InlineField>
           <Select
             isLoading={isMetricOptionsLoading}
@@ -141,9 +103,9 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
                 height="200px"
                 language="json"
                 showLineNumbers={true}
-                showMiniMap={data.length > 100}
-                value={data}
-                onBlur={(value) => setData(value)}
+                showMiniMap={payload.length > 100}
+                value={payload}
+                onBlur={(value) => setPayload(value)}
               />
             </div>
           )}

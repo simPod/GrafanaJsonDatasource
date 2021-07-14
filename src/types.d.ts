@@ -1,6 +1,5 @@
 import { DataQuery, DataQueryRequest, DataSourceJsonData, VariableModel } from '@grafana/data';
 import { TemplateSrv as GrafanaTemplateSrv } from '@grafana/runtime';
-import { Format } from './format';
 
 declare module '@grafana/runtime' {
   export interface TemplateSrv extends GrafanaTemplateSrv {
@@ -17,8 +16,7 @@ export interface QueryRequest extends DataQueryRequest<GrafanaQuery> {
 export interface GrafanaQuery extends DataQuery {
   alias?: string;
   target?: string;
-  data: string;
-  type: Format;
+  payload: string;
 }
 
 export interface GenericOptions extends DataSourceJsonData {}

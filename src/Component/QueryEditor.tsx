@@ -135,7 +135,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
         <AutoSizer disableHeight>
           {({ width }) => (
             <div style={{ width: width + 'px' }}>
-              <InlineLabel>Body</InlineLabel>
+              <InlineLabel>Payload</InlineLabel>
               <CodeEditor
                 width="100%"
                 height="200px"

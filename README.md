@@ -33,6 +33,7 @@ When adding datasource add your API endpoint to the `URL` field. That's where da
 
 ![Datasource setup](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.3.x/docs/images/datasource-setup.png)
 
+If you want to add custom headers, keep Access set to `Server`.
 
 ## API
 

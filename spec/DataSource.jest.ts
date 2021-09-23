@@ -73,6 +73,19 @@ describe('GenericDatasource', () => {
             },
           ],
         }),
+      fetch: (request) =>
+        of({
+          data: [
+            {
+              target: 'X',
+              datapoints: [
+                [1, 1621077300000],
+                [2, 1621077600000],
+                [3, 1621077900000],
+              ],
+            },
+          ],
+        }),
     } as BackendSrv);
 
     const templateSrvStub = new TemplateSrvStub();
@@ -104,7 +117,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({ query: 'search', format: 'string' }).then((result) => {
+    ds.listMetrics('search').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -127,7 +140,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({ query: '', format: 'string' }).then((result) => {
+    ds.listMetrics('').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -150,7 +163,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({ query: '', format: 'string' }).then((result) => {
+    ds.listMetrics('').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -177,7 +190,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.metricFindQuery({ query: 'search', format: 'string' }).then((result) => {
+    ds.listMetrics('search').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -190,14 +203,17 @@ describe('GenericDatasource', () => {
   });
 
   it('should accept raw json instead of a target/string query for template vars', (done) => {
-    getBackendSrv().datasourceRequest = (request) => {
-      const target = request.data.target;
-      const result = [target + '_0', target + '_1', target + '_2'];
+    let jsonParsed = false;
+    getBackendSrv().fetch = (request) => {
+      const payload = request.data.payload;
+      if (payload.target === 'search') {
+        jsonParsed = true;
+      }
 
-      return Promise.resolve({
+      return of({
         _request: request,
-        data: result,
-      });
+        data: [],
+      } as unknown as FetchResponse);
     };
 
     const templateSrvStub = new TemplateSrvStub();
@@ -205,13 +221,7 @@ describe('GenericDatasource', () => {
     setTemplateSrv(templateSrvStub);
 
     ds.metricFindQuery({ query: `{"target":"search"}`, format: 'json' }).then((result) => {
-      expect(result).toHaveLength(3);
-      expect(result[0].text).toBe('search_0');
-      expect(result[0].value).toBe('search_0');
-      expect(result[1].text).toBe('search_1');
-      expect(result[1].value).toBe('search_1');
-      expect(result[2].text).toBe('search_2');
-      expect(result[2].value).toBe('search_2');
+      expect(jsonParsed).toBe(true);
       done();
     });
   });

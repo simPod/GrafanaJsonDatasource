@@ -7,11 +7,12 @@ import {
   toDataFrame,
 } from '@grafana/data';
 import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
-import { FetchResponse, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
+import { BackendDataSourceResponse, FetchResponse, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { BackendSrvRequest } from '@grafana/runtime/services/backendSrv';
 import { isEqual, isObject } from 'lodash';
 import { lastValueFrom, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ResponseParser } from './response_parser';
 import {
   GenericOptions,
   GrafanaQuery,
@@ -29,9 +30,12 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   url: string;
   withCredentials: boolean;
   headers: any;
+  responseParser: ResponseParser;
 
   constructor(instanceSettings: DataSourceInstanceSettings<GenericOptions>) {
     super(instanceSettings);
+
+    this.responseParser = new ResponseParser();
 
     this.url = instanceSettings.url === undefined ? '' : instanceSettings.url;
 
@@ -123,10 +127,38 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
             target: getTemplateSrv().replace(variableQuery.query, undefined, 'regex'),
           };
 
+    const variableQueryData = {
+      payload: interpolated,
+      range: options?.range,
+      rangeRaw: options?.rangeRaw,
+    };
+
+    return lastValueFrom(
+      this.doFetch<BackendDataSourceResponse>({
+        url: `${this.url}/variable`,
+        data: variableQueryData,
+        method: 'POST',
+      }).pipe(
+        map((response) => {
+          return this.responseParser.transformMetricFindResponse(response);
+        }),
+        catchError((err) => {
+          console.error(err);
+
+          return of([]);
+        })
+      )
+    );
+  }
+
+  listMetrics(filter: string, options?: any, type?: string): Promise<MetricFindValue[]> {
     return lastValueFrom(
       this.doFetch({
         url: `${this.url}/search`,
-        data: interpolated,
+        data: {
+          type,
+          target: getTemplateSrv().replace(filter, undefined, 'regex'),
+        },
         method: 'POST',
       }).pipe(
         map((response) => this.mapToTextValue(response)),

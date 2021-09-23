@@ -1,4 +1,4 @@
-import { DataQuery, DataQueryRequest, DataSourceJsonData, VariableModel } from '@grafana/data';
+import { DataQuery, DataQueryRequest, DataSourceJsonData, MetricFindValue, VariableModel } from '@grafana/data';
 import { TemplateSrv as GrafanaTemplateSrv } from '@grafana/runtime';
 
 declare module '@grafana/runtime' {
@@ -24,11 +24,6 @@ export interface GenericOptions extends DataSourceJsonData {}
 export interface VariableQuery {
   query: string;
   format: 'string' | 'json';
-}
-
-export interface MetricFindValue extends MetricFindValue {
-  value: any;
-  text: string;
 }
 
 export interface MetricFindTagKeys extends MetricFindValue {

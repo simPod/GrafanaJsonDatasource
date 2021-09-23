@@ -25,7 +25,7 @@ export const VariableQueryEditor: React.FC<Props> = ({ onChange, query }) => {
       format: event.currentTarget.checked === true ? 'json' : 'string',
     });
 
-  const checkValidJSON = (query: VariableQuery) => {
+  const checkValidJSON = (variableQuery: VariableQuery) => {
     if (variableQuery.format === 'json') {
       const jsonString = getTemplateSrv().replace(variableQuery.query, undefined, 'json');
 

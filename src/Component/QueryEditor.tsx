@@ -16,12 +16,12 @@ interface LastQuery {
 }
 
 export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
-  const [metric, setMetric] = React.useState<SelectableValue<string>>();
+  const [metric, setMetric] = React.useState<SelectableValue<string | number>>();
   const [payload, setPayload] = React.useState(query.payload ?? '');
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
 
-  const [metricOptions, setMetricOptions] = React.useState<Array<SelectableValue<string>>>([]);
+  const [metricOptions, setMetricOptions] = React.useState<Array<SelectableValue<string | number>>>([]);
   const [isMetricOptionsLoading, setIsMetricOptionsLoading] = React.useState<boolean>(false);
 
   const loadMetrics = React.useCallback(
@@ -69,9 +69,9 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
       return;
     }
 
-    setLastQuery({ payload, metric: metric.value });
+    setLastQuery({ payload, metric: metric.value.toString() });
 
-    onChange({ ...query, payload, target: metric.value });
+    onChange({ ...query, payload, target: metric.value.toString() });
 
     onRunQuery();
   }, [payload, metric]);

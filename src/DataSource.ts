@@ -3,6 +3,7 @@ import {
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
+  MetricFindValue,
   toDataFrame,
 } from '@grafana/data';
 import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
@@ -13,7 +14,6 @@ import {
   GrafanaQuery,
   MetricFindTagKeys,
   MetricFindTagValues,
-  MetricFindValue,
   MultiValueVariable,
   QueryRequest,
   TextValuePair,

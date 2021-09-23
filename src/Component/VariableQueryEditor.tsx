@@ -17,12 +17,12 @@ export const VariableQueryEditor: React.FC<Props> = ({ onChange, query }) => {
   const handleChange = (event: React.FormEvent<HTMLInputElement>) =>
     setVariableQuery({
       ...variableQuery,
-      [event.currentTarget.name]: event.currentTarget.value,
+      query: event.currentTarget.value,
     });
   const handleChangeSwitch = (event: React.FormEvent<HTMLInputElement>) =>
     setVariableQuery({
       ...variableQuery,
-      [event.currentTarget.name]: event.currentTarget.checked === true ? 'json' : 'string',
+      format: event.currentTarget.checked === true ? 'json' : 'string',
     });
 
   const checkValidJSON = (query: VariableQuery) => {

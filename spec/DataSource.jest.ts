@@ -1,6 +1,14 @@
 import { isDataFrame } from '@grafana/data';
 import { DateTime } from '@grafana/data/datetime/moment_wrapper';
-import { BackendSrv, getBackendSrv, getTemplateSrv, setBackendSrv, setTemplateSrv } from '@grafana/runtime';
+import {
+  BackendSrv,
+  FetchResponse,
+  getBackendSrv,
+  getTemplateSrv,
+  setBackendSrv,
+  setTemplateSrv,
+} from '@grafana/runtime';
+import { of } from 'rxjs';
 import { DataSource } from '../src/DataSource';
 import { QueryRequest } from '../src/types';
 import TemplateSrvStub from './lib/TemplateSrvStub';
@@ -52,8 +60,8 @@ describe('GenericDatasource', () => {
 
   it('should return the server results when a target is set', (done) => {
     setBackendSrv({
-      datasourceRequest: (request) =>
-        Promise.resolve({
+      fetch: (request) =>
+        of({
           data: [
             {
               target: 'X',
@@ -82,14 +90,14 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric target results when a target is set', (done) => {
-    getBackendSrv().datasourceRequest = (request) => {
+    getBackendSrv().fetch = (request) => {
       const target = request.data.target;
       const result = [target + '_0', target + '_1', target + '_2'];
 
-      return Promise.resolve({
+      return of({
         _request: request,
         data: result,
-      });
+      } as unknown as FetchResponse);
     };
 
     const templateSrvStub = new TemplateSrvStub();
@@ -109,11 +117,11 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric results when the target is an empty string', (done) => {
-    getBackendSrv().datasourceRequest = (request) =>
-      Promise.resolve({
+    getBackendSrv().fetch = (request) =>
+      of({
         _request: request,
         data: ['metric_0', 'metric_1', 'metric_2'],
-      });
+      } as unknown as FetchResponse);
 
     const templateSrvStub = new TemplateSrvStub();
     templateSrvStub.replace = (data) => data ?? '';
@@ -132,11 +140,11 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric results when the args are an empty object', (done) => {
-    getBackendSrv().datasourceRequest = (request) =>
-      Promise.resolve({
+    getBackendSrv().fetch = (request) =>
+      of({
         _request: request,
         data: ['metric_0', 'metric_1', 'metric_2'],
-      });
+      } as unknown as FetchResponse);
 
     const templateSrvStub = new TemplateSrvStub();
     templateSrvStub.replace = (data) => data ?? '';
@@ -155,14 +163,14 @@ describe('GenericDatasource', () => {
   });
 
   it('should return the metric target results when the args are a string', (done) => {
-    getBackendSrv().datasourceRequest = (request) => {
+    getBackendSrv().fetch = (request) => {
       const target = request.data.target;
       const result = [target + '_0', target + '_1', target + '_2'];
 
-      return Promise.resolve({
+      return of({
         _request: request,
         data: result,
-      });
+      } as unknown as FetchResponse);
     };
 
     const templateSrvStub = new TemplateSrvStub();
@@ -265,11 +273,11 @@ describe('GenericDatasource', () => {
       { type: 'string', text: 'two', key: 'Two' },
     ];
 
-    getBackendSrv().datasourceRequest = (request) =>
-      Promise.resolve({
+    getBackendSrv().fetch = (request) =>
+      of({
         data,
         _request: request,
-      });
+      } as unknown as FetchResponse);
 
     ds.getTagKeys().then((result) => {
       expect(result).toHaveLength(2);
@@ -290,11 +298,11 @@ describe('GenericDatasource', () => {
       { key: 'drei', text: 'Drei!' },
     ];
 
-    getBackendSrv().datasourceRequest = (request) =>
-      Promise.resolve({
+    getBackendSrv().fetch = (request) =>
+      of({
         data,
         _request: request,
-      });
+      } as unknown as FetchResponse);
 
     ds.getTagValues(null).then((result) => {
       expect(result).toHaveLength(3);

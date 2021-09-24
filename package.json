@@ -34,7 +34,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "react-virtualized-auto-sizer": "^1.0.5"
+    "react-virtualized-auto-sizer": "^1.0.5",
+    "rxjs": "^7.3.0"
   },
   "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
 }

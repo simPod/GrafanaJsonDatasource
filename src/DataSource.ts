@@ -1,5 +1,6 @@
 import {
   AnnotationEvent,
+  DataFrame,
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
@@ -8,7 +9,10 @@ import {
 } from '@grafana/data';
 import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
 import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
+import { BackendSrvRequest } from '@grafana/runtime/services/backendSrv';
 import { isEqual, isObject } from 'lodash';
+import { lastValueFrom, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import {
   GenericOptions,
   GrafanaQuery,
@@ -51,15 +55,24 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
     options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
 
-    return this.doRequest({
-      url: `${this.url}/query`,
-      data: request,
-      method: 'POST',
-    }).then((entry) => {
-      entry.data = entry.data.map(toDataFrame);
+    return lastValueFrom(
+      this.doFetch<any[]>({
+        url: `${this.url}/query`,
+        data: request,
+        method: 'POST',
+      }).pipe(
+        map((response) => {
+          response.data = response.data.map(toDataFrame) as DataFrame[];
 
-      return entry;
-    });
+          return response;
+        }),
+        catchError((err) => {
+          console.error(err);
+
+          return of({ data: [] });
+        })
+      )
+    );
   }
 
   annotations = {};
@@ -68,10 +81,12 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     const errorMessageBase = 'Data source is not working';
 
     try {
-      const response = await this.doRequest({
-        url: this.url,
-        method: 'GET',
-      });
+      const response = await lastValueFrom(
+        this.doFetch({
+          url: this.url,
+          method: 'GET',
+        }).pipe(map((response) => response))
+      );
 
       if (response.status === 200) {
         return { status: 'success', message: 'Data source is working', title: 'Success' };
@@ -108,35 +123,54 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
             target: getTemplateSrv().replace(variableQuery.query, undefined, 'regex'),
           };
 
-    return this.doRequest({
-      url: `${this.url}/search`,
-      data: interpolated,
-      method: 'POST',
-    }).then(this.mapToTextValue);
+    return lastValueFrom(
+      this.doFetch({
+        url: `${this.url}/search`,
+        data: interpolated,
+        method: 'POST',
+      }).pipe(
+        map((response) => this.mapToTextValue(response)),
+        catchError((err) => {
+          console.error(err);
+
+          return of([]);
+        })
+      )
+    );
   }
 
   getTagKeys(options?: any): Promise<MetricFindTagKeys[]> {
-    return new Promise((resolve) => {
-      this.doRequest({
+    return lastValueFrom(
+      this.doFetch({
         url: `${this.url}/tag-keys`,
         method: 'POST',
         data: options,
-      }).then((result: any) => {
-        return resolve(result.data);
-      });
-    });
+      }).pipe(
+        map((result: any) => result.data),
+        catchError((err) => {
+          console.error(err);
+
+          return of([]);
+        })
+      )
+    );
   }
 
   getTagValues(options: any): Promise<MetricFindTagValues[]> {
-    return new Promise((resolve) => {
-      this.doRequest({
+    return lastValueFrom(
+      this.doFetch({
         url: `${this.url}/tag-values`,
         method: 'POST',
         data: options,
-      }).then((result: any) => {
-        return resolve(result.data);
-      });
-    });
+      }).pipe(
+        map((result: any) => result.data),
+        catchError((err) => {
+          console.error(err);
+
+          return of([]);
+        })
+      )
+    );
   }
 
   annotationQuery(
@@ -157,13 +191,22 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       variables: this.getVariables(),
     };
 
-    return this.doRequest({
-      url: `${this.url}/annotations`,
-      method: 'POST',
-      data: annotationQuery,
-    }).then((result: any) => {
-      return result.data;
-    });
+    return lastValueFrom(
+      this.doFetch({
+        url: `${this.url}/annotations`,
+        method: 'POST',
+        data: annotationQuery,
+      }).pipe(
+        map((result: any) => {
+          return result.data;
+        }),
+        catchError((err) => {
+          console.error(err);
+
+          return of([]);
+        })
+      )
+    );
   }
 
   mapToTextValue(result: any) {
@@ -179,11 +222,11 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     });
   }
 
-  doRequest(options: any) {
+  doFetch<T>(options: BackendSrvRequest) {
     options.withCredentials = this.withCredentials;
     options.headers = this.headers;
 
-    return getBackendSrv().datasourceRequest(options);
+    return getBackendSrv().fetch<T>(options);
   }
 
   processTargets(options: QueryRequest) {

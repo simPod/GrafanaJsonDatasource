@@ -245,9 +245,9 @@ The tag values api returns:
 
 ## Development
 
-Use of [Yarn](https://yarnpkg.com/lang/en/docs/install/) is encouraged to build.
+Install [Yarn](https://yarnpkg.com/lang/en/docs/install/) and run following commands
 
-```sh
+```bash
 yarn install
 yarn run build
 ```

@@ -23,7 +23,6 @@
   "bugs": {
     "url": "https://github.com/simPod/grafana-json-datasource/issues"
   },
-  "engineStrict": true,
   "devDependencies": {
     "@grafana/data": "8.1.5",
     "@grafana/runtime": "8.1.5",
@@ -37,5 +36,8 @@
     "react-virtualized-auto-sizer": "^1.0.5",
     "rxjs": "^7.4.0"
   },
-  "homepage": "https://github.com/simPod/grafana-json-datasource#readme"
+  "homepage": "https://github.com/simPod/grafana-json-datasource#readme",
+  "engineStrict": true,
+  "nodeLinker": "node-modules",
+  "packageManager": "yarn@3.1.1"
 }

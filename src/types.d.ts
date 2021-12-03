@@ -17,6 +17,7 @@ export interface GrafanaQuery extends DataQuery {
   alias?: string;
   target?: string;
   payload: string;
+  label?: string;
 }
 
 export interface GenericOptions extends DataSourceJsonData {}

@@ -1,6 +1,5 @@
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { CodeEditor, InlineField, InlineFieldRow, InlineLabel, Select } from '@grafana/ui';
-import { find } from 'lodash';
 
 import React, { ComponentType } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -29,11 +28,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
       datasource.metricFindQuery({ query: '', format: 'string' }, undefined).then(
         (result) => {
           const metrics = result.map((value) => ({ label: value.text, value: value.value }));
-
-          const foundMetric = find(metrics, (metric) => metric.value === query.target);
-
-          setMetric(foundMetric === undefined ? { label: '', value: '' } : foundMetric);
-
+          if (query.target) setMetric({ label: query.label ?? query.target, value: query.target })
           return metrics;
         },
         (response) => {
@@ -71,7 +66,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
 
     setLastQuery({ payload, metric: metric.value.toString() });
 
-    onChange({ ...query, payload, target: metric.value.toString() });
+    onChange({ ...query, payload, target: metric.value.toString(), label: metric.label?.toString() });
 
     onRunQuery();
   }, [payload, metric]);
@@ -82,6 +77,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
         <InlineField>
           <Select
             isLoading={isMetricOptionsLoading}
+            width={24}
             prefix="Metric: "
             options={metricOptions}
             placeholder="Select metric"

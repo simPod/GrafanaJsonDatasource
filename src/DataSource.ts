@@ -97,7 +97,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         status: 'error',
         title: 'Error',
       };
-    } catch (err) {
+    } catch (err: any) {
       if (typeof err === 'string') {
         return {
           status: 'error',

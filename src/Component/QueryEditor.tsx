@@ -65,7 +65,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
       return;
     }
 
-    if (lastQuery !== null && metric?.value === lastQuery.metric && payload === lastQuery.payload) {
+    if (lastQuery !== null && metric?.value.toString() === lastQuery.metric && payload === lastQuery.payload) {
       return;
     }
 

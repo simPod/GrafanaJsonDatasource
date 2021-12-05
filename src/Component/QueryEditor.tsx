@@ -28,7 +28,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
       datasource.metricFindQuery({ query: '', format: 'string' }, undefined).then(
         (result) => {
           const metrics = result.map((value) => ({ label: value.text, value: value.value }));
-          if (query.target) {
+          if (typeof query.target === 'string') {
             setMetric({ label: query.label ?? query.target, value: query.target });
           }
           return metrics;

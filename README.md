@@ -39,7 +39,7 @@ If you want to add custom headers, keep Access set to `Server`.
 
 An OpenAPI definition is defined at [openapi.yaml](https://github.com/simPod/GrafanaJsonDatasource/blob/0.3.x/openapi.yaml).
 
-To work with this datasource the backend needs to implement 4 endpoints:
+To work with this datasource the backend needs to implement 3 endpoints:
 
 - `GET /` with 200 status code response. Used for "Test connection" on the datasource config page.
 - `POST /search` to return available metrics.

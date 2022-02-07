@@ -32,7 +32,7 @@ export const VariableQueryEditor: React.FC<Props> = ({ onChange, query }) => {
       try {
         JSON.parse(jsonString);
       } catch (e) {
-        if (e.name === 'SyntaxError') {
+        if (e instanceof Error && e.name === 'SyntaxError') {
           return true;
         }
 

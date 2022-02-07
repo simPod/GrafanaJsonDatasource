@@ -1,6 +1,5 @@
 import {
   AnnotationEvent,
-  DataFrame,
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
@@ -8,7 +7,7 @@ import {
   toDataFrame,
 } from '@grafana/data';
 import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
-import { getBackendSrv, getTemplateSrv } from '@grafana/runtime';
+import { FetchResponse, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { BackendSrvRequest } from '@grafana/runtime/services/backendSrv';
 import { isEqual, isObject } from 'lodash';
 import { lastValueFrom, of } from 'rxjs';
@@ -62,7 +61,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         method: 'POST',
       }).pipe(
         map((response) => {
-          response.data = response.data.map(toDataFrame) as DataFrame[];
+          response.data = response.data.map(toDataFrame);
 
           return response;
         }),
@@ -105,9 +104,10 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         };
       }
 
-      let message = err.statusText ?? errorMessageBase;
-      if (err.data?.error?.code !== undefined) {
-        message += `: ${err.data.error.code}. ${err.data.error.message}`;
+      let error = err as FetchResponse;
+      let message = error.statusText ?? errorMessageBase;
+      if (error.data?.error?.code !== undefined) {
+        message += `: ${error.data.error.code}. ${error.data.error.message}`;
       }
 
       return { status: 'error', message, title: 'Error' };
@@ -141,12 +141,12 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   getTagKeys(options?: any): Promise<MetricFindTagKeys[]> {
     return lastValueFrom(
-      this.doFetch({
+      this.doFetch<MetricFindTagKeys[]>({
         url: `${this.url}/tag-keys`,
         method: 'POST',
         data: options,
       }).pipe(
-        map((result: any) => result.data),
+        map((result) => result.data),
         catchError((err) => {
           console.error(err);
 
@@ -158,12 +158,12 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   getTagValues(options: any): Promise<MetricFindTagValues[]> {
     return lastValueFrom(
-      this.doFetch({
+      this.doFetch<MetricFindTagValues[]>({
         url: `${this.url}/tag-values`,
         method: 'POST',
         data: options,
       }).pipe(
-        map((result: any) => result.data),
+        map((result) => result.data),
         catchError((err) => {
           console.error(err);
 
@@ -192,12 +192,12 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     };
 
     return lastValueFrom(
-      this.doFetch({
+      this.doFetch<AnnotationEvent[]>({
         url: `${this.url}/annotations`,
         method: 'POST',
         data: annotationQuery,
       }).pipe(
-        map((result: any) => {
+        map((result) => {
           return result.data;
         }),
         catchError((err) => {

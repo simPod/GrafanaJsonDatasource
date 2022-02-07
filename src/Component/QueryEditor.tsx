@@ -24,27 +24,25 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
   const [metricOptions, setMetricOptions] = React.useState<Array<SelectableValue<string | number>>>([]);
   const [isMetricOptionsLoading, setIsMetricOptionsLoading] = React.useState<boolean>(false);
 
-  const loadMetrics = React.useCallback(
-    () =>
-      datasource.metricFindQuery({ query: '', format: 'string' }, undefined).then(
-        (result) => {
-          const metrics = result.map((value) => ({ label: value.text, value: value.value }));
+  const loadMetrics = React.useCallback(() => {
+    return datasource.listMetrics('', undefined).then(
+      (result) => {
+        const metrics = result.map((value) => ({ label: value.text, value: value.value }));
 
-          const foundMetric = find(metrics, (metric) => metric.value === query.target);
+        const foundMetric = find(metrics, (metric) => metric.value === query.target);
 
-          setMetric(foundMetric === undefined ? { label: '', value: '' } : foundMetric);
+        setMetric(foundMetric === undefined ? { label: '', value: '' } : foundMetric);
 
-          return metrics;
-        },
-        (response) => {
-          setMetric({ label: '', value: '' });
-          setMetricOptions([]);
+        return metrics;
+      },
+      (response) => {
+        setMetric({ label: '', value: '' });
+        setMetricOptions([]);
 
-          throw new Error(response.statusText);
-        }
-      ),
-    [datasource, query.target]
-  );
+        throw new Error(response.statusText);
+      }
+    );
+  }, [datasource, query.target]);
 
   const refreshMetricOptions = React.useCallback(() => {
     setIsMetricOptionsLoading(true);

@@ -25,6 +25,11 @@
                 "url": "https://github.com/simPod/grafana-json-datasource/blob/master/LICENSE"
             }
         ],
+        "screenshots": [
+          { "name": "Query", "path": "img/query.png" },
+          { "name": "Annotation", "path": "img/annotation.png" },
+          { "name": "Variable", "path": "img/variable.png" }
+        ],
         "version": "%VERSION%",
         "updated": "%TODAY%"
     },

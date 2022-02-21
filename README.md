@@ -13,6 +13,7 @@ The JSON Datasource executes requests against arbitrary backends and parses JSON
 - [API](#api)
   - [/search](#search)
   - [/query](#query)
+  - [/variable](#variable)
   - [/tag-keys](#tag-keys)
   - [/tag-values](#tag-values)
 - [Development Setup](#development-setup)
@@ -45,8 +46,9 @@ To work with this datasource the backend needs to implement 3 endpoints:
 - `POST /search` to return available metrics.
 - `POST /query` to return panel data or annotations.
 
-Those two urls are optional:
+Those 3 endpoints are optional:
 
+- `POST /variable` to return data for Variable of type `Query`.
 - `POST /tag-keys` returning tag keys for ad hoc filters.
 - `POST /tag-values` returning tag values for ad hoc filters.
 
@@ -203,6 +205,35 @@ For example, when `{ "additional": "optional json" }` is entered into `Payload` 
 You can also enter variables:
 
 ![Additional data variable input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.3.x/docs/images/additional-data-variable-input.png)
+
+### /variable
+
+`POST /variable`
+
+Example request body:
+
+```json
+{
+  "payload":{"target":"systems"},
+  "range":{
+    "from":"2022-02-14T08:09:32.164Z",
+    "to":"2022-02-21T08:09:32.164Z",
+    "raw":{"from":"now-7d","to":"now"}
+  }
+}
+```
+
+`"payload"` is value from your input in Variable edit form.
+
+Example response
+
+```json
+[
+  {"__text":"Label 1", "value":"Value1"},
+  {"__text":"Label 2", "value":"Value2"},
+  {"__text":"Label 3", "value":"Value3"}
+]
+```
 
 ### /tag-keys
 

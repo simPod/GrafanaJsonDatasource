@@ -16,7 +16,6 @@ The JSON Datasource executes requests against arbitrary backends and parses JSON
   - [/variable](#variable)
   - [/tag-keys](#tag-keys)
   - [/tag-values](#tag-values)
-- [Development Setup](#development-setup)
 
 ## Installation
 

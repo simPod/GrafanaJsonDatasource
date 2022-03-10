@@ -1,0 +1,5 @@
+{
+  "extends": [
+      "github>simPod/renovatebot-presets:ts-lib"
+  ]
+}

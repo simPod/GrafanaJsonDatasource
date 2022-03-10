@@ -1538,6 +1538,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@grafana/data@npm:8.4.3":
+  version: 8.4.3
+  resolution: "@grafana/data@npm:8.4.3"
+  dependencies:
+    "@braintree/sanitize-url": 5.0.2
+    "@grafana/schema": 8.4.3
+    "@types/d3-interpolate": ^1.4.0
+    d3-interpolate: 1.4.0
+    date-fns: 2.28.0
+    eventemitter3: 4.0.7
+    lodash: 4.17.21
+    marked: 4.0.10
+    moment: 2.29.1
+    moment-timezone: 0.5.34
+    ol: 6.12.0
+    papaparse: 5.3.1
+    react: 17.0.2
+    react-dom: 17.0.2
+    regenerator-runtime: 0.13.9
+    rxjs: 7.5.1
+    tslib: 2.3.1
+    uplot: 1.6.19
+    xss: 1.0.10
+  checksum: 981a1a3fa3f52fb02fc127b9a3df5171654f29a55fe9a9fbcc9f921645f1ae02b741d375e190f0d5c39f791b5b15dcf7c2ac9f3d3541088f1d52757f92b8567a
+  languageName: node
+  linkType: hard
+
 "@grafana/e2e-selectors@npm:8.3.4":
   version: 8.3.4
   resolution: "@grafana/e2e-selectors@npm:8.3.4"
@@ -1611,6 +1638,15 @@ __metadata:
   version: 8.3.4
   resolution: "@grafana/schema@npm:8.3.4"
   checksum: f066261656219f12622f6bc0def146b6b80bbcf4b63233a9024763b7e6c9410b8cd611e8480ebfdc5d4647e81ab776c50d1a7e7c137ee368f0a44e9b59276e59
+  languageName: node
+  linkType: hard
+
+"@grafana/schema@npm:8.4.3":
+  version: 8.4.3
+  resolution: "@grafana/schema@npm:8.4.3"
+  dependencies:
+    tslib: 2.3.1
+  checksum: a43444904a083216a87dfdf40cdbcd6a0924866a375c723250be25402cecd028fd32047d11aa2267ef46ce5d67630facb53bc387517cce1e58a1f3d3d4d02565
   languageName: node
   linkType: hard
 
@@ -5213,7 +5249,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"commander@npm:2, commander@npm:^2.20.0, commander@npm:^2.9.0":
+"commander@npm:2, commander@npm:^2.20.0, commander@npm:^2.20.3, commander@npm:^2.9.0":
   version: 2.20.3
   resolution: "commander@npm:2.20.3"
   checksum: ab8c07884e42c3a8dbc5dd9592c606176c7eb5c1ca5ff274bcf907039b2c41de3626f684ea75ccf4d361ba004bbaff1f577d5384c155f3871e456bdf27becf9e
@@ -6209,7 +6245,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.16.1":
+"date-fns@npm:2.28.0, date-fns@npm:^2.16.1":
   version: 2.28.0
   resolution: "date-fns@npm:2.28.0"
   checksum: a0516b2e4f99b8bffc6cc5193349f185f195398385bdcaf07f17c2c4a24473c99d933eb0018be4142a86a6d46cb0b06be6440ad874f15e795acbedd6fd727a1f
@@ -7941,7 +7977,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"geotiff@npm:^1.0.5":
+"geotiff@npm:^1.0.5, geotiff@npm:^1.0.8":
   version: 1.0.9
   resolution: "geotiff@npm:1.0.9"
   dependencies:
@@ -8213,7 +8249,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "grafana-json-datasource@workspace:."
   dependencies:
-    "@grafana/data": 8.3.4
+    "@grafana/data": 8.4.3
     "@grafana/eslint-config": 2.5.2
     "@grafana/runtime": 8.3.4
     "@grafana/toolkit": 8.3.4
@@ -10799,6 +10835,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"marked@npm:4.0.10":
+  version: 4.0.10
+  resolution: "marked@npm:4.0.10"
+  bin:
+    marked: bin/marked.js
+  checksum: 46cd8ef1a7cfcf5e461727c7f3e16dd4244369ef58f60485e75d3f5df9d53a8249b9609e96a336521eaa5c88d9531cbd296509a148718056e9375e69609f4442
+  languageName: node
+  linkType: hard
+
 "md5-file@npm:^5.0.0":
   version: 5.0.0
   resolution: "md5-file@npm:5.0.0"
@@ -11187,6 +11232,15 @@ __metadata:
   dependencies:
     moment: ">= 2.9.0"
   checksum: dea6043b4a21aedf2e64d545cdfc795a11e0739edb06f4eb10570503118cb1fe4ab57e012a5f3594bd1cdd2a3c617f42836fb6e4faff33eb25a1fe3cc239c9bf
+  languageName: node
+  linkType: hard
+
+"moment-timezone@npm:0.5.34":
+  version: 0.5.34
+  resolution: "moment-timezone@npm:0.5.34"
+  dependencies:
+    moment: ">= 2.9.0"
+  checksum: 12a1d3d52e4ba509cf1fa36bbda59d898a08fa80ab35f6c358747e93aec1f07e617cec647eaf2e8acf5f9132e581d4704d34a9edffa9a80c5cd04bf23b277595
   languageName: node
   linkType: hard
 
@@ -11707,6 +11761,29 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ol-mapbox-style@npm:^6.8.2":
+  version: 6.9.0
+  resolution: "ol-mapbox-style@npm:6.9.0"
+  dependencies:
+    "@mapbox/mapbox-gl-style-spec": ^13.20.1
+    mapbox-to-css-font: ^2.4.1
+    webfont-matcher: ^1.1.0
+  checksum: 69c2439f80cf7fea1a01d97cde05b166c3d3ff81c552701ebf5f7abe8e33dad8cc33e664a538cd992319270f01202623a3935cb432970a0d9e84c5e7c9505d1f
+  languageName: node
+  linkType: hard
+
+"ol@npm:6.12.0":
+  version: 6.12.0
+  resolution: "ol@npm:6.12.0"
+  dependencies:
+    geotiff: ^1.0.8
+    ol-mapbox-style: ^6.8.2
+    pbf: 3.2.1
+    rbush: ^3.0.1
+  checksum: a0eb5766bda485acd59c95e835e87d214c501310474e22003f4ef9ea600bf005abb43f0f33aa3d4939d2c84748bd40a5c4168c31551e5266c208aeff8eb576dc
+  languageName: node
+  linkType: hard
+
 "ol@npm:6.7.0":
   version: 6.7.0
   resolution: "ol@npm:6.7.0"
@@ -11919,6 +11996,13 @@ __metadata:
   version: 5.3.0
   resolution: "papaparse@npm:5.3.0"
   checksum: 2fcf050facf60d2ffb877b0b35769df5576c3434b28057c179d363be7423b2172cb9f5e17cfb06603f956481721b6df95354548b0596432d515162c84189cb97
+  languageName: node
+  linkType: hard
+
+"papaparse@npm:5.3.1":
+  version: 5.3.1
+  resolution: "papaparse@npm:5.3.1"
+  checksum: 3431917bb46f8952e49ca64ecc9107ddf05291573ef666c8fac4e172b57780d131f1af925b47841039bd5ae0ceadc2eafbcb8183c092307442f85eed11f82b69
   languageName: node
   linkType: hard
 
@@ -13637,6 +13721,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-dom@npm:17.0.2":
+  version: 17.0.2
+  resolution: "react-dom@npm:17.0.2"
+  dependencies:
+    loose-envify: ^1.1.0
+    object-assign: ^4.1.1
+    scheduler: ^0.20.2
+  peerDependencies:
+    react: 17.0.2
+  checksum: 1c1eaa3bca7c7228d24b70932e3d7c99e70d1d04e13bb0843bbf321582bc25d7961d6b8a6978a58a598af2af496d1cedcfb1bf65f6b0960a0a8161cb8dab743c
+  languageName: node
+  linkType: hard
+
 "react-dropzone@npm:11.3.4":
   version: 11.3.4
   resolution: "react-dropzone@npm:11.3.4"
@@ -13955,6 +14052,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react@npm:17.0.2":
+  version: 17.0.2
+  resolution: "react@npm:17.0.2"
+  dependencies:
+    loose-envify: ^1.1.0
+    object-assign: ^4.1.1
+  checksum: b254cc17ce3011788330f7bbf383ab653c6848902d7936a87b09d835d091e3f295f7e9dd1597c6daac5dc80f90e778c8230218ba8ad599f74adcc11e33b9d61b
+  languageName: node
+  linkType: hard
+
 "read-pkg-up@npm:^4.0.0":
   version: 4.0.0
   resolution: "read-pkg-up@npm:4.0.0"
@@ -14100,17 +14207,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"regenerator-runtime@npm:0.13.9, regenerator-runtime@npm:^0.13.4":
+  version: 0.13.9
+  resolution: "regenerator-runtime@npm:0.13.9"
+  checksum: 65ed455fe5afd799e2897baf691ca21c2772e1a969d19bb0c4695757c2d96249eb74ee3553ea34a91062b2a676beedf630b4c1551cc6299afb937be1426ec55e
+  languageName: node
+  linkType: hard
+
 "regenerator-runtime@npm:^0.11.0":
   version: 0.11.1
   resolution: "regenerator-runtime@npm:0.11.1"
   checksum: 3c97bd2c7b2b3247e6f8e2147a002eb78c995323732dad5dc70fac8d8d0b758d0295e7015b90d3d444446ae77cbd24b9f9123ec3a77018e81d8999818301b4f4
-  languageName: node
-  linkType: hard
-
-"regenerator-runtime@npm:^0.13.4":
-  version: 0.13.9
-  resolution: "regenerator-runtime@npm:0.13.9"
-  checksum: 65ed455fe5afd799e2897baf691ca21c2772e1a969d19bb0c4695757c2d96249eb74ee3553ea34a91062b2a676beedf630b4c1551cc6299afb937be1426ec55e
   languageName: node
   linkType: hard
 
@@ -14550,6 +14657,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"rxjs@npm:7.5.1":
+  version: 7.5.1
+  resolution: "rxjs@npm:7.5.1"
+  dependencies:
+    tslib: ^2.1.0
+  checksum: 78e3eecb1644dd83adabc8d956f879dca62eb19c8afcd6acac71cf6d94534c33ea201e65387494fdeb1332395cba081e194f5a9699d58a5d48e416b8b52372aa
+  languageName: node
+  linkType: hard
+
 "rxjs@npm:^6.6.3":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
@@ -14671,7 +14787,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"scheduler@npm:^0.20.1":
+"scheduler@npm:^0.20.1, scheduler@npm:^0.20.2":
   version: 0.20.2
   resolution: "scheduler@npm:0.20.2"
   dependencies:
@@ -16541,6 +16657,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uplot@npm:1.6.19":
+  version: 1.6.19
+  resolution: "uplot@npm:1.6.19"
+  checksum: 181cb158e920bc452940292f356eca4a75c31ebabbe9cd40b77e00a3ba90ac76e62e97fde9c06b45c4cd61e34734da0dbefb32c2689bf0d0c24b5d42aa38763a
+  languageName: node
+  linkType: hard
+
 "upper-case@npm:^1.1.1":
   version: 1.1.3
   resolution: "upper-case@npm:1.1.3"
@@ -17111,6 +17234,18 @@ __metadata:
   version: 2.2.0
   resolution: "xmlchars@npm:2.2.0"
   checksum: 8c70ac94070ccca03f47a81fcce3b271bd1f37a591bf5424e787ae313fcb9c212f5f6786e1fa82076a2c632c0141552babcd85698c437506dfa6ae2d58723062
+  languageName: node
+  linkType: hard
+
+"xss@npm:1.0.10":
+  version: 1.0.10
+  resolution: "xss@npm:1.0.10"
+  dependencies:
+    commander: ^2.20.3
+    cssfilter: 0.0.10
+  bin:
+    xss: bin/xss
+  checksum: 0dbc70a716020d854569610d5bc949ba9d3b7f530b7af5508ffe84edaea228c34a4e1227f71cb3a4741373b1c49c3cb691f69dddefda45a594a31f112ae6a738
   languageName: node
   linkType: hard
 

@@ -1,12 +1,10 @@
 import {
-  AnnotationEvent,
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
   MetricFindValue,
   toDataFrame,
 } from '@grafana/data';
-import { AnnotationQueryRequest } from '@grafana/data/types/datasource';
 import { BackendDataSourceResponse, FetchResponse, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
 import { BackendSrvRequest } from '@grafana/runtime/services/backendSrv';
 import { isEqual, isObject } from 'lodash';
@@ -205,42 +203,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     );
   }
 
-  annotationQuery(
-    options: AnnotationQueryRequest<GrafanaQuery & { query: string; iconColor: string }>
-  ): Promise<AnnotationEvent[]> {
-    const query = getTemplateSrv().replace(options.annotation.query, {}, 'glob');
-
-    const annotationQuery = {
-      annotation: {
-        query,
-        name: options.annotation.name,
-        datasource: options.annotation.datasource,
-        enable: options.annotation.enable,
-        iconColor: options.annotation.iconColor,
-      },
-      range: options.range,
-      rangeRaw: options.rangeRaw,
-      variables: this.getVariables(),
-    };
-
-    return lastValueFrom(
-      this.doFetch<AnnotationEvent[]>({
-        url: `${this.url}/annotations`,
-        method: 'POST',
-        data: annotationQuery,
-      }).pipe(
-        map((result) => {
-          return result.data;
-        }),
-        catchError((err) => {
-          console.error(err);
-
-          return of([]);
-        })
-      )
-    );
-  }
-
   mapToTextValue(result: any) {
     return result.data.map((d: any, i: any) => {
       if (d && d.text && d.value) {
@@ -288,10 +250,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   cleanMatch(match: string, options: any) {
     const replacedMatch = getTemplateSrv().replace(match, options.scopedVars, 'json');
-    if (
-      replacedMatch[0] === '"' &&
-      replacedMatch[replacedMatch.length - 1] === '"'
-    ) {
+    if (replacedMatch[0] === '"' && replacedMatch[replacedMatch.length - 1] === '"') {
       return JSON.parse(replacedMatch);
     }
     return replacedMatch;

@@ -269,11 +269,9 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       })
       .map((target) => {
         if (target.payload.trim() !== '') {
-          if (typeof target.payload === 'string') {
-            target.payload = target.payload.replace((getTemplateSrv() as any).regex, (match) =>
-              this.cleanMatch(match, options)
-            );
-          }
+          target.payload = target.payload.replace((getTemplateSrv() as any).regex, (match) =>
+            this.cleanMatch(match, options)
+          );
 
           target.payload = JSON.parse(target.payload);
         }
@@ -291,7 +289,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   cleanMatch(match: string, options: any) {
     const replacedMatch = getTemplateSrv().replace(match, options.scopedVars, 'json');
     if (
-      typeof replacedMatch === 'string' &&
       replacedMatch[0] === '"' &&
       replacedMatch[replacedMatch.length - 1] === '"'
     ) {

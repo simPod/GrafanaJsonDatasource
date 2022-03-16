@@ -22,7 +22,7 @@ export const VariableQueryEditor: React.FC<Props> = ({ onChange, query }) => {
   const handleChangeSwitch = (event: React.FormEvent<HTMLInputElement>) =>
     setVariableQuery({
       ...variableQuery,
-      format: event.currentTarget.checked === true ? 'json' : 'string',
+      format: event.currentTarget.checked ? 'json' : 'string',
     });
 
   const checkValidJSON = (variableQuery: VariableQuery) => {

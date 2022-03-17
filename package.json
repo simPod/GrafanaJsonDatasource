@@ -29,7 +29,7 @@
     "@grafana/data": "8.4.4",
     "@grafana/eslint-config": "3.0.0",
     "@grafana/runtime": "8.3.4",
-    "@grafana/toolkit": "8.4.3",
+    "@grafana/toolkit": "8.4.4",
     "@grafana/ui": "8.4.4",
     "@types/lodash": "^4.14.176",
     "@types/react-virtualized-auto-sizer": "^1.0.0"

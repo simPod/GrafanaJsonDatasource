@@ -1635,6 +1635,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@grafana/data@npm:8.5.0":
+  version: 8.5.0
+  resolution: "@grafana/data@npm:8.5.0"
+  dependencies:
+    "@braintree/sanitize-url": 6.0.0
+    "@grafana/schema": 8.5.0
+    "@types/d3-interpolate": ^1.4.0
+    d3-interpolate: 1.4.0
+    date-fns: 2.28.0
+    eventemitter3: 4.0.7
+    lodash: 4.17.21
+    marked: 4.0.12
+    moment: 2.29.2
+    moment-timezone: 0.5.34
+    ol: 6.14.1
+    papaparse: 5.3.2
+    react: 17.0.2
+    react-dom: 17.0.2
+    regenerator-runtime: 0.13.9
+    rxjs: 7.5.5
+    tslib: 2.3.1
+    uplot: 1.6.19
+    xss: 1.0.11
+  checksum: 92e9f00796429a51c68cfd887d2cdae8dbd441589dd96d03bab26f1089ebcf7af21eca4f59aa3ad0d5454eb073abec916b408c7ce8b427d18036fece02633f70
+  languageName: node
+  linkType: hard
+
 "@grafana/e2e-selectors@npm:8.3.4":
   version: 8.3.4
   resolution: "@grafana/e2e-selectors@npm:8.3.4"
@@ -1726,6 +1753,15 @@ __metadata:
   dependencies:
     tslib: 2.3.1
   checksum: da3d2ad4d1ce0257ccd35af600d836a1140f1d4662229d297e061b304bd1e9d6b4f0ab7b0358ac61ac68d6c0cc2f681f67bdd876a5de321aef1cea9cdaaeb879
+  languageName: node
+  linkType: hard
+
+"@grafana/schema@npm:8.5.0":
+  version: 8.5.0
+  resolution: "@grafana/schema@npm:8.5.0"
+  dependencies:
+    tslib: 2.3.1
+  checksum: 49fa332f3162b54aa08fbb086d7298d827c364a7bafb9d6fc9342562b91e03c5d7acf50adc975358c1adde6c83c419b3b3633616809c6af138560baa1961aa9e
   languageName: node
   linkType: hard
 
@@ -8586,6 +8622,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"geotiff@npm:^2.0.2":
+  version: 2.0.5
+  resolution: "geotiff@npm:2.0.5"
+  dependencies:
+    "@petamoriken/float16": ^3.4.7
+    lerc: ^3.0.0
+    pako: ^2.0.4
+    parse-headers: ^2.0.2
+    quick-lru: ^6.1.0
+    web-worker: ^1.2.0
+    xml-utils: ^1.0.2
+  checksum: d27c70038e9d68d116bc7f4fd51176d531b5d238f5bf4e97cbd48cf1a4e790a2d6c3f4c370af24009fc3e7dc7521b2f0d4fd5ace2df85191da243d2d2a07e1c4
+  languageName: node
+  linkType: hard
+
 "get-caller-file@npm:^2.0.1, get-caller-file@npm:^2.0.5":
   version: 2.0.5
   resolution: "get-caller-file@npm:2.0.5"
@@ -8820,7 +8871,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "grafana-json-datasource@workspace:."
   dependencies:
-    "@grafana/data": 8.4.7
+    "@grafana/data": 8.5.0
     "@grafana/eslint-config": 3.0.0
     "@grafana/runtime": 8.3.4
     "@grafana/toolkit": 8.4.7
@@ -11433,6 +11484,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"marked@npm:4.0.12":
+  version: 4.0.12
+  resolution: "marked@npm:4.0.12"
+  bin:
+    marked: bin/marked.js
+  checksum: 7575117f85a8986652f3ac8b8a7b95056c4c5fce01a1fc76dc4c7960412cb4c9bd9da8133487159b6b3ff84f52b543dfe9a36f826a5f358892b5ec4b6824f192
+  languageName: node
+  linkType: hard
+
 "md5-file@npm:^5.0.0":
   version: 5.0.0
   resolution: "md5-file@npm:5.0.0"
@@ -12368,6 +12428,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ol-mapbox-style@npm:^7.1.1":
+  version: 7.1.1
+  resolution: "ol-mapbox-style@npm:7.1.1"
+  dependencies:
+    "@mapbox/mapbox-gl-style-spec": ^13.20.1
+    mapbox-to-css-font: ^2.4.1
+    webfont-matcher: ^1.1.0
+  checksum: 3f5f9c528163a0f74a582c0cbec58b833cc76b212d334a497a085e0b562164a05054ab2a5a78cde92e9ea560433bbae9511344e894d5440700515af07365426c
+  languageName: node
+  linkType: hard
+
 "ol@npm:6.12.0":
   version: 6.12.0
   resolution: "ol@npm:6.12.0"
@@ -12377,6 +12448,18 @@ __metadata:
     pbf: 3.2.1
     rbush: ^3.0.1
   checksum: a0eb5766bda485acd59c95e835e87d214c501310474e22003f4ef9ea600bf005abb43f0f33aa3d4939d2c84748bd40a5c4168c31551e5266c208aeff8eb576dc
+  languageName: node
+  linkType: hard
+
+"ol@npm:6.14.1":
+  version: 6.14.1
+  resolution: "ol@npm:6.14.1"
+  dependencies:
+    geotiff: ^2.0.2
+    ol-mapbox-style: ^7.1.1
+    pbf: 3.2.1
+    rbush: ^3.0.1
+  checksum: 118ae5b40fb3f98efb7c2cbf230edc3788567fac872f80e09b9dbcc3845c0179de95c2ef771be2307e6f8b4162e9dbc68818757c874d7d4fdd855e56dd43ea12
   languageName: node
   linkType: hard
 
@@ -12618,6 +12701,13 @@ __metadata:
   version: 5.3.1
   resolution: "papaparse@npm:5.3.1"
   checksum: 3431917bb46f8952e49ca64ecc9107ddf05291573ef666c8fac4e172b57780d131f1af925b47841039bd5ae0ceadc2eafbcb8183c092307442f85eed11f82b69
+  languageName: node
+  linkType: hard
+
+"papaparse@npm:5.3.2":
+  version: 5.3.2
+  resolution: "papaparse@npm:5.3.2"
+  checksum: a5950ef931a42f6759a8d3823a43dd30f375b37a0ddea6ea5448c0c5024cd226819231958c49c24fbcdeab297c63fd1d630130b3439876ea0fd17d8a267738ae
   languageName: node
   linkType: hard
 
@@ -13979,6 +14069,13 @@ __metadata:
   version: 1.2.3
   resolution: "queue-microtask@npm:1.2.3"
   checksum: b676f8c040cdc5b12723ad2f91414d267605b26419d5c821ff03befa817ddd10e238d22b25d604920340fd73efd8ba795465a0377c4adf45a4a41e4234e42dc4
+  languageName: node
+  linkType: hard
+
+"quick-lru@npm:^6.1.0":
+  version: 6.1.1
+  resolution: "quick-lru@npm:6.1.1"
+  checksum: a9c75bf1d208c1d207590e10403a75d037f9faf7857f2e0d38c294d92b40d8b400776bcb5d4dd516baa84e6f5e3baf2a16cf405e6fedc18107922f46aeae83ee
   languageName: node
   linkType: hard
 
@@ -15526,6 +15623,15 @@ __metadata:
   dependencies:
     tslib: ^2.1.0
   checksum: 78e3eecb1644dd83adabc8d956f879dca62eb19c8afcd6acac71cf6d94534c33ea201e65387494fdeb1332395cba081e194f5a9699d58a5d48e416b8b52372aa
+  languageName: node
+  linkType: hard
+
+"rxjs@npm:7.5.5":
+  version: 7.5.5
+  resolution: "rxjs@npm:7.5.5"
+  dependencies:
+    tslib: ^2.1.0
+  checksum: e034f60805210cce756dd2f49664a8108780b117cf5d0e2281506e9e6387f7b4f1532d974a8c8b09314fa7a16dd2f6cff3462072a5789672b5dcb45c4173f3c6
   languageName: node
   linkType: hard
 
@@ -17788,6 +17894,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"web-worker@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "web-worker@npm:1.2.0"
+  checksum: 1bb28348ddcf9b2e7c62c5fd02e49a84098795856cd905456de957271bba288e9618941cf69d8960f0a7ae81f5dfb74b427c0634be47ec69e3e955c4ec5213be
+  languageName: node
+  linkType: hard
+
 "webfont-matcher@npm:^1.1.0":
   version: 1.1.0
   resolution: "webfont-matcher@npm:1.1.0"
@@ -18078,6 +18191,18 @@ __metadata:
   bin:
     xss: bin/xss
   checksum: 0dbc70a716020d854569610d5bc949ba9d3b7f530b7af5508ffe84edaea228c34a4e1227f71cb3a4741373b1c49c3cb691f69dddefda45a594a31f112ae6a738
+  languageName: node
+  linkType: hard
+
+"xss@npm:1.0.11":
+  version: 1.0.11
+  resolution: "xss@npm:1.0.11"
+  dependencies:
+    commander: ^2.20.3
+    cssfilter: 0.0.10
+  bin:
+    xss: bin/xss
+  checksum: 86104fe3c0e4e32912835b369a95d47aff140f996a0f3bd2833750c974c56359e91e87faf779077608f8baaec643662e6222f9f348be52f74b17432eeee6bfdf
   languageName: node
   linkType: hard
 

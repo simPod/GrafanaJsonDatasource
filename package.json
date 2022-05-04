@@ -26,7 +26,7 @@
     "url": "https://github.com/simPod/grafana-json-datasource/issues"
   },
   "devDependencies": {
-    "@grafana/data": "8.5.1",
+    "@grafana/data": "8.5.2",
     "@grafana/eslint-config": "3.0.0",
     "@grafana/runtime": "8.3.4",
     "@grafana/toolkit": "8.5.1",

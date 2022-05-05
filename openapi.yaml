@@ -109,7 +109,7 @@ paths:
                       type:
                         type: string
                         enum: ["timeseries", "table"]
-                      data:
+                      payload:
                         description: arbitrary "additional data" the user can pass in
                         type: object
                 scopedVars:

@@ -228,9 +228,9 @@ Example response
 
 ```json
 [
-  {"__text":"Label 1", "value":"Value1"},
-  {"__text":"Label 2", "value":"Value2"},
-  {"__text":"Label 3", "value":"Value3"}
+  {"__text":"Label 1", "__value":"Value1"},
+  {"__text":"Label 2", "__value":"Value2"},
+  {"__text":"Label 3", "__value":"Value3"}
 ]
 ```
 

@@ -1642,6 +1642,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@grafana/data@npm:8.5.4":
+  version: 8.5.4
+  resolution: "@grafana/data@npm:8.5.4"
+  dependencies:
+    "@braintree/sanitize-url": 6.0.0
+    "@grafana/schema": 8.5.4
+    "@types/d3-interpolate": ^1.4.0
+    d3-interpolate: 1.4.0
+    date-fns: 2.28.0
+    eventemitter3: 4.0.7
+    lodash: 4.17.21
+    marked: 4.0.12
+    moment: 2.29.2
+    moment-timezone: 0.5.34
+    ol: 6.14.1
+    papaparse: 5.3.2
+    react: 17.0.2
+    react-dom: 17.0.2
+    regenerator-runtime: 0.13.9
+    rxjs: 7.5.5
+    tslib: 2.3.1
+    uplot: 1.6.19
+    xss: 1.0.11
+  checksum: 31dbe885a0834fd33f782645374188546f747fcd75787b3cc42b2029308987eda0ec02d450baf2ad5afba3b75d6f28ec0a3e6816cf3f06e57ea0644eebbabfc6
+  languageName: node
+  linkType: hard
+
 "@grafana/e2e-selectors@npm:8.3.4":
   version: 8.3.4
   resolution: "@grafana/e2e-selectors@npm:8.3.4"
@@ -1733,6 +1760,15 @@ __metadata:
   dependencies:
     tslib: 2.3.1
   checksum: 844e1b83938a93c1fa85d9d0ff6ed51de4f5a674bd4a5b1986ce3c9bee3e5f2027dfeaa233addbdc864f99f25c6b6637f3125587adb666391386a5ccec71f6be
+  languageName: node
+  linkType: hard
+
+"@grafana/schema@npm:8.5.4":
+  version: 8.5.4
+  resolution: "@grafana/schema@npm:8.5.4"
+  dependencies:
+    tslib: 2.3.1
+  checksum: fcaefeacfab90ff8576d66007af21530a080ed81b2d216dd34d2e8ada4b2cc2115f255f631ed927a551eb7fc1dcdffa2d98a2da93a99965ade4f3ea111a84ac7
   languageName: node
   linkType: hard
 
@@ -8824,7 +8860,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "grafana-json-datasource@workspace:."
   dependencies:
-    "@grafana/data": 8.5.3
+    "@grafana/data": 8.5.4
     "@grafana/eslint-config": 3.0.0
     "@grafana/runtime": 8.3.4
     "@grafana/toolkit": 8.5.3

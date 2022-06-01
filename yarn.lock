@@ -1615,33 +1615,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/data@npm:8.5.3":
-  version: 8.5.3
-  resolution: "@grafana/data@npm:8.5.3"
-  dependencies:
-    "@braintree/sanitize-url": 6.0.0
-    "@grafana/schema": 8.5.3
-    "@types/d3-interpolate": ^1.4.0
-    d3-interpolate: 1.4.0
-    date-fns: 2.28.0
-    eventemitter3: 4.0.7
-    lodash: 4.17.21
-    marked: 4.0.12
-    moment: 2.29.2
-    moment-timezone: 0.5.34
-    ol: 6.14.1
-    papaparse: 5.3.2
-    react: 17.0.2
-    react-dom: 17.0.2
-    regenerator-runtime: 0.13.9
-    rxjs: 7.5.5
-    tslib: 2.3.1
-    uplot: 1.6.19
-    xss: 1.0.11
-  checksum: 6556b0a474369cdf3a823826c074f9f3c7b5dd3d2df3cae8924dbbc8e3826d8e409d2ada9dfdb9d38e3f8a5fee8ae1bdc88f151e373bfe7c4a78f84ce123f17b
-  languageName: node
-  linkType: hard
-
 "@grafana/data@npm:8.5.4":
   version: 8.5.4
   resolution: "@grafana/data@npm:8.5.4"
@@ -1679,17 +1652,6 @@ __metadata:
     typescript: 4.4.3
     yaml: ^1.8.3
   checksum: 332857ccfb1bc3de7b457b42f98fe609b7e345a6d705fc89cfa6d55ee7696b76251cda358515307ecb4847b6caeac1e497cf292623ab8d3e0117cf2e5ebcb38f
-  languageName: node
-  linkType: hard
-
-"@grafana/e2e-selectors@npm:8.5.3":
-  version: 8.5.3
-  resolution: "@grafana/e2e-selectors@npm:8.5.3"
-  dependencies:
-    "@grafana/tsconfig": ^1.2.0-rc1
-    tslib: 2.3.1
-    typescript: 4.4.4
-  checksum: e92f2f1ef33065f73b83d0bf7e32e69ed8aef5745b15523332cce39f097513eb49a8562f16407e32888879e214b18d03443acaac49be76dcf2250d29d3b4e445
   languageName: node
   linkType: hard
 
@@ -1762,15 +1724,6 @@ __metadata:
   version: 8.3.4
   resolution: "@grafana/schema@npm:8.3.4"
   checksum: f066261656219f12622f6bc0def146b6b80bbcf4b63233a9024763b7e6c9410b8cd611e8480ebfdc5d4647e81ab776c50d1a7e7c137ee368f0a44e9b59276e59
-  languageName: node
-  linkType: hard
-
-"@grafana/schema@npm:8.5.3":
-  version: 8.5.3
-  resolution: "@grafana/schema@npm:8.5.3"
-  dependencies:
-    tslib: 2.3.1
-  checksum: 844e1b83938a93c1fa85d9d0ff6ed51de4f5a674bd4a5b1986ce3c9bee3e5f2027dfeaa233addbdc864f99f25c6b6637f3125587adb666391386a5ccec71f6be
   languageName: node
   linkType: hard
 
@@ -1977,76 +1930,6 @@ __metadata:
     uplot: 1.6.18
     uuid: 8.3.0
   checksum: a36804defb2f46cba0307592e51175a6d13f6418a22d3fdb704096982a369d23c71a960c2501f2e1963d473c3bb20904bea48d337ab3c260d18e2c0d3fca425f
-  languageName: node
-  linkType: hard
-
-"@grafana/ui@npm:8.5.3":
-  version: 8.5.3
-  resolution: "@grafana/ui@npm:8.5.3"
-  dependencies:
-    "@emotion/css": 11.7.1
-    "@emotion/react": 11.8.2
-    "@grafana/aws-sdk": 0.0.35
-    "@grafana/data": 8.5.3
-    "@grafana/e2e-selectors": 8.5.3
-    "@grafana/schema": 8.5.3
-    "@grafana/slate-react": 0.22.10-grafana
-    "@monaco-editor/react": 4.3.1
-    "@popperjs/core": 2.11.4
-    "@react-aria/button": 3.4.3
-    "@react-aria/dialog": 3.1.8
-    "@react-aria/focus": 3.5.4
-    "@react-aria/menu": 3.4.3
-    "@react-aria/overlays": 3.8.1
-    "@react-stately/menu": 3.2.6
-    "@sentry/browser": 6.19.1
-    ansicolor: 1.1.100
-    calculate-size: 1.1.1
-    classnames: 2.3.1
-    core-js: 3.21.1
-    d3: 5.15.0
-    date-fns: 2.28.0
-    hoist-non-react-statics: 3.3.2
-    immutable: 4.0.0
-    is-hotkey: 0.2.0
-    jquery: 3.6.0
-    lodash: 4.17.21
-    memoize-one: 6.0.0
-    moment: 2.29.2
-    monaco-editor: ^0.31.1
-    ol: 6.14.1
-    prismjs: 1.27.0
-    rc-cascader: 3.4.1
-    rc-drawer: 4.4.3
-    rc-slider: 9.7.5
-    rc-time-picker: ^3.7.3
-    react: 17.0.2
-    react-beautiful-dnd: 13.1.0
-    react-calendar: 3.7.0
-    react-colorful: 5.5.1
-    react-custom-scrollbars-2: 4.4.0
-    react-dom: 17.0.2
-    react-dropzone: 12.0.4
-    react-highlight-words: 0.17.0
-    react-hook-form: 7.5.3
-    react-inlinesvg: 2.3.0
-    react-popper: 2.2.5
-    react-popper-tooltip: ^4.3.1
-    react-router-dom: ^5.2.0
-    react-select: 5.2.2
-    react-select-event: ^5.1.0
-    react-table: 7.7.0
-    react-transition-group: 4.4.2
-    react-use: 17.3.2
-    react-window: 1.8.6
-    rxjs: 7.5.5
-    slate: 0.47.8
-    slate-plain-serializer: 0.7.10
-    tinycolor2: 1.4.2
-    tslib: 2.3.1
-    uplot: 1.6.19
-    uuid: 8.3.2
-  checksum: f3664cdd7fa140584dc01a09f40f25984cc28886d39692465fc596f09110fc3fd81d5f80946fa75725208fb9f71b2025c2cbcc0f83960eec75a3bd1e67ef9663
   languageName: node
   linkType: hard
 
@@ -8945,7 +8828,7 @@ __metadata:
     "@grafana/eslint-config": 3.0.0
     "@grafana/runtime": 8.3.4
     "@grafana/toolkit": 8.5.4
-    "@grafana/ui": 8.5.3
+    "@grafana/ui": 8.5.4
     "@types/lodash": ^4.14.176
     "@types/react-virtualized-auto-sizer": ^1.0.0
     lodash: ^4.17.21

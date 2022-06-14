@@ -8833,7 +8833,7 @@ __metadata:
     "@types/react-virtualized-auto-sizer": ^1.0.0
     lodash: ^4.17.21
     react-virtualized-auto-sizer: ^1.0.5
-    rxjs: 7.3.0
+    rxjs: 7.5.5
   languageName: unknown
   linkType: soft
 

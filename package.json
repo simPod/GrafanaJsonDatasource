@@ -19,7 +19,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/simPod/grafana-json-datasource.git"
+    "url": "git+https://github.com:simPod/GrafanaJsonDatasource.git"
   },
   "license": "MIT",
   "bugs": {

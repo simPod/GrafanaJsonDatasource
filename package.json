@@ -24,7 +24,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simPod/grafana-json-datasource/issues"
+    "url": "https://github.com/simPod/GrafanaJsonDatasource/issues"
   },
   "devDependencies": {
     "@grafana/data": "^8.5.6",
@@ -40,7 +40,7 @@
     "react-virtualized-auto-sizer": "^1.0.5",
     "rxjs": "^7.5.5"
   },
-  "homepage": "https://github.com/simPod/grafana-json-datasource#readme",
+  "homepage": "https://github.com/simPod/GrafanaJsonDatasource",
   "engineStrict": true,
   "nodeLinker": "node-modules",
   "packageManager": "yarn@3.2.1"

@@ -11,6 +11,7 @@
     "sign": "grafana-toolkit plugin:sign",
     "build-sign-release": "yarn run build && yarn run sign && yarn run package",
     "package": "cp -r dist/ simpod-json-datasource && zip simpod-json-datasource.zip simpod-json-datasource -r && rm -rfd simpod-json-datasource",
+    "release:minor": "npm version minor && yarn run build-sign-release",
     "release:patch": "npm version patch && yarn run build-sign-release",
     "eslint:check": "eslint src spec --ext .tsx,.ts",
     "eslint:fix": "yarn run eslint:check --fix",

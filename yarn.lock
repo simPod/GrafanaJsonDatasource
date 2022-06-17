@@ -1543,7 +1543,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/data@npm:8.5.6, @grafana/data@npm:^8.5.6":
+"@grafana/data@npm:8.5.6":
   version: 8.5.6
   resolution: "@grafana/data@npm:8.5.6"
   dependencies:
@@ -1570,7 +1570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/data@npm:9.0.0":
+"@grafana/data@npm:9.0.0, @grafana/data@npm:^9.0.0":
   version: 9.0.0
   resolution: "@grafana/data@npm:9.0.0"
   dependencies:
@@ -8591,7 +8591,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "grafana-json-datasource@workspace:."
   dependencies:
-    "@grafana/data": ^8.5.6
+    "@grafana/data": ^9.0.0
     "@grafana/eslint-config": ^3.0.0
     "@grafana/runtime": ^9.0.0
     "@grafana/toolkit": ^8.5.6

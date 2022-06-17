@@ -1,5 +1,12 @@
 {
   "extends": [
       "github>simPod/renovatebot-presets:ts-lib"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["@grafana/"],
+      "groupName": "grafana packages",
+      "groupSlug": "grafana"
+    }
   ]
 }

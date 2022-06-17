@@ -1472,7 +1472,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/data@npm:8.5.6":
+"@grafana/data@npm:8.5.6, @grafana/data@npm:^8.5.6":
   version: 8.5.6
   resolution: "@grafana/data@npm:8.5.6"
   dependencies:
@@ -1528,7 +1528,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/eslint-config@npm:3.0.0":
+"@grafana/eslint-config@npm:^3.0.0":
   version: 3.0.0
   resolution: "@grafana/eslint-config@npm:3.0.0"
   dependencies:
@@ -1544,7 +1544,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/runtime@npm:8.5.6":
+"@grafana/runtime@npm:^8.5.6":
   version: 8.5.6
   resolution: "@grafana/runtime@npm:8.5.6"
   dependencies:
@@ -1601,7 +1601,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/toolkit@npm:8.5.6":
+"@grafana/toolkit@npm:^8.5.6":
   version: 8.5.6
   resolution: "@grafana/toolkit@npm:8.5.6"
   dependencies:
@@ -1695,7 +1695,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/ui@npm:8.5.6":
+"@grafana/ui@npm:8.5.6, @grafana/ui@npm:^8.5.6":
   version: 8.5.6
   resolution: "@grafana/ui@npm:8.5.6"
   dependencies:
@@ -8175,16 +8175,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "grafana-json-datasource@workspace:."
   dependencies:
-    "@grafana/data": 8.5.6
-    "@grafana/eslint-config": 3.0.0
-    "@grafana/runtime": 8.5.6
-    "@grafana/toolkit": 8.5.6
-    "@grafana/ui": 8.5.6
+    "@grafana/data": ^8.5.6
+    "@grafana/eslint-config": ^3.0.0
+    "@grafana/runtime": ^8.5.6
+    "@grafana/toolkit": ^8.5.6
+    "@grafana/ui": ^8.5.6
     "@types/lodash": ^4.14.176
     "@types/react-virtualized-auto-sizer": ^1.0.0
     lodash: ^4.17.21
     react-virtualized-auto-sizer: ^1.0.5
-    rxjs: 7.5.5
+    rxjs: ^7.5.5
   languageName: unknown
   linkType: soft
 
@@ -14555,7 +14555,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:7.5.5, rxjs@npm:^7.2.0":
+"rxjs@npm:7.5.5, rxjs@npm:^7.2.0, rxjs@npm:^7.5.5":
   version: 7.5.5
   resolution: "rxjs@npm:7.5.5"
   dependencies:

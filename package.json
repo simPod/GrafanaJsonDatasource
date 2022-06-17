@@ -33,7 +33,8 @@
     "@grafana/toolkit": "^9.0.0",
     "@grafana/ui": "^9.0.0",
     "@types/lodash": "^4.14.176",
-    "@types/react-virtualized-auto-sizer": "^1.0.0"
+    "@types/react-virtualized-auto-sizer": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.28.0"
   },
   "dependencies": {
     "lodash": "^4.17.21",

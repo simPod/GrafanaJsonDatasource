@@ -1813,7 +1813,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/ui@npm:8.5.6, @grafana/ui@npm:^8.5.6":
+"@grafana/ui@npm:8.5.6":
   version: 8.5.6
   resolution: "@grafana/ui@npm:8.5.6"
   dependencies:
@@ -1883,7 +1883,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/ui@npm:9.0.0":
+"@grafana/ui@npm:9.0.0, @grafana/ui@npm:^9.0.0":
   version: 9.0.0
   resolution: "@grafana/ui@npm:9.0.0"
   dependencies:
@@ -8595,7 +8595,7 @@ __metadata:
     "@grafana/eslint-config": ^3.0.0
     "@grafana/runtime": ^9.0.0
     "@grafana/toolkit": ^8.5.6
-    "@grafana/ui": ^8.5.6
+    "@grafana/ui": ^9.0.0
     "@types/lodash": ^4.14.176
     "@types/react-virtualized-auto-sizer": ^1.0.0
     lodash: ^4.17.21

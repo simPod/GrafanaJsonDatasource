@@ -1922,6 +1922,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@grafana/eslint-config@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "@grafana/eslint-config@npm:4.0.0"
+  dependencies:
+    "@typescript-eslint/eslint-plugin": 5.16.0
+    "@typescript-eslint/parser": 5.16.0
+    eslint: 8.11.0
+    eslint-config-prettier: 8.5.0
+    eslint-plugin-jsdoc: 38.0.6
+    eslint-plugin-react: 7.29.4
+    eslint-plugin-react-hooks: 4.3.0
+    typescript: 4.6.4
+  checksum: ed7dbf3bff5ac38daf57dfd590696d3f48f31f216f2bbcac126c3a37619aea66e856c07677c6387531bb2ae007bdd09caf36b8f289bb88b1ac1c719b6a537ae9
+  languageName: node
+  linkType: hard
+
 "@grafana/runtime@npm:^9.0.0":
   version: 9.0.0
   resolution: "@grafana/runtime@npm:9.0.0"
@@ -7478,7 +7494,7 @@ __metadata:
   resolution: "grafana-json-datasource@workspace:."
   dependencies:
     "@grafana/data": ^9.0.0
-    "@grafana/eslint-config": ^3.0.0
+    "@grafana/eslint-config": ^4.0.0
     "@grafana/runtime": ^9.0.0
     "@grafana/toolkit": ^9.0.0
     "@grafana/ui": ^9.0.0

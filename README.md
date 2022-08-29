@@ -12,6 +12,8 @@ The JSON Datasource executes requests against arbitrary backends and parses JSON
 - [Setup](#setup)
 - [API](#api)
   - [/search](#search)
+  - [/metrics](#metrics)
+  - [/options](#options)
   - [/query](#query)
   - [/variable](#variable)
   - [/tag-keys](#tag-keys)
@@ -43,6 +45,8 @@ To work with this datasource the backend needs to implement 3 endpoints:
 
 - `GET /` with 200 status code response. Used for "Test connection" on the datasource config page.
 - `POST /search` to return available metrics.
+- `POST /metrics` to return available metrics in builder mode.
+- `POST /options` to return a list of options for the load in builder mode..
 - `POST /query` to return panel data or annotations.
 
 Those 3 endpoints are optional:
@@ -75,7 +79,7 @@ will be expanded to
 {"selectedservers":["server1","server2"]}
 ```
 
-2. `Panel > Queries` page. `Format As` and `Metric` values are passed in a body as
+2. `Panel > Queries` page. `Metric` values are passed in a body as
 
 ```json
 { "target": "upper_50" }
@@ -96,6 +100,101 @@ Example map response:
 ```json
 [ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ]
 ```
+
+### /metrics
+
+`POST /metrics`
+
+In `Panel > Queries` page. When configuring a query request using `Builder` mode, it will send the request to obtain the available metrics. The request body will carry the current metric and payload. In the `Builder` mode, if the `reloadMetric` value in the load configuration is true, the api will also be triggered when the value is modified / switched.
+
+Example request:
+```json
+{}
+```
+Or. 
+```json
+{
+  "metric": "DescribeMetricList",
+  "payload":{
+    "cloud": "cf6591c5dad211eaa22100163e120f6e",
+    "namespace": "MySQL",
+  }
+}
+```
+Example response:
+```json
+[{
+  "label": "Describe metric list", // Optional. If the value is empty, use the value as the label
+  "value": "DescribeMetricList", // The value of the option.
+  "payloads": [{ // Configuration parameters of the payload.
+    "label": "Namespace", // The label of the payload. If the value is empty, use the value as the label.
+    "name": "namespace", // The name of the payload. If the value is empty, use the name as the label.
+    "type": "select", // If the value is select, the UI of the payload is a radio box. If the value is multi-select, the UI of the payload is a multi selection box; if the value is input, the UI of the payload is an input box.
+    "placeholder": "Please select namespace", // Input box / selection box prompt information.
+    "reloadMetric": true, // Whether to overload the metrics API after modifying the value of the payload.
+    "options": [{ // If the payload type is select / multi-select, the list is the configuration of the option list.
+      "label": "acs_mongodb", // The label of the payload select option.
+      "value": "acs_mongodb", // The label of the payload value.
+    },{
+      "label": "acs_rds",
+      "value": "acs_rds",
+    }]
+  },{
+    "name": "metric",
+    "type": "select"
+  },{
+    "name": "instanceId",
+    "type": "select"
+  }]
+},{
+  "value": "DescribeMetricLast",
+  "payloads": [{
+    "name": "namespace",
+    "type": "select"
+  },{
+    "name": "metric",
+    "type": "select"
+  },{
+    "name": "instanceId",
+    "type": "multi-select"
+  }]
+}]
+```
+The display is as follows:
+![Metrics in builder mode](./docs/images/builder-metrics.png)
+
+### /options
+
+`POST /options`
+
+When the payload `type` is `select` or `multi-select` and the payload `options` configuration is empty, expanding the drop-down menu will trigger this API. The request body will carry the current metric and payload. 
+
+Example Request:
+```json
+{
+  "metric":"DescribeMetricList", // Current metric.
+  "payload": { // Current payload.
+    "namespace":"acs_ecs"
+  },
+  "name":"cms_metric" // The payload name of the option list needs to be obtained.
+}
+```
+
+Example Response:
+```json
+[{ 
+  "label": "CPUUtilization",
+  "value": "CPUUtilization"
+},{
+  "label": "DiskReadIOPS",
+  "value": "DiskReadIOPS"
+},{
+  "label": "memory_freeutilization",
+  "value": "memory_freeutilization"
+}]
+```
+The display is as follows:
+![Metric options in builder mode](./docs/images/builder-metric-options.png)
 
 ### /query
 

@@ -117,7 +117,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.listMetrics('search').then((result) => {
+    ds.searchMetrics('search').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');
@@ -140,7 +140,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.listMetrics('').then((result) => {
+    ds.searchMetrics('').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -163,7 +163,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.listMetrics('').then((result) => {
+    ds.searchMetrics('').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('metric_0');
       expect(result[0].value).toBe('metric_0');
@@ -190,7 +190,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    ds.listMetrics('search').then((result) => {
+    ds.searchMetrics('search').then((result) => {
       expect(result).toHaveLength(3);
       expect(result[0].text).toBe('search_0');
       expect(result[0].value).toBe('search_0');

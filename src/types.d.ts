@@ -1,4 +1,4 @@
-import { DataQuery, DataQueryRequest, DataSourceJsonData, MetricFindValue, VariableModel } from '@grafana/data';
+import { DataQuery, DataQueryRequest, DataSourceJsonData, MetricFindValue, SelectableValue, VariableModel } from '@grafana/data';
 import { TemplateSrv as GrafanaTemplateSrv } from '@grafana/runtime';
 
 declare module '@grafana/runtime' {
@@ -7,19 +7,24 @@ declare module '@grafana/runtime' {
   }
 }
 
-export interface DataSourceOptions extends DataSourceJsonData {}
+export interface DataSourceOptions extends DataSourceJsonData {
+  defaultEditorMode?: QueryEditorMode;
+}
 
 export interface QueryRequest extends DataQueryRequest<GrafanaQuery> {
   adhocFilters?: any[];
 }
 
 export interface GrafanaQuery extends DataQuery {
+  editorMode?: QueryEditorMode;
   alias?: string;
   target?: string;
-  payload: string;
+  payload: string | { [key: string]: any };
 }
 
-export interface GenericOptions extends DataSourceJsonData {}
+export interface GenericOptions extends DataSourceJsonData {
+  defaultEditorMode?: QueryEditorMode;
+}
 
 export interface VariableQuery {
   query: string;
@@ -54,3 +59,20 @@ declare module 'react' {
     css?: InterpolationWithTheme<any>;
   }
 }
+
+export interface MetricPayloadConfig {
+  placeholder: string;
+  name: string;
+  label: string;
+  type: "input" | "select" | "multi-select";
+  reloadMetric: boolean;
+  options: Array<SelectableValue<string | number>>;
+}
+
+export interface MetricConfig {
+  value: string;
+  label: string;
+  payloads: MetricPayloadConfig[];
+}
+
+export type QueryEditorMode = "code" | "builder";

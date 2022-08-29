@@ -1,6 +1,6 @@
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { CodeEditor, InlineField, InlineFieldRow, InlineLabel, Select } from '@grafana/ui';
-import { find } from 'lodash';
+import { find, isString } from 'lodash';
 
 import React, { ComponentType } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -25,7 +25,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
   const [isMetricOptionsLoading, setIsMetricOptionsLoading] = React.useState<boolean>(false);
 
   const loadMetrics = React.useCallback(() => {
-    return datasource.listMetrics('', undefined).then(
+    return datasource.searchMetrics('', undefined).then(
       (result) => {
         const metrics = result.map((value) => ({ label: value.text, value: value.value }));
 
@@ -67,7 +67,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
       return;
     }
 
-    setLastQuery({ payload, metric: metric.value.toString() });
+    setLastQuery({ payload: isString(payload) ? payload : JSON.stringify(payload), metric: metric.value.toString() });
 
     onChange({ ...query, payload, target: metric.value.toString() });
 
@@ -102,7 +102,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
                 language="json"
                 showLineNumbers={true}
                 showMiniMap={payload.length > 100}
-                value={payload}
+                value={isString(payload) ? payload : JSON.stringify(payload,undefined,2)}
                 onBlur={(value) => setPayload(value)}
               />
             </div>

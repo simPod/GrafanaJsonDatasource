@@ -57,7 +57,7 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
         <InlineField label="Mode">
           <QueryEditorModeToggle size="md" mode={editorMode} onChange={onEditorModeChange} />
         </InlineField>
-        <InlineField label="Format">
+        <InlineField label="Format" tooltip={"This option only adds an expected response data type to the request, but the final returned data type is still determined by the server."}>
           <RadioButtonGroup<string>
             options={queryTypes}
             size="md"

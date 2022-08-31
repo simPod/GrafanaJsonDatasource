@@ -1,6 +1,6 @@
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { CodeEditor, InlineField, InlineFieldRow, InlineLabel, Select } from '@grafana/ui';
-import { find, isString } from 'lodash';
+import { find } from 'lodash';
 
 import React, { ComponentType } from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -8,16 +8,18 @@ import { DataSource } from '../DataSource';
 
 import { GenericOptions, GrafanaQuery } from '../types';
 
-type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
+interface Props extends QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>{
+  payload?: string;
+};
 
 interface LastQuery {
   payload: string;
   metric: string;
 }
 
-export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
+export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query, payload: queryPayload }) => {
   const [metric, setMetric] = React.useState<SelectableValue<string | number>>();
-  const [payload, setPayload] = React.useState(query.payload ?? '');
+  const [payload, setPayload] = React.useState(queryPayload ?? '');
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
 
@@ -67,7 +69,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
       return;
     }
 
-    setLastQuery({ payload: isString(payload) ? payload : JSON.stringify(payload), metric: metric.value.toString() });
+    setLastQuery({ payload, metric: metric.value.toString() });
 
     onChange({ ...query, payload, target: metric.value.toString() });
 
@@ -102,7 +104,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
                 language="json"
                 showLineNumbers={true}
                 showMiniMap={payload.length > 100}
-                value={isString(payload) ? payload : JSON.stringify(payload,undefined,2)}
+                value={payload}
                 onBlur={(value) => setPayload(value)}
               />
             </div>

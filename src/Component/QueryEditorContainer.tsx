@@ -17,6 +17,33 @@ const queryTypes: Array<SelectableValue<string>> = [
   { label: 'Table', value: 'table' },
 ];
 
+function convertPayloadToObject(payload: string | { [key: string]: any }): { [key: string]: any } {
+  if(payload){
+    if(typeof payload==="string"){
+      try{
+        return JSON.parse(payload)
+      }catch(err){
+        console.error(err)
+        return {}
+      }
+    }else{
+      return payload
+    }
+  }else{
+    return {};
+  }
+}
+
+const convertPayloadToString = (payload: string | { [key: string]: any }): string => {
+  if (typeof payload === 'string') {
+    return payload;
+  } else if(payload){
+    return JSON.stringify(payload, undefined, 2);
+  } else {
+    return ""
+  }
+};
+
 export const QueryEditorContainer: ComponentType<Props> = (props) => {
   const { onChange, query, datasource } = props;
   const { defaultEditorMode } = datasource;
@@ -57,7 +84,12 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
         <InlineField label="Mode">
           <QueryEditorModeToggle size="md" mode={editorMode} onChange={onEditorModeChange} />
         </InlineField>
-        <InlineField label="Format" tooltip={"This option only adds an expected response data type to the request, but the final returned data type is still determined by the server."}>
+        <InlineField
+          label="Format"
+          tooltip={
+            'This option only adds an expected response data type to the request, but the final returned data type is still determined by the server.'
+          }
+        >
           <RadioButtonGroup<string>
             options={queryTypes}
             size="md"
@@ -75,8 +107,12 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
         </InlineField>
       </EditorHeader>
       <EditorRows>
-        {(editorMode ?? defaultEditorMode) === 'code' && <QueryEditor {...props} />}
-        {(editorMode ?? defaultEditorMode) === 'builder' && <QueryBuilder {...props} />}
+        {(editorMode ?? defaultEditorMode) === 'code' && (
+          <QueryEditor {...props} payload={convertPayloadToString(query.payload)} />
+        )}
+        {(editorMode ?? defaultEditorMode) === 'builder' && (
+          <QueryBuilder {...props} payload={convertPayloadToObject(query.payload)} />
+        )}
       </EditorRows>
       {showRawQuery && (
         <EditorFieldGroup>

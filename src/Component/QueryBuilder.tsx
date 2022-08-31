@@ -2,21 +2,30 @@ import { DataSource } from 'DataSource';
 import React, { ComponentType } from 'react';
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { InlineField, Input, Select } from '@grafana/ui';
-import { find, includes, isArray, isString } from 'lodash';
+import { find, isArray } from 'lodash';
 import { GenericOptions, GrafanaQuery, MetricConfig, MetricPayloadConfig } from '../types';
 import { EditorField, EditorFieldGroup } from '@grafana/experimental';
+import { QueryBuilderTextArea } from './QueryBuilderTextArea';
+import { QueryBuilderPayloadSelect } from './QueryBuilderPayloadSelect';
+import { QueryBuilderTag } from './QueryBuilderTag';
 
 interface LastQuery {
   payload: string | { [key: string]: any };
   metric: string;
 }
 
-type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
+type EditorProps = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
+
+interface Props  extends EditorProps {
+  payload: {[key: string]: any};
+}
 
 export const QueryBuilder: ComponentType<Props> = (props) => {
   const { datasource, onChange, onRunQuery, query } = props;
   const [metric, setMetric] = React.useState<SelectableValue<string | number>>();
-  const [payload, setPayload] = React.useState(query.payload ?? '');
+  const [payload, setPayload] = React.useState(props.payload ?? '');
+
+  const [unusedPayload,setUnusedPayload]= React.useState<Array<{name: string,value: any}>>([]);
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
   const [payloadConfig, setPayloadConfig] = React.useState<MetricPayloadConfig[]>([]);
@@ -69,22 +78,33 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
     onRunQuery();
   }, [payload, metric]);
 
+  
+  React.useEffect(() => {
+    const newUnusedPayload: Array<{ name: string; value: any }> = [];
+    for (const key in payload) {
+      const foundConfig = payloadConfig.find((item)=>item.name===key)
+      if(!foundConfig){
+        newUnusedPayload.push({name: key,value: payload[key]})
+      }
+      setUnusedPayload(newUnusedPayload)
+    }
+  }, [payload,payloadConfig]);
+
   const changePayload = (
     name: string,
-    reloadMetric: boolean,
-    v: SelectableValue<string | number> | Array<SelectableValue<string | number>>
+    reloadMetric?: boolean,
+    v?: SelectableValue<string | number> | Array<SelectableValue<string | number>>
   ) => {
     setPayload((ori) => {
-      let newPayload: { [key: string]: any } = {};
-      try {
-        newPayload = isString(ori) ? JSON.parse(ori) : { ...ori };
-      } catch (error) {
-        console.log(error);
-      }
+      let newPayload: { [key: string]: any } = { ...ori };
       if(isArray(v)){
-        newPayload[name] = v.map((item) => item.value);
-      }else{
+        newPayload[name] = v
+          .map((item) => item.value)
+          .filter((item) => (item !== undefined ? item.toString().length > 0 : false));
+      }else if(v && v.value !== undefined && v.value !== ''){
         newPayload[name] = v.value;
+      }else{
+        delete newPayload[name]
       }
       if (reloadMetric) {
         setIsMetricOptionsLoading(true);
@@ -120,6 +140,9 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
             placeholder="Select metric"
             allowCustomValue
             value={metric}
+            onOpenMenu={()=>{
+              loadMetricOptions.length===0 && loadMetricOptions()
+            }}
             onChange={(v) => {
               const findOpts = metricOptions.find((item) => item.value === v.value);
               setPayloadConfig(findOpts?.payloads ?? []);
@@ -130,17 +153,18 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
       </EditorFieldGroup>
       {payloadConfig && payloadConfig.length > 0 && (
         <EditorFieldGroup>
-          <EditorField label="Payload">
-            <div style={{ display: 'flex', flexFlow: 'row wrap', gap: 16 }}>
+          <EditorField label="Payload" style={{ width: '100%' }}>
+            <div style={{ display: 'flex', flexFlow: 'row wrap', gap: 16, width: '100%' }}>
               {payloadConfig.map((opt) => {
                 switch (opt.type) {
                   case 'select':
                   case 'multi-select':
                     return (
-                      <InlineField key={opt.name}>
-                        <PayloadSelect
+                      <InlineField key={opt.name} style={{ display: 'inline-flex' }}>
+                        <QueryBuilderPayloadSelect
                           {...props}
                           config={opt}
+                          value={payload[opt.name]}
                           isMulti={opt.type === 'multi-select'}
                           onPayloadChange={(v) => {
                             changePayload(opt.name, opt.reloadMetric, v);
@@ -148,16 +172,31 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
                         />
                       </InlineField>
                     );
+                  case 'textarea':
+                    return (
+                      <InlineField key={opt.name} style={{ width: '100%', display: 'inline' }}>
+                        <div style={{ width: '100%', display: 'flex' }}>
+                          <label className="gf-form-label">{opt.label ?? opt.label}</label>
+                          <QueryBuilderTextArea
+                            config={opt}
+                            value={payload[opt.name] as string}
+                            onValueChange={(v) => {
+                              changePayload(opt.name, opt.reloadMetric, { value: v });
+                            }}
+                          />
+                        </div>
+                      </InlineField>
+                    );
                   default:
                     return (
-                      <InlineField key={opt.name}>
+                      <InlineField key={opt.name} style={{ display: 'inline-flex' }}>
                         <Input
                           prefix={opt.label}
+                          width={opt.width}
                           onBlur={(e) => {
                             changePayload(opt.name, opt.reloadMetric, { value: e.currentTarget.value });
                           }}
-                          // value={!isString(query.payload) ? (query.payload[opt.name] as string) : ''}
-                          defaultValue={!isString(query.payload) ? (query.payload[opt.name] as string) : ''}
+                          defaultValue={payload[opt.name] as string}
                           placeholder={opt.placeholder ?? ''}
                         />
                       </InlineField>
@@ -168,131 +207,21 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
           </EditorField>
         </EditorFieldGroup>
       )}
+      {unusedPayload.length>0&&(<EditorFieldGroup>
+        <EditorField label="unused" >
+          <div style={{ display: 'flex', flexFlow: 'row wrap', gap: 16, width: '100%' }}>{
+          unusedPayload.map((item,idx)=>{
+            return <QueryBuilderTag 
+            key={`${item.name}-${idx}`}
+             name={item.name} 
+             value={item.value} 
+             onRemove={()=>{
+              changePayload(item.name, false, { value: "" });
+             }}/>
+          })
+        }</div>
+        </EditorField>
+      </EditorFieldGroup>)}
     </>
-  );
-};
-
-interface PayloadSelectProps extends QueryEditorProps<DataSource, GrafanaQuery, GenericOptions> {
-  config: MetricPayloadConfig;
-  onPayloadChange: (value: SelectableValue<string | number> | Array<SelectableValue<string | number>>) => void;
-  isMulti?: boolean;
-}
-
-export const PayloadSelect: ComponentType<PayloadSelectProps> = ({
-  config,
-  datasource,
-  query,
-  onPayloadChange,
-  isMulti,
-}) => {
-  const [currentOption, setCurrentOption] = React.useState<
-    SelectableValue<string | number> | Array<SelectableValue<string | number>>
-  >();
-  const [isPayloadOptionsLoading, setIsPayloadOptionsLoading] = React.useState<boolean>(false);
-  const [payloadOptions, setPayloadOptions] = React.useState<Array<SelectableValue<string | number>>>([]);
-  const loadMetricPayloadValues = React.useCallback(() => {
-    return datasource.listMetricPayloadOptions(config.name, query.target ?? '', query.payload).then(
-      (metrics) => {
-        if (!isString(query.payload)) {
-          const currentValue = query.payload[config.name];
-          const vars = datasource.getVariables();
-          for (const key in vars) {
-            if (Object.prototype.hasOwnProperty.call(vars, key)) {
-              metrics.push({ label: `$${key}`, value: `$${key}` });
-            }
-          }
-          const foundMetric = find(metrics, (metric) => metric.value === currentValue);
-          if (foundMetric) {
-            setCurrentOption(foundMetric);
-          } else if (currentOption) {
-            if(isArray(currentOption)){
-              for (let index = 0; index < currentOption.length; index++) {
-                metrics.push({ ...currentOption, value: currentOption[index].value, label:  currentOption[index].label });
-              }
-            }else{
-              metrics.push({ ...currentOption, value: currentOption.value, label: currentOption.label });
-            }
-          }
-        }
-        return metrics;
-      },
-      (response) => {
-        setPayloadOptions([]);
-        throw new Error(response.statusText);
-      }
-    );
-  }, [datasource, query.payload, query.target]);
-
-  const loadMetricPayloadOptions = React.useCallback(() => {
-    setIsPayloadOptionsLoading(true);
-    loadMetricPayloadValues()
-      .then((metrics) => {
-        setPayloadOptions(metrics);
-      })
-      .finally(() => {
-        setIsPayloadOptionsLoading(false);
-      });
-  }, [loadMetricPayloadValues, setPayloadOptions, setIsPayloadOptionsLoading]);
-
-  // Initializing metric options
-  React.useEffect(() => {
-    if (!isString(query.payload) && query.payload) {
-      const val = query.payload[config.name];
-      if (val) {
-        loadMetricPayloadOptions();
-      }
-    }
-  }, []);
-
-  React.useEffect(() => {
-    if (!isString(query.payload) && query.payload) {
-      const val = query.payload[config.name] as (string|number|string[]|number[]);
-      if(isArray(val)){
-        const foundOptions = payloadOptions.filter((item) => includes(val, item.value));
-        if (foundOptions) {
-          setCurrentOption(foundOptions);
-        } else if (val) {
-          setCurrentOption([{ label: val, value: val },]);
-        }
-      }else{
-        const foundOption = payloadOptions.find((item) => item.value === val);
-        if (foundOption) {
-          setCurrentOption(foundOption);
-        } else if (val) {
-          setCurrentOption({ label: val.toString(), value: val });
-        }
-      }
-    }
-  }, [query.payload, payloadOptions]);
-  return (
-    <Select<string | number>
-      key={config.name}
-      isLoading={isPayloadOptionsLoading}
-      prefix={config.label}
-      options={config.options ?? payloadOptions}
-      placeholder={config.placeholder ?? ''}
-      allowCustomValue
-      isMulti={isMulti}
-      value={currentOption}
-      onOpenMenu={() => {
-        if (!config.options) {
-          setIsPayloadOptionsLoading(true);
-          loadMetricPayloadValues()
-            .then((options) => {
-              setPayloadOptions(options);
-            })
-            .finally(() => {
-              setIsPayloadOptionsLoading(false);
-            });
-        }
-      }}
-      onChange={(v) => {
-        if(isArray(v)){
-          onPayloadChange(v as Array<SelectableValue<string | number>>);
-        }else{
-          onPayloadChange(v);
-        }
-      }}
-    />
   );
 };

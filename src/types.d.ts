@@ -61,18 +61,19 @@ declare module 'react' {
 }
 
 export interface MetricPayloadConfig {
-  placeholder: string;
+  width?: number;
+  placeholder?: string;
   name: string;
-  label: string;
-  type: "input" | "select" | "multi-select";
-  reloadMetric: boolean;
-  options: Array<SelectableValue<string | number>>;
+  label?: string;
+  type?: "input" | "select" | "multi-select" | "textarea";
+  reloadMetric?: boolean;
+  options?: Array<SelectableValue<string | number>>;
 }
 
 export interface MetricConfig {
   value: string;
-  label: string;
-  payloads: MetricPayloadConfig[];
+  label?: string;
+  payloads?: MetricPayloadConfig[];
 }
 
 export type QueryEditorMode = "code" | "builder";

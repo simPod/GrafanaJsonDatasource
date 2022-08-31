@@ -14,7 +14,7 @@ import {
   getTemplateSrv
 } from '@grafana/runtime';
 import { BackendSrvRequest } from '@grafana/runtime/services/backendSrv';
-import { isArray, isEqual, isObject, isString } from 'lodash';
+import { isArray, isEqual, isObject } from 'lodash';
 import { lastValueFrom, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ResponseParser } from './response_parser';
@@ -131,9 +131,9 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       variableQuery.format === 'json'
         ? JSON.parse(getTemplateSrv().replace(variableQuery.query, undefined, 'json'))
         : {
-            type,
-            target: getTemplateSrv().replace(variableQuery.query, undefined, 'regex'),
-          };
+          type,
+          target: getTemplateSrv().replace(variableQuery.query, undefined, 'regex'),
+        };
 
     const variableQueryData = {
       payload: interpolated,
@@ -170,10 +170,10 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         },
         method: 'POST',
       }).pipe(
-        map((response) => isArray(response.data) ? response.data.map((item) => ({ ...item, label: item.label ?? item.value })) : []),
+        map((response) => isArray(response.data) ? response.data.map((item) => ({ ...item, label: item.label ? item.label : item.value })) : []),
 
         catchError((err) => {
-          global.console.error(err);
+          console.error(err);
           return of([]);
         })
       )
@@ -186,22 +186,22 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         url: `${this.url}/metrics`,
         data: {
           metric: target.toString() ? getTemplateSrv().replace(target.toString(), undefined, 'regex') : undefined,
-          payload: payload?this.processPayload(payload, "builder", undefined):undefined
+          payload: payload ? this.processPayload(payload, "builder", undefined) : undefined
         },
         method: 'POST',
       }).pipe(
         map((response) => {
-          if(!isArray(response.data)){
+          if (!isArray(response.data)) {
             return []
-          }else{
+          } else {
             return response.data.map((item: MetricConfig) => {
-              return { 
-                ...item, 
-                label: item.label ?? item.value,
-                payloads: isArray(item.payloads) ? item.payloads.map((payload: MetricPayloadConfig)=>{
-                  return { ...payload, label: payload.label ?? payload.name }
+              return {
+                ...item,
+                label: item.label ? item.label : item.value,
+                payloads: isArray(item.payloads) ? item.payloads.map((payload: MetricPayloadConfig) => {
+                  return { ...payload, label: payload.label ? payload.label : payload.name }
                 }) : []
-               }
+              }
             })
           }
         }),
@@ -291,7 +291,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   processPayload(payload: string | { [key: string]: any }, editorMode?: QueryEditorMode, scopedVars?: ScopedVars) {
     try {
-      if (isString(payload) && (editorMode !== "builder")) {
+      if (typeof payload === "string" && (editorMode !== "builder")) {
         if (payload.trim() !== '') {
           return JSON.parse(payload.replace((getTemplateSrv() as any).regex, (match) =>
             this.cleanMatch(match, { scopedVars })
@@ -299,7 +299,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         }
         return {};
       } else {
-        const newPayload: { [key: string]: any } = isString(payload) ? JSON.parse(payload) as { [key: string]: string } : { ...payload };
+        const newPayload: { [key: string]: any } = typeof payload === "string" ? JSON.parse(payload) as { [key: string]: string } : { ...payload };
         for (const key in newPayload) {
           if (Object.prototype.hasOwnProperty.call(newPayload, key)) {
             const value = newPayload[key]

@@ -73,6 +73,7 @@ export interface MetricPayloadConfig {
 export interface MetricConfig {
   value: string;
   label?: string;
+  text?: string;
   payloads?: MetricPayloadConfig[];
 }
 

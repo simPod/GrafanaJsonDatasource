@@ -73,19 +73,6 @@ describe('GenericDatasource', () => {
             },
           ],
         }),
-      fetch: (request) =>
-        of({
-          data: [
-            {
-              target: 'X',
-              datapoints: [
-                [1, 1621077300000],
-                [2, 1621077600000],
-                [3, 1621077900000],
-              ],
-            },
-          ],
-        }),
     } as BackendSrv);
 
     const templateSrvStub = new TemplateSrvStub();

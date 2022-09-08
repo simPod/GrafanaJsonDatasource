@@ -6,13 +6,18 @@ import (
 	"net/http"
 )
 
+func newHandler() http.Handler {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/api/grafana/json/", hello)
+	mux.HandleFunc("/api/grafana/json/metrics", getMetrics)
+	mux.HandleFunc("/api/grafana/json/options", getOptions)
+	return mux
+}
+
 func main() {
-	http.HandleFunc("/api/grafana/json/", hello)
-	http.HandleFunc("/api/grafana/json/metrics", getMetrics)
-	http.HandleFunc("/api/grafana/json/options", getOptions)
 	log.Println("grafana api: /api/grafana/json/")
 	log.Println("listen 0.0.0.0:8081")
-	http.ListenAndServe(":8181", nil)
+	http.ListenAndServe(":8181", newHandler())
 }
 
 var defaultMetrics = `

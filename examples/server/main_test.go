@@ -37,7 +37,7 @@ type metricConfig struct {
 func Test_Metrics(t *testing.T) {
 	mux := newHandler()
 	server := httptest.NewServer(mux)
-	resp, err := http.Post(server.URL+"/api/grafana/json/search", "application/json", bytes.NewBuffer([]byte("{}")))
+	resp, err := http.Post(server.URL+"/api/grafana/json/metrics", "application/json", bytes.NewBuffer([]byte("{}")))
 	require.NoError(t, err)
 	require.Equal(t, resp.StatusCode, 200)
 	rawBody, err := ioutil.ReadAll(resp.Body)
@@ -46,6 +46,19 @@ func Test_Metrics(t *testing.T) {
 	var metrics []metricConfig
 	require.NoError(t, json.Unmarshal(rawBody, &metrics))
 	require.Len(t, metrics, 2)
+	require.Len(t, metrics[0].Payloads, 2)
+
+	payload := `{"metric":"DescribeMetricList","payload":{"namespace":"acs_rds"}}`
+	resp, err = http.Post(server.URL+"/api/grafana/json/metrics", "application/json", bytes.NewBuffer([]byte(payload)))
+	require.NoError(t, err)
+	require.Equal(t, resp.StatusCode, 200)
+	rawBody, err = ioutil.ReadAll(resp.Body)
+	resp.Body.Close()
+	require.NoError(t, err)
+	metrics = []metricConfig{}
+	require.NoError(t, json.Unmarshal(rawBody, &metrics))
+	require.Len(t, metrics, 2)
+	require.Len(t, metrics[0].Payloads, 3)
 }
 
 func Test_Options(t *testing.T) {

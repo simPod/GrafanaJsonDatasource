@@ -1,0 +1,28 @@
+name: Examples
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 0.*.x
+  workflow_dispatch:
+
+jobs:
+  Server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./examples/server
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup golang environment
+        uses: actions/setup-go@v3
+        with:
+          go-version: '1.18.4'
+
+      - name: Install dependencies
+        run: go mod download
+
+      - name: Run test case 
+        run: go test .

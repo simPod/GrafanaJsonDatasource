@@ -27,7 +27,7 @@ export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQ
   const [isMetricOptionsLoading, setIsMetricOptionsLoading] = React.useState<boolean>(false);
 
   const loadMetrics = React.useCallback(() => {
-    return datasource.searchMetrics('', undefined).then(
+    return datasource.listMetrics('', undefined).then(
       (result) => {
         const metrics = result.map((value) => ({ label: value.text, value: value.value }));
 

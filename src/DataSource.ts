@@ -218,26 +218,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     );
   }
 
-  searchMetrics(filter: string, options?: any, type?: string): Promise<MetricFindValue[]> {
-    return lastValueFrom(
-      this.doFetch({
-        url: `${this.url}/search`,
-        data: {
-          type,
-          target: getTemplateSrv().replace(filter, undefined, 'regex'),
-        },
-        method: 'POST',
-      }).pipe(
-        map((response) => this.mapToTextValue(response)),
-        catchError((err) => {
-          console.error(err);
-
-          return of([]);
-        })
-      )
-    );
-  }
-
   getTagKeys(options?: any): Promise<MetricFindTagKeys[]> {
     return lastValueFrom(
       this.doFetch<MetricFindTagKeys[]>({

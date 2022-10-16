@@ -11,7 +11,6 @@ The JSON Datasource executes requests against arbitrary backends and parses JSON
 - [Installation](#installation)
 - [Setup](#setup)
 - [API](#api)
-  - [/search](#search)
   - [/metrics](#metrics)
   - [/options](#options)
   - [/query](#query)
@@ -44,9 +43,8 @@ An OpenAPI definition is defined at [openapi.yaml](https://github.com/simPod/Gra
 To work with this datasource the backend needs to implement 3 endpoints:
 
 - `GET /` with 200 status code response. Used for "Test connection" on the datasource config page.
-- `POST /search` to return available metrics.
-- `POST /metrics` to return available metrics in builder mode.
-- `POST /options` to return a list of options for the load in builder mode..
+- `POST /metrics` to return available metrics.
+- `POST /options` to return a list of metric options.
 - `POST /query` to return panel data or annotations.
 
 Those 3 endpoints are optional:
@@ -54,52 +52,6 @@ Those 3 endpoints are optional:
 - `POST /variable` to return data for Variable of type `Query`.
 - `POST /tag-keys` returning tag keys for ad hoc filters.
 - `POST /tag-values` returning tag values for ad hoc filters.
-
-### /search
-
-`POST /search`
-
-Grafana issues this request on 
-
-1. _Variables > New/Edit_ page. `Query` field value is passed in a body as shown below (template variables are expanded as regex by default)
-
-```json
-{ "target": "query field value" }
-```
-
-Alternatively, flick on the "Raw JSON" switch to provide a full valid JSON string in the query field which will be passed in the request body as a native JSON object.
-![Raw JSON Switch](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.3.x/docs/images/template-var-query-raw-json.png)
-
-Template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
-```string
-{"selectedservers":$myservers}
-```
-will be expanded to
-```json
-{"selectedservers":["server1","server2"]}
-```
-
-2. `Panel > Queries` page. `Metric` values are passed in a body as
-
-```json
-{ "target": "upper_50" }
-```
-
-The way you handle those values is up to you.
-
-The response body can either contain an array or a map.
-
-Example array response:
-
-```json
-["upper_25","upper_50","upper_75","upper_90","upper_95"]
-```
-
-Example map response:
-
-```json
-[ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ]
-```
 
 ### /metrics
 

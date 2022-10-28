@@ -7,10 +7,6 @@ declare module '@grafana/runtime' {
   }
 }
 
-export interface DataSourceOptions extends DataSourceJsonData {
-  defaultEditorMode?: QueryEditorMode;
-}
-
 export interface QueryRequest extends DataQueryRequest<GrafanaQuery> {
   adhocFilters?: any[];
 }

@@ -1,7 +1,7 @@
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { DataSourceHttpSettings, LegacyForms } from '@grafana/ui';
 import React, { ComponentType } from 'react';
-import { GenericOptions } from '../types';
+import {GenericOptions } from '../types';
 import { QueryEditorModeToggle } from './QueryEditorModeToggle';
 const { FormField } = LegacyForms;
 

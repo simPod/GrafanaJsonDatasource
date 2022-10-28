@@ -1,4 +1,4 @@
-import { css, cx, CSSObject } from '@emotion/css';
+import { css, CSSObject, cx } from '@emotion/css';
 import { GrafanaTheme2 } from '@grafana/data';
 import { MetricPayloadConfig } from 'types';
 import React, { ComponentType } from 'react';
@@ -11,7 +11,7 @@ interface Props {
   value?: string
 }
 
-export function getFocusStyles(theme: GrafanaTheme2): CSSObject {
+function getFocusStyles(theme: GrafanaTheme2): CSSObject {
   return {
     outline: '2px dotted transparent',
     outlineOffset: '2px',
@@ -33,22 +33,27 @@ const getStyles = (theme: GrafanaTheme2) => {
   };
 };
 
-export const UnThemedTextArea: ComponentType<Props> = ({ theme, onValueChange, value:v }) => {
+const UnThemedTextArea: ComponentType<Props> = ({ theme, onValueChange, value }) => {
   const styles = getStyles(theme);
-  const html = React.useRef<string>(v ? `<div>${v.replace(/([^\n])\n/g,'$1</div><div>').replace(/\n/g, '</div><div><br /></div><div>')}` : '</div>');
+  const html = React.useRef<string>(
+    value === undefined
+      ? '</div>'
+      : `<div>${value.replace(/([^\n])\n/g, '$1</div><div>').replace(/\n/g, '</div><div><br /></div><div>')}`
+  );
+
   return (
     <div className={cx('slate-query-field__wrapper', styles.wrapper)}>
       <div
-        dangerouslySetInnerHTML={{__html: html.current}}
+        dangerouslySetInnerHTML={{ __html: html.current }}
         contentEditable={true}
         style={{ width: '100%', outline: 'none' }}
         onBlur={(val) => {
-          onValueChange(val.currentTarget.innerText.replace(/\n\n/g,"\n"));
+          onValueChange(val.currentTarget.innerText.replace(/\n\n/g, "\n"));
         }}
-        onInput={(v)=>{
+        onInput={(v) => {
           html.current = v.currentTarget.innerHTML
         }}
-        />
+      />
     </div>
   );
 };

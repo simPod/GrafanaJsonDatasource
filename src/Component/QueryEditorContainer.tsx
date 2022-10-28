@@ -18,18 +18,18 @@ const queryTypes: Array<SelectableValue<string>> = [
 ];
 
 function convertPayloadToObject(payload: string | { [key: string]: any }): { [key: string]: any } {
-  if(payload){
-    if(typeof payload==="string"){
-      try{
+  if (payload) {
+    if (typeof payload === "string") {
+      try {
         return JSON.parse(payload)
-      }catch(err){
+      } catch (err) {
         console.error(err)
         return {}
       }
-    }else{
+    } else {
       return payload
     }
-  }else{
+  } else {
     return {};
   }
 }
@@ -37,7 +37,7 @@ function convertPayloadToObject(payload: string | { [key: string]: any }): { [ke
 const convertPayloadToString = (payload: string | { [key: string]: any }): string => {
   if (typeof payload === 'string') {
     return payload;
-  } else if(payload){
+  } else if (payload) {
     return JSON.stringify(payload, undefined, 2);
   } else {
     return ""
@@ -82,7 +82,7 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
     <>
       <EditorHeader>
         <InlineField label="Mode">
-          <QueryEditorModeToggle size="md" mode={editorMode} onChange={onEditorModeChange} />
+          <QueryEditorModeToggle size="md" mode={editorMode} onChange={onEditorModeChange}/>
         </InlineField>
         <InlineField
           label="Format"
@@ -108,10 +108,10 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
       </EditorHeader>
       <EditorRows>
         {(editorMode ?? defaultEditorMode) === 'code' && (
-          <QueryEditor {...props} payload={convertPayloadToString(query.payload)} />
+          <QueryEditor {... props} payload={convertPayloadToString(query.payload)}/>
         )}
         {(editorMode ?? defaultEditorMode) === 'builder' && (
-          <QueryBuilder {...props} payload={convertPayloadToObject(query.payload)} />
+          <QueryBuilder {... props} payload={convertPayloadToObject(query.payload)}/>
         )}
       </EditorRows>
       {showRawQuery && (
@@ -126,7 +126,8 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
                       height="200px"
                       readOnly={true}
                       value={JSON.stringify(datasource.processTarget(query), undefined, 2)}
-                      onBlur={() => {}}
+                      onBlur={() => {
+                      }}
                       language="json"
                     />
                   </div>

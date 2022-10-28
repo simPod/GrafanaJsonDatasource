@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
 import { GrafanaTheme } from '@grafana/data';
-import { getTagColorsFromName, stylesFactory, useTheme, IconButton } from '@grafana/ui';
+import { getTagColorsFromName, IconButton, stylesFactory, useTheme } from '@grafana/ui';
 import React, { ComponentType } from 'react';
 
 type QueryBuilderTagProps = {
@@ -8,6 +8,7 @@ type QueryBuilderTagProps = {
   value: string;
   onRemove: (name: string) => void;
 };
+
 const getStyles = stylesFactory(({ theme, name }: { theme: GrafanaTheme; name: string }) => {
   const { color, borderColor } = getTagColorsFromName(name);
   const height = theme.spacing.formInputHeight - 8;
@@ -42,6 +43,7 @@ const getStyles = stylesFactory(({ theme, name }: { theme: GrafanaTheme; name: s
     `,
   };
 });
+
 export const QueryBuilderTag: ComponentType<QueryBuilderTagProps> = ({ name, value, onRemove }) => {
   const theme = useTheme();
   const styles = getStyles({ theme, name });

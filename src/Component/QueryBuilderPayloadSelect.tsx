@@ -1,9 +1,9 @@
 import { QueryEditorProps, SelectableValue } from '@grafana/data';
 import { Select } from '@grafana/ui';
 import { DataSource } from 'DataSource';
-import { isArray, includes } from 'lodash';
+import { includes, isArray } from 'lodash';
 import React, { ComponentType } from 'react';
-import { GrafanaQuery, GenericOptions, MetricPayloadConfig } from 'types';
+import { GenericOptions, GrafanaQuery, MetricPayloadConfig } from 'types';
 
 interface PayloadSelectProps extends QueryEditorProps<DataSource, GrafanaQuery, GenericOptions> {
   config: MetricPayloadConfig;
@@ -12,14 +12,16 @@ interface PayloadSelectProps extends QueryEditorProps<DataSource, GrafanaQuery, 
   value?: string | number | string[] | number[];
 }
 
-export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
-  config,
-  datasource,
-  query,
-  onPayloadChange,
-  isMulti,
-  value,
-}) => {
+export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = (
+  {
+    config,
+    datasource,
+    query,
+    onPayloadChange,
+    isMulti,
+    value,
+  }
+) => {
   const [currentOption, setCurrentOption] = React.useState<
     SelectableValue<string | number> | Array<SelectableValue<string | number>>
   >();
@@ -37,8 +39,8 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
           }
           if (isArray(currentOption)) {
             for (let index = 0; index < currentOption.length; index++) {
-              const foundOption = metrics.filter((item) => item.value === currentOption[index].value);
-              if (!foundOption) {
+              const foundOption = metrics.find((item) => item.value === currentOption[index].value);
+              if (foundOption !== undefined) {
                 metrics.push({
                   value: currentOption[index].value,
                   label: currentOption[index].label,
@@ -46,9 +48,9 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
               }
             }
           } else if (currentOption) {
-            const foundOption = metrics.filter((item) => item.value === currentOption.value);
-            if (!foundOption) {
-              metrics.push({ ...currentOption, value: currentOption.value, label: currentOption.label });
+            const foundOption = metrics.find((item) => item.value === currentOption.value);
+            if (foundOption !== undefined) {
+              metrics.push({ ... currentOption, value: currentOption.value, label: currentOption.label });
             }
           }
         }
@@ -96,10 +98,11 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
           setCurrentOption({ label: value.toString(), value: value });
         }
       }
-    }else{
+    } else {
       setCurrentOption(undefined)
     }
   }, [query.payload, payloadOptions]);
+
   return (
     <Select<string | number>
       key={config.name}
@@ -124,13 +127,9 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
             });
         }
       }}
-      
+
       onChange={(v) => {
-        if (isArray(v)) {
-          onPayloadChange(v as Array<SelectableValue<string | number>>);
-        } else {
-          onPayloadChange(v);
-        }
+        onPayloadChange(v);
       }}
     />
   );

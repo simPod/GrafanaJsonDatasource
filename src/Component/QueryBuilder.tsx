@@ -16,8 +16,8 @@ interface LastQuery {
 
 type EditorProps = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 
-interface Props  extends EditorProps {
-  payload: {[key: string]: any};
+interface Props extends EditorProps {
+  payload: { [key: string]: any };
 }
 
 export const QueryBuilder: ComponentType<Props> = (props) => {
@@ -25,7 +25,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
   const [metric, setMetric] = React.useState<SelectableValue<string | number>>();
   const [payload, setPayload] = React.useState(props.payload ?? '');
 
-  const [unusedPayload,setUnusedPayload]= React.useState<Array<{name: string,value: any}>>([]);
+  const [unusedPayload, setUnusedPayload] = React.useState<Array<{ name: string, value: any }>>([]);
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
   const [payloadConfig, setPayloadConfig] = React.useState<MetricPayloadConfig[]>([]);
@@ -78,17 +78,16 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
     onRunQuery();
   }, [payload, metric]);
 
-  
   React.useEffect(() => {
     const newUnusedPayload: Array<{ name: string; value: any }> = [];
     for (const key in payload) {
-      const foundConfig = payloadConfig.find((item)=>item.name===key)
-      if(!foundConfig){
-        newUnusedPayload.push({name: key,value: payload[key]})
+      const foundConfig = payloadConfig.find((item) => item.name === key)
+      if (!foundConfig) {
+        newUnusedPayload.push({ name: key, value: payload[key] })
       }
       setUnusedPayload(newUnusedPayload)
     }
-  }, [payload,payloadConfig]);
+  }, [payload, payloadConfig]);
 
   const changePayload = (
     name: string,
@@ -96,20 +95,20 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
     v?: SelectableValue<string | number> | Array<SelectableValue<string | number>>
   ) => {
     setPayload((ori) => {
-      let newPayload: { [key: string]: any } = { ...ori };
-      if(isArray(v)){
+      let newPayload: { [key: string]: any } = { ... ori };
+      if (isArray(v)) {
         newPayload[name] = v
           .map((item) => item.value)
           .filter((item) => (item !== undefined ? item.toString().length > 0 : false));
-      }else if(v && v.value !== undefined && v.value !== ''){
+      } else if (v && v.value !== undefined && v.value !== '') {
         newPayload[name] = v.value;
-      }else{
+      } else {
         delete newPayload[name]
       }
       if (reloadMetric) {
         setIsMetricOptionsLoading(true);
         datasource
-          .listMetrics(metric?.value ?? '', { ...newPayload })
+          .listMetrics(metric?.value ?? '', { ... newPayload })
           .then(
             (metrics) => {
               const foundMetric = find(metrics, (metric) => metric.value === query.target);
@@ -140,8 +139,8 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
             placeholder="Select metric"
             allowCustomValue
             value={metric}
-            onOpenMenu={()=>{
-              loadMetricOptions.length===0 && loadMetricOptions()
+            onOpenMenu={() => {
+              loadMetricOptions.length === 0 && loadMetricOptions()
             }}
             onChange={(v) => {
               const findOpts = metricOptions.find((item) => item.value === v.value);
@@ -162,7 +161,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
                     return (
                       <InlineField key={opt.name} style={{ display: 'inline-flex' }}>
                         <QueryBuilderPayloadSelect
-                          {...props}
+                          {... props}
                           config={opt}
                           value={payload[opt.name]}
                           isMulti={opt.type === 'multi-select'}
@@ -207,19 +206,19 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
           </EditorField>
         </EditorFieldGroup>
       )}
-      {unusedPayload.length>0&&(<EditorFieldGroup>
-        <EditorField label="unused" >
+      {unusedPayload.length > 0 && (<EditorFieldGroup>
+        <EditorField label="unused">
           <div style={{ display: 'flex', flexFlow: 'row wrap', gap: 16, width: '100%' }}>{
-          unusedPayload.map((item,idx)=>{
-            return <QueryBuilderTag 
-            key={`${item.name}-${idx}`}
-             name={item.name} 
-             value={item.value} 
-             onRemove={()=>{
-              changePayload(item.name, false, { value: "" });
-             }}/>
-          })
-        }</div>
+            unusedPayload.map((item, idx) => {
+              return <QueryBuilderTag
+                key={`${item.name}-${idx}`}
+                name={item.name}
+                value={item.value}
+                onRemove={() => {
+                  changePayload(item.name, false, { value: "" });
+                }}/>
+            })
+          }</div>
         </EditorField>
       </EditorFieldGroup>)}
     </>

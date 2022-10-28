@@ -69,12 +69,12 @@ Or.
   "metric": "DescribeMetricList",
   "payload":{
     "cloud": "cf6591c5dad211eaa22100163e120f6e",
-    "namespace": "MySQL",
+    "namespace": "MySQL"
   }
 }
 ```
 Example response:
-```json
+```json5
 [{
   "label": "Describe metric list", // Optional. If the value is empty, use the value as the label
   "value": "DescribeMetricList", // The value of the option.
@@ -123,7 +123,7 @@ The display is as follows:
 When the payload `type` is `select` or `multi-select` and the payload `options` configuration is empty, expanding the drop-down menu will trigger this API. The request body will carry the current metric and payload. 
 
 Example Request:
-```json
+```json5
 {
   "metric":"DescribeMetricList", // Current metric.
   "payload": { // Current payload.

@@ -9,7 +9,7 @@ import (
 func newHandler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/grafana/json", hello)
-	mux.HandleFunc("/api/grafana/json/search", getSearch)
+	mux.HandleFunc("/api/grafana/json/metrics", getMetrics)
 	mux.HandleFunc("/api/grafana/json/options", getOptions)
 	return mux
 }
@@ -22,11 +22,77 @@ func main() {
 
 var defaultMetrics = `
 [{
-  "text": "Lorem",
-  "value": "a"
+  "label": "Describe metric list",
+  "value": "DescribeMetricList",
+  "payloads": [{
+    "label": "Namespace",
+    "name": "namespace",
+    "type": "select",
+    "defaultValue": "acs_mongodb",
+    "placeholder": "Please select namespace",
+    "reloadMetric": true, 
+    "options": [{ 
+      "label": "acs_mongodb",
+      "value": "acs_mongodb"
+    },{
+      "label": "acs_rds",
+      "value": "acs_rds"
+    }]
+  },{
+    "name": "metric",
+    "type": "select"
+  }]
 },{
-  "text": "Ipsum",
-  "value": "b"
+  "value": "DescribeMetricLast",
+  "payloads": [{
+    "name": "namespace",
+    "type": "select"
+  },{
+    "name": "metric",
+    "type": "input"
+  },{
+    "name": "instanceId",
+    "type": "multi-select"
+  }]
+}]
+`
+var rdsMetrics = `
+[{
+  "label": "Describe metric list",
+  "value": "DescribeMetricList",
+  "payloads": [{
+    "label": "Namespace",
+    "name": "namespace",
+    "type": "select",
+    "defaultValue": "acs_mongodb",
+    "placeholder": "Please select namespace",
+    "reloadMetric": true, 
+    "options": [{ 
+      "label": "acs_mongodb",
+      "value": "acs_mongodb"
+    },{
+      "label": "acs_rds",
+      "value": "acs_rds"
+    }]
+  },{
+    "name": "metric",
+    "type": "select"
+  },{
+    "name": "instanceId",
+    "type": "select"
+  }]
+},{
+  "value": "DescribeMetricLast",
+  "payloads": [{
+    "name": "namespace",
+    "type": "select"
+  },{
+    "name": "metric",
+    "type": "input"
+  },{
+    "name": "instanceId",
+    "type": "multi-select"
+  }]
 }]
 `
 
@@ -35,7 +101,7 @@ type MetricsRequest struct {
 	Payload map[string]interface{} `json:"payload"`
 }
 
-func getSearch(writer http.ResponseWriter, request *http.Request) {
+func getMetrics(writer http.ResponseWriter, request *http.Request) {
 	var req MetricsRequest
 	err := json.NewDecoder(request.Body).Decode(&req)
 	if err != nil {
@@ -43,6 +109,10 @@ func getSearch(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 	writer.Header().Set("content-type", "application/json")
+	if req.Metric == "DescribeMetricList" && req.Payload["namespace"] == "acs_rds" {
+		writer.Write([]byte(rdsMetrics))
+		return
+	}
 	writer.Write([]byte(defaultMetrics))
 }
 

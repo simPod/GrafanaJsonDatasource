@@ -8,16 +8,26 @@ import { DataSource } from '../DataSource';
 
 import { GenericOptions, GrafanaQuery } from '../types';
 
-type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
+interface Props extends QueryEditorProps<DataSource, GrafanaQuery, GenericOptions> {
+  payload?: string;
+}
 
 interface LastQuery {
   payload: string;
   metric: string;
 }
 
-export const QueryEditor: ComponentType<Props> = ({ datasource, onChange, onRunQuery, query }) => {
+export const QueryEditor: ComponentType<Props> = (
+  {
+    datasource,
+    onChange,
+    onRunQuery,
+    query,
+    payload: queryPayload
+  }
+) => {
   const [metric, setMetric] = React.useState<SelectableValue<string | number>>();
-  const [payload, setPayload] = React.useState(query.payload ?? '');
+  const [payload, setPayload] = React.useState(queryPayload ?? '');
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
 

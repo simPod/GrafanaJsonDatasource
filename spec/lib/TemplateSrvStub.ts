@@ -1,8 +1,14 @@
-import { ScopedVars } from '@grafana/data';
+import { ScopedVars, TimeRange } from '@grafana/data';
 import { TemplateSrv } from '@grafana/runtime/services/templateSrv';
 import template from 'lodash/template';
 
 export default class TemplateSrvStub implements TemplateSrv {
+  containsTemplate(target?: string | undefined): boolean {
+    throw new Error('Method not implemented.');
+  }
+  updateTimeRange(timeRange: TimeRange): void {
+    throw new Error('Method not implemented.');
+  }
   templateSettings = { interpolate: /\[\[([\s\S]+?)\]\]/g };
   data = {};
   adhocFilters = [];

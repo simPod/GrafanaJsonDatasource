@@ -11,7 +11,8 @@ The JSON Datasource executes requests against arbitrary backends and parses JSON
 - [Installation](#installation)
 - [Setup](#setup)
 - [API](#api)
-  - [/search](#search)
+  - [/metrics](#metrics)
+  - [/options](#options)
   - [/query](#query)
   - [/variable](#variable)
   - [/tag-keys](#tag-keys)
@@ -42,7 +43,8 @@ An OpenAPI definition is defined at [openapi.yaml](https://github.com/simPod/Gra
 To work with this datasource the backend needs to implement 3 endpoints:
 
 - `GET /` with 200 status code response. Used for "Test connection" on the datasource config page.
-- `POST /search` to return available metrics.
+- `POST /metrics` to return available metrics.
+- `POST /options` to return a list of metric options.
 - `POST /query` to return panel data or annotations.
 
 Those 3 endpoints are optional:
@@ -51,51 +53,101 @@ Those 3 endpoints are optional:
 - `POST /tag-keys` returning tag keys for ad hoc filters.
 - `POST /tag-values` returning tag values for ad hoc filters.
 
-### /search
+### /metrics
 
-`POST /search`
+`POST /metrics`
 
-Grafana issues this request on 
+In `Panel > Queries` page. When configuring a query request using `Builder` mode, it will send the request to obtain the available metrics. The request body will carry the current metric and payload. In the `Builder` mode, if the `reloadMetric` value in the load configuration is true, the api will also be triggered when the value is modified / switched.
 
-1. _Variables > New/Edit_ page. `Query` field value is passed in a body as shown below (template variables are expanded as regex by default)
-
+Example request:
 ```json
-{ "target": "query field value" }
+{}
 ```
-
-Alternatively, flick on the "Raw JSON" switch to provide a full valid JSON string in the query field which will be passed in the request body as a native JSON object.
-![Raw JSON Switch](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.3.x/docs/images/template-var-query-raw-json.png)
-
-Template variables will be expanded as a JSON array. For example, selecting two items in a multi-field dropdown `$myservers`
-```string
-{"selectedservers":$myservers}
-```
-will be expanded to
+Or. 
 ```json
-{"selectedservers":["server1","server2"]}
+{
+  "metric": "DescribeMetricList",
+  "payload":{
+    "cloud": "cf6591c5dad211eaa22100163e120f6e",
+    "namespace": "MySQL"
+  }
+}
+```
+Example response:
+```json5
+[{
+  "label": "Describe metric list", // Optional. If the value is empty, use the value as the label
+  "value": "DescribeMetricList", // The value of the option.
+  "payloads": [{ // Configuration parameters of the payload.
+    "label": "Namespace", // The label of the payload. If the value is empty, use the value as the label.
+    "name": "namespace", // The name of the payload. If the value is empty, use the name as the label.
+    "type": "select", // If the value is select, the UI of the payload is a radio box. If the value is multi-select, the UI of the payload is a multi selection box; if the value is input, the UI of the payload is an input box; if the value is textarea, the UI of the payload is a multiline input box. The default is input.
+    "placeholder": "Please select namespace", // Input box / selection box prompt information.
+    "reloadMetric": true, // Whether to overload the metrics API after modifying the value of the payload.
+    "width": 10, // Set the input / selection box width to a multiple of 8px. 
+    "options": [{ // If the payload type is select / multi-select, the list is the configuration of the option list.
+      "label": "acs_mongodb", // The label of the payload select option.
+      "value": "acs_mongodb", // The label of the payload value.
+    },{
+      "label": "acs_rds",
+      "value": "acs_rds",
+    }]
+  },{
+    "name": "metric",
+    "type": "select"
+  },{
+    "name": "instanceId",
+    "type": "select"
+  }]
+},{
+  "value": "DescribeMetricLast",
+  "payloads": [{
+    "name": "namespace",
+    "type": "select"
+  },{
+    "name": "metric",
+    "type": "select"
+  },{
+    "name": "instanceId",
+    "type": "multi-select"
+  }]
+}]
+```
+The display is as follows:
+![Metrics in builder mode](./docs/images/builder-metrics.png)
+
+### /options
+
+`POST /options`
+
+When the payload `type` is `select` or `multi-select` and the payload `options` configuration is empty, expanding the drop-down menu will trigger this API. The request body will carry the current metric and payload. 
+
+Example Request:
+```json5
+{
+  "metric":"DescribeMetricList", // Current metric.
+  "payload": { // Current payload.
+    "namespace":"acs_ecs"
+  },
+  "name":"cms_metric" // The payload name of the option list needs to be obtained.
+}
 ```
 
-2. `Panel > Queries` page. `Format As` and `Metric` values are passed in a body as
-
+Example Response:
 ```json
-{ "target": "upper_50" }
+[{ 
+  "label": "CPUUtilization",
+  "value": "CPUUtilization"
+},{
+  "label": "DiskReadIOPS",
+  "value": "DiskReadIOPS"
+},{
+  "label": "memory_freeutilization",
+  "value": "memory_freeutilization"
+}]
 ```
-
-The way you handle those values is up to you.
-
-The response body can either contain an array or a map.
-
-Example array response:
-
-```json
-["upper_25","upper_50","upper_75","upper_90","upper_95"]
-```
-
-Example map response:
-
-```json
-[ { "text": "upper_25", "value": 1}, { "text": "upper_75", "value": 2} ]
-```
+The display is as follows:
+![Metric options in builder mode](./docs/images/builder-metric-options.png)
 
 ### /query
 

@@ -15,44 +15,208 @@ paths:
       responses:
         '200':
           description: Positive health check
-  /search:
+  /metrics:
     post:
       summary: List available metrics
-      description: Used by the find metric options on the query tab in panels
+      description: >-
+        In `Panel > Queries` page. It will send the request to obtain the available metrics. 
+        The request body will carry the current metric and payload. In
+        the `Builder` mode, if the `reloadMetric` value in the load
+        configuration is true, the api will also be triggered when the value is
+        modified / switched.
       operationId: api.endpoints.list_metrics
       tags:
         - Visualization
+      parameters: []
       requestBody:
-        required: false
-        description: The body is sent when using query variables
         content:
           application/json:
             schema:
               type: object
               properties:
-                target:
+                metric:
                   type: string
-                  example: "speed"
+                  description: The currently selected Metric option.
+                payload:
+                  type: object
+                  properties: {}
+                  description: >-
+                    The currently selected/entered payload options and values.
+                    Key is the name of the payload, and value is the value of
+                    the payload.
+            example: {"metric": "DescribeCloudWatchDataList", "payload": {"namespace": "AWS/RDS"}}
       responses:
         '200':
-          description: ""
+          description: Seccess
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  oneOf:
-                    - type: string
-                      example: ["speed", "pressure", "temperature", "latitude", "voltage"]
-                    - type: object
-                      description: List of text and numeric representation of a metrics. For
-                                    example metrics and their (database) IDs
-                      example: [{"text" :"speed", "value": 1}, {"text" :"temperature", "value": 2}]
-                      properties:
-                        text:
-                          type: string
-                        value:
-                          type: number
+                  type: object
+                  properties:
+                    label:
+                      type: string
+                      description: 'If the value is empty, use the value as the label'
+                    value:
+                      type: string
+                      description: The value of the option.
+                    payloads:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          label:
+                            type: string
+                            description: >-
+                              The label of the payload. If the value is empty,
+                              use the name as the label.
+                          name:
+                            type: string
+                            description: 'The name of the payload. '
+                          type:
+                            type: string
+                            description: |-
+                              If the value is select, the UI of the payload is a radio box. 
+                              If the value is multi-select, the UI of the payload is a multi selection box. 
+                              if the value is input, the UI of the payload is an input box. 
+                              if the value is textarea, the UI of the payload is a multiline input box.  
+                              The default is input.
+                            enum:
+                              - select
+                              - multi-select
+                              - input
+                              - textarea
+                            default: input
+                          placeholder:
+                            type: string
+                            description: Input box / selection box prompt information.
+                          reloadMetric:
+                            type: boolean
+                            description: >-
+                              Whether to overload the metrics API after
+                              modifying the value of the payload.
+                            default: false
+                          width:
+                            type: integer
+                            description: >-
+                              Set the input / selection box width to a multiple
+                              of 8px.
+                          options:
+                            type: array
+                            items:
+                              type: object
+                              properties:
+                                label:
+                                  type: string
+                                  description: The label of the payload select option.
+                                value:
+                                  type: string
+                                  description: The label of the payload value.
+                              required:
+                                - value
+                            description: >-
+                              If the payload type is select / multi-select, the
+                              list is the configuration of the option list.
+                        required:
+                          - name
+                      description: Configuration parameters of the payload.
+                  required:
+                    - value
+                    - payloads
+              examples:
+                '1':
+                  summary: Success
+                  value:
+                    - label: Describe cloudwatch data list
+                      value: DescribeCloudWatchDataList
+                      payloads:
+                        - label: Namespace
+                          name: namespace
+                          type: select
+                          placeholder: Please select namespace
+                          reloadMetric: true
+                          width: 10
+                          options:
+                            - label: EC2
+                              value: AWS/EC2
+                            - label: RDS
+                              value: AWS/RDS
+                        - name: metric
+                          type: select
+                        - name: instanceId
+                          type: select
+                    - value: DescribeCloudWatchDataLast
+                      payloads:
+                        - name: namespace
+                          type: select
+                        - name: metric
+                          type: select
+                        - name: instanceId
+                          type: multi-select
+  /options:
+    get:
+      summary: List the available payload options.
+      description: >-
+        When the payload `type` is `select` or `multi-select` and the payload
+        `options` configuration is empty, expanding the drop-down menu will
+        trigger this API. The request body will carry the current metric and
+        payload.
+      operationId: api.endpoints.list_options
+      tags:
+        - Visualization
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                metric:
+                  type: string
+                  description: Current metric.
+                payload:
+                  type: object
+                  properties: {}
+                  description: Current payload.
+                name:
+                  type: string
+                  description: The payload name of the option list needs to be obtained.
+              required:
+                - metric
+                - payload
+                - name
+            example:
+              metric: DescribeCloudWatchDataList
+              payload: {"namespace": "AWS/RDS"}
+              name: metric
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    label:
+                      type: string
+                      description: >-
+                        The label of the option in the drop-down box. If the
+                        value is empty, use the value as the label.
+                    value:
+                      type: string
+                      description: The value of the option in the drop-down box.
+                  required:
+                    - value
+              examples:
+                '1':
+                  summary: Success
+                  value:
+                    - {"label": "CPUUtilization", "value": "CPUUtilization"}
+                    - {"label": "DiskReadIOPS", "value": "DiskReadIOPS"}
+                    - {"label": "memory_freeutilization", "value": "memory_freeutilization"}
   /query:
     post:
       summary: Query

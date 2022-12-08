@@ -90,7 +90,7 @@ describe('GenericDatasource', () => {
   it('should return the metric target results when a target is set', async () => {
     setBackendSrv({
       fetch: (request) => {
-        const target = request.data.target;
+        const target = request.data.metric;
         const result = [target + '_0', target + '_1', target + '_2'];
 
         return of({
@@ -165,7 +165,7 @@ describe('GenericDatasource', () => {
 
   it('should return the metric target results when the args are a string', async () => {
     getBackendSrv().fetch = (request) => {
-      const target = request.data.target;
+      const target = request.data.metric;
       const result = [target + '_0', target + '_1', target + '_2'];
 
       return of({

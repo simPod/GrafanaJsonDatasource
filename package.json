@@ -29,7 +29,7 @@
   "devDependencies": {
     "@grafana/data": "^9.0.0",
     "@grafana/eslint-config": "^5.0.0",
-    "@grafana/experimental": "0.0.2-canary.30",
+    "@grafana/experimental": "0.0.2-canary.39",
     "@grafana/runtime": "^9.0.0",
     "@grafana/toolkit": "^9.0.0",
     "@grafana/ui": "^9.0.0",

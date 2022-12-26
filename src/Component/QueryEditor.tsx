@@ -17,15 +17,13 @@ interface LastQuery {
   metric: string;
 }
 
-export const QueryEditor: ComponentType<Props> = (
-  {
-    datasource,
-    onChange,
-    onRunQuery,
-    query,
-    payload: queryPayload
-  }
-) => {
+export const QueryEditor: ComponentType<Props> = ({
+  datasource,
+  onChange,
+  onRunQuery,
+  query,
+  payload: queryPayload,
+}) => {
   const [metric, setMetric] = React.useState<SelectableValue<string | number>>();
   const [payload, setPayload] = React.useState(queryPayload ?? '');
 

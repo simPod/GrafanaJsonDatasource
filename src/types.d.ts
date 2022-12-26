@@ -1,4 +1,11 @@
-import { DataQuery, DataQueryRequest, DataSourceJsonData, MetricFindValue, SelectableValue, VariableModel } from '@grafana/data';
+import {
+  DataQuery,
+  DataQueryRequest,
+  DataSourceJsonData,
+  MetricFindValue,
+  SelectableValue,
+  VariableModel,
+} from '@grafana/data';
 import { TemplateSrv as GrafanaTemplateSrv } from '@grafana/runtime';
 
 declare module '@grafana/runtime' {
@@ -61,7 +68,7 @@ export interface MetricPayloadConfig {
   placeholder?: string;
   name: string;
   label?: string;
-  type?: "input" | "select" | "multi-select" | "textarea";
+  type?: 'input' | 'select' | 'multi-select' | 'textarea';
   reloadMetric?: boolean;
   options?: Array<SelectableValue<string | number>>;
 }
@@ -73,4 +80,4 @@ export interface MetricConfig {
   payloads?: MetricPayloadConfig[];
 }
 
-export type QueryEditorMode = "code" | "builder";
+export type QueryEditorMode = 'code' | 'builder';

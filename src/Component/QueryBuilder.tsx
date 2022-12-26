@@ -25,7 +25,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
   const [metric, setMetric] = React.useState<SelectableValue<string | number>>();
   const [payload, setPayload] = React.useState(props.payload ?? '');
 
-  const [unusedPayload, setUnusedPayload] = React.useState<Array<{ name: string; value: any }>>([]);
+  const [unknownPayload, setUnknownPayload] = React.useState<Array<{ name: string; value: any }>>([]);
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
   const [payloadConfig, setPayloadConfig] = React.useState<MetricPayloadConfig[]>([]);
@@ -45,6 +45,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
       (response) => {
         setMetric({ label: '', value: '' });
         setMetricOptions([]);
+
         throw new Error(response.statusText);
       }
     );
@@ -81,13 +82,13 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
   }, [payload, metric]);
 
   React.useEffect(() => {
-    const newUnusedPayload: Array<{ name: string; value: any }> = [];
+    const newUnknownPayload: Array<{ name: string; value: any }> = [];
     for (const key in payload) {
       const foundConfig = payloadConfig.find((item) => item.name === key);
-      if (!foundConfig) {
-        newUnusedPayload.push({ name: key, value: payload[key] });
+      if (foundConfig === undefined) {
+        newUnknownPayload.push({ name: key, value: payload[key] });
       }
-      setUnusedPayload(newUnusedPayload);
+      setUnknownPayload(newUnknownPayload);
     }
   }, [payload, payloadConfig]);
 
@@ -152,7 +153,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
           />
         </EditorField>
       </EditorFieldGroup>
-      {payloadConfig && payloadConfig.length > 0 && (
+      {payloadConfig.length > 0 && (
         <EditorFieldGroup>
           <EditorField label="Payload" style={{ width: '100%' }}>
             <div style={{ display: 'flex', flexFlow: 'row wrap', gap: 16, width: '100%' }}>
@@ -208,11 +209,18 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
           </EditorField>
         </EditorFieldGroup>
       )}
-      {unusedPayload.length > 0 && (
+      {unknownPayload.length > 0 && (
         <EditorFieldGroup>
-          <EditorField label="unused">
+          <EditorField
+            label="Unknown payload"
+            tooltip={
+              <>
+                Payload options that are set but not defined in the <code>Metric.payloads</code>.
+              </>
+            }
+          >
             <div style={{ display: 'flex', flexFlow: 'row wrap', gap: 16, width: '100%' }}>
-              {unusedPayload.map((item, idx) => {
+              {unknownPayload.map((item, idx) => {
                 return (
                   <QueryBuilderTag
                     key={`${item.name}-${idx}`}

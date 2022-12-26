@@ -12,7 +12,7 @@ The JSON Datasource executes requests against arbitrary backends and parses JSON
 - [Setup](#setup)
 - [API](#api)
   - [/metrics](#metrics)
-  - [/options](#options)
+  - [/metric-payload-options](#metric-payload-options)
   - [/query](#query)
   - [/variable](#variable)
   - [/tag-keys](#tag-keys)
@@ -44,7 +44,7 @@ To work with this datasource the backend needs to implement 3 endpoints:
 
 - `GET /` with 200 status code response. Used for "Test connection" on the datasource config page.
 - `POST /metrics` to return available metrics.
-- `POST /options` to return a list of metric options.
+- `POST /metric-payload-options` to return a list of metric payload options.
 - `POST /query` to return panel data or annotations.
 
 Those 3 endpoints are optional:
@@ -116,9 +116,9 @@ Example response:
 The display is as follows:
 ![Metrics in builder mode](./docs/images/builder-metrics.png)
 
-### /options
+### /metric-payload-options
 
-`POST /options`
+`POST /metric-payload-options`
 
 When the payload `type` is `select` or `multi-select` and the payload `options` configuration is empty, expanding the drop-down menu will trigger this API. The request body will carry the current metric and payload. 
 

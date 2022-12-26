@@ -65,7 +65,7 @@ func Test_Options(t *testing.T) {
 	mux := newHandler()
 	server := httptest.NewServer(mux)
 	payload := `{"metric":"DescribeMetricList","payload":{"namespace":"acs_rds"},"name":"instanceId"}`
-	resp, err := http.Post(server.URL+"/api/grafana/json/options", "application/json", bytes.NewBuffer([]byte(payload)))
+	resp, err := http.Post(server.URL+"/api/grafana/json/metric-payload-options", "application/json", bytes.NewBuffer([]byte(payload)))
 	require.NoError(t, err)
 	require.Equal(t, resp.StatusCode, 200)
 	rawBody, err := ioutil.ReadAll(resp.Body)

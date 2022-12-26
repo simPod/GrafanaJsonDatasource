@@ -21,7 +21,7 @@ const editorModes: Array<SelectableValue<QueryEditorMode>> = [
           padding: '1px 5px',
           verticalAlign: 'text-bottom',
         })}
-        name={'Beta'}
+        name={'Experimental'}
         colorIndex={1}
       />
     ),

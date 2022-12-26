@@ -270,9 +270,6 @@ paths:
                         example: "upper_25"
                       refId:
                         type: string
-                      type:
-                        type: string
-                        enum: ["timeseries", "table"]
                       payload:
                         description: arbitrary "additional data" the user can pass in
                         type: object

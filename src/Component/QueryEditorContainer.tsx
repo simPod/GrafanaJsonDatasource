@@ -1,4 +1,4 @@
-import { QueryEditorProps, SelectableValue } from '@grafana/data';
+import { QueryEditorProps } from '@grafana/data';
 import { EditorField, EditorFieldGroup, EditorHeader, EditorRows } from '@grafana/experimental';
 import React, { ComponentType, useCallback } from 'react';
 import { DataSource } from '../DataSource';
@@ -8,14 +8,9 @@ import { QueryEditor } from './QueryEditor';
 import { QueryBuilder } from './QueryBuilder';
 import { QueryEditorModeToggle } from './QueryEditorModeToggle';
 import { GenericOptions, GrafanaQuery, QueryEditorMode } from '../types';
-import { CodeEditor, InlineField, InlineSwitch, RadioButtonGroup } from '@grafana/ui';
+import { CodeEditor, InlineField, InlineSwitch } from '@grafana/ui';
 
 type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
-
-const queryTypes: Array<SelectableValue<string>> = [
-  { label: 'Timeserie', value: 'timeserie' },
-  { label: 'Table', value: 'table' },
-];
 
 function convertPayloadToObject(payload: string | { [key: string]: any }): { [key: string]: any } {
   if (payload) {
@@ -53,7 +48,6 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
   React.useEffect(() => {
     onChange({
       ...query,
-      queryType: query.queryType ?? 'timeserie',
       editorMode: query.editorMode ?? defaultEditorMode,
     });
   }, []);
@@ -68,34 +62,11 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
     [onChange, query]
   );
 
-  const onQueryTypeChange = useCallback(
-    (newMetricEditorMode: string) => {
-      onChange({
-        ...query,
-        queryType: newMetricEditorMode,
-      });
-    },
-    [onChange, query]
-  );
-
   return (
     <>
       <EditorHeader>
         <InlineField label="Mode">
           <QueryEditorModeToggle size="md" mode={editorMode} onChange={onEditorModeChange}/>
-        </InlineField>
-        <InlineField
-          label="Format"
-          tooltip={
-            'This option only adds an expected response data type to the request, but the final returned data type is still determined by the server.'
-          }
-        >
-          <RadioButtonGroup<string>
-            options={queryTypes}
-            size="md"
-            value={query.queryType}
-            onChange={onQueryTypeChange}
-          />
         </InlineField>
         <InlineField label="Raw query">
           <InlineSwitch

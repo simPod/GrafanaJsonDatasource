@@ -6,18 +6,6 @@
 
 The JSON Datasource executes requests against arbitrary backends and parses JSON response into Grafana dataframes.
 
-## Contents
-
-- [Installation](#installation)
-- [Setup](#setup)
-- [API](#api)
-  - [/metrics](#metrics)
-  - [/metric-payload-options](#metric-payload-options)
-  - [/query](#query)
-  - [/variable](#variable)
-  - [/tag-keys](#tag-keys)
-  - [/tag-values](#tag-values)
-
 ## Installation
 
 To install this plugin using the `grafana-cli` tool:

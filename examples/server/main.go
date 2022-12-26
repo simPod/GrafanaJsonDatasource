@@ -10,7 +10,7 @@ func newHandler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/grafana/json", hello)
 	mux.HandleFunc("/api/grafana/json/metrics", getMetrics)
-	mux.HandleFunc("/api/grafana/json/options", getOptions)
+	mux.HandleFunc("/api/grafana/json/metric-payload-options", getMetricPayloadOptions)
 	return mux
 }
 
@@ -30,8 +30,8 @@ var defaultMetrics = `
     "type": "select",
     "defaultValue": "acs_mongodb",
     "placeholder": "Please select namespace",
-    "reloadMetric": true, 
-    "options": [{ 
+    "reloadMetric": true,
+    "options": [{
       "label": "acs_mongodb",
       "value": "acs_mongodb"
     },{
@@ -66,8 +66,8 @@ var rdsMetrics = `
     "type": "select",
     "defaultValue": "acs_mongodb",
     "placeholder": "Please select namespace",
-    "reloadMetric": true, 
-    "options": [{ 
+    "reloadMetric": true,
+    "options": [{
       "label": "acs_mongodb",
       "value": "acs_mongodb"
     },{
@@ -122,7 +122,7 @@ type OptionsRequest struct {
 	Payload map[string]interface{} `json:"payload"`
 }
 
-func getOptions(writer http.ResponseWriter, request *http.Request) {
+func getMetricPayloadOptions(writer http.ResponseWriter, request *http.Request) {
 	var req OptionsRequest
 	err := json.NewDecoder(request.Body).Decode(&req)
 	if err != nil {
@@ -132,7 +132,7 @@ func getOptions(writer http.ResponseWriter, request *http.Request) {
 	writer.Header().Set("content-type", "application/json")
 	switch req.Name {
 	case "instanceId":
-		writer.Write([]byte(`[{ 
+		writer.Write([]byte(`[{
       "label": "My Database 1",
       "value": "sadbip2kasdmnlo"
     },{
@@ -144,7 +144,7 @@ func getOptions(writer http.ResponseWriter, request *http.Request) {
     }]`))
 
 	case "metric":
-		writer.Write([]byte(`[{ 
+		writer.Write([]byte(`[{
       "label": "CPUUtilization",
       "value": "CPUUtilization"
     },{
@@ -155,7 +155,7 @@ func getOptions(writer http.ResponseWriter, request *http.Request) {
       "value": "memory_freeutilization"
     }]`))
 	case "namespace":
-		writer.Write([]byte(`[{ 
+		writer.Write([]byte(`[{
       "label": "MongoDB",
       "value": "acs_mongodb"
     },{

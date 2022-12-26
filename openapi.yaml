@@ -154,7 +154,7 @@ paths:
                           type: select
                         - name: instanceId
                           type: multi-select
-  /options:
+  /metric-payload-options:
     post:
       summary: List the available payload options.
       description: >-
@@ -162,7 +162,7 @@ paths:
         `options` configuration is empty, expanding the drop-down menu will
         trigger this API. The request body will carry the current metric and
         payload.
-      operationId: api.endpoints.list_options
+      operationId: api.endpoints.list_metric_payload_options
       tags:
         - Visualization
       parameters: []

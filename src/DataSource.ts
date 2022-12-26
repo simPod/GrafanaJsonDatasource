@@ -161,7 +161,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   ): Promise<Array<SelectableValue<string | number>>> {
     return lastValueFrom<Array<SelectableValue<string | number>>>(
       this.doFetch({
-        url: `${this.url}/options`,
+        url: `${this.url}/metric-payload-options`,
         data: {
           metric,
           payload: this.processPayload(payload, 'builder', undefined),

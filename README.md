@@ -20,13 +20,13 @@ See [here](https://grafana.com/grafana/plugins/simpod-json-datasource/) for more
 
 When adding datasource add your API endpoint to the `URL` field. That's where datasource will make requests to.
 
-![Datasource setup](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.3.x/docs/images/datasource-setup.png)
+![Datasource setup](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.6.x/docs/images/datasource-setup.png)
 
 If you want to add custom headers, keep Access set to `Server`.
 
 ## API
 
-An OpenAPI definition is defined at [openapi.yaml](https://github.com/simPod/GrafanaJsonDatasource/blob/0.3.x/openapi.yaml).
+An OpenAPI definition is defined at [openapi.yaml](https://github.com/simPod/GrafanaJsonDatasource/blob/0.6.x/openapi.yaml).
 
 To work with this datasource the backend needs to implement 3 endpoints:
 
@@ -243,7 +243,7 @@ For example, when `{ "additional": "optional json" }` is entered into `Payload` 
 
 You can also enter variables:
 
-![Additional data variable input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.3.x/docs/images/additional-data-variable-input.png)
+![Additional data variable input](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.6.x/docs/images/additional-data-variable-input.png)
 
 ### /variable
 

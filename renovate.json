@@ -6,7 +6,12 @@
     {
       "matchPackagePatterns": ["@grafana/"],
       "groupName": "grafana packages",
-      "groupSlug": "grafana"
+      "groupSlug": "grafana",
+      "rangeStrategy": "replace"
+    },
+    {
+      "matchDepTypes": ["dependencies"],
+      "rangeStrategy": "bump"
     }
   ]
 }

@@ -36,7 +36,9 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
     return datasource.listMetrics(metric?.value ?? query.target ?? '', payload).then(
       (metrics) => {
         const foundMetric = find(metrics, (metric) => metric.value === query.target);
-        setMetric(foundMetric === undefined ? { label: '', value: '' } : foundMetric);
+        setMetric(
+          foundMetric === undefined ? { label: '', value: '' } : { label: foundMetric.label, value: foundMetric.value }
+        );
         setPayloadConfig(foundMetric?.payloads ?? []);
         return metrics;
       },

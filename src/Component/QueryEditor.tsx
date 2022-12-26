@@ -35,7 +35,7 @@ export const QueryEditor: ComponentType<Props> = ({
   const loadMetrics = React.useCallback(() => {
     return datasource.listMetrics('', undefined).then(
       (result) => {
-        const metrics = result.map((value) => ({ label: value.text, value: value.value }));
+        const metrics = result.map((value) => ({ label: value.label, value: value.value }));
 
         const foundMetric = find(metrics, (metric) => metric.value === query.target);
 

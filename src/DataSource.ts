@@ -196,22 +196,24 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         map((response) => {
           if (!isArray(response.data)) {
             return [];
-          } else {
-            return response.data.map((item: MetricConfig | string) => {
-              if (typeof item === 'string') {
-                return { label: item, value: item, text: item };
-              }
-              return {
-                ...item,
-                label: item.label ?? item.text ?? item.value,
-                payloads: isArray(item.payloads)
-                  ? item.payloads.map((payload: MetricPayloadConfig) => {
-                      return { ...payload, label: payload.label ? payload.label : payload.name };
-                    })
-                  : [],
-              };
-            });
           }
+
+          return response.data.map((item: MetricConfig | string) => {
+            if (typeof item === 'string') {
+              return { value: item, label: item, payloads: [] };
+            }
+
+            return {
+              ...item,
+              payloads: isArray(item.payloads)
+                ? item.payloads.map((payload: MetricPayloadConfig) => ({
+                    ...payload,
+                    label: payload.label ? payload.label : payload.name,
+                  }))
+                : [],
+              label: item.label ?? item.value,
+            };
+          });
         }),
 
         catchError((err) => {

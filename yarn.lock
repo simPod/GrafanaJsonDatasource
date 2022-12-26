@@ -1938,7 +1938,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/experimental@npm:1.0.2":
+"@grafana/experimental@npm:^1.0.2":
   version: 1.0.2
   resolution: "@grafana/experimental@npm:1.0.2"
   dependencies:
@@ -7420,7 +7420,7 @@ __metadata:
   dependencies:
     "@grafana/data": ^9.0.0
     "@grafana/eslint-config": ^5.0.0
-    "@grafana/experimental": 1.0.2
+    "@grafana/experimental": ^1.0.2
     "@grafana/runtime": ^9.0.0
     "@grafana/toolkit": ^9.0.0
     "@grafana/ui": ^9.0.0

@@ -1,4 +1,4 @@
-openapi: 3.0.0
+openapi: 3.0.3
 info:
   title: simPod JSON Datasource API
   description: API definition for the Grafana plugin simpod json datasource

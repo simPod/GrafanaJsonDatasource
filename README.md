@@ -26,7 +26,8 @@ If you want to add custom headers, keep Access set to `Server`.
 
 ## API
 
-An OpenAPI definition is defined at [openapi.yaml](https://github.com/simPod/GrafanaJsonDatasource/blob/0.6.x/openapi.yaml).
+An OpenAPI definition is at [openapi.yaml](https://github.com/simPod/GrafanaJsonDatasource/blob/0.6.x/openapi.yaml). 
+_You can explore it using [Swagger Editor](https://editor-next.swagger.io/)_.
 
 To work with this datasource the backend needs to implement 3 endpoints:
 

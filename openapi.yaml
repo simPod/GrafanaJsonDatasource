@@ -19,7 +19,7 @@ paths:
     post:
       summary: List available metrics
       description: >-
-        In `Panel > Queries` page. It will send the request to obtain the available metrics. 
+        In `Panel > Queries` page. It will send the request to obtain the available metrics.
         The request body will carry the current metric and payload. In
         the `Builder` mode, if the `reloadMetric` value in the load
         configuration is true, the api will also be triggered when the value is
@@ -77,10 +77,10 @@ paths:
                           type:
                             type: string
                             description: |-
-                              If the value is select, the UI of the payload is a radio box. 
-                              If the value is multi-select, the UI of the payload is a multi selection box. 
-                              if the value is input, the UI of the payload is an input box. 
-                              if the value is textarea, the UI of the payload is a multiline input box.  
+                              If the value is select, the UI of the payload is a radio box.
+                              If the value is multi-select, the UI of the payload is a multi selection box.
+                              if the value is input, the UI of the payload is an input box.
+                              if the value is textarea, the UI of the payload is a multiline input box.
                               The default is input.
                             enum:
                               - select

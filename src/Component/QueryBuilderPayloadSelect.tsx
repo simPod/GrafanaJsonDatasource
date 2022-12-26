@@ -35,6 +35,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
               metrics.push({ label: `$${key}`, value: `$${key}` });
             }
           }
+
           if (isArray(currentOption)) {
             for (let index = 0; index < currentOption.length; index++) {
               const foundOption = metrics.find((item) => item.value === currentOption[index].value);
@@ -52,10 +53,12 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
             }
           }
         }
+
         return metrics;
       },
       (response) => {
         setPayloadOptions([]);
+
         throw new Error(response.statusText);
       }
     );

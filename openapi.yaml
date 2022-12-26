@@ -47,7 +47,7 @@ paths:
             example: {"metric": "DescribeCloudWatchDataList", "payload": {"namespace": "AWS/RDS"}}
       responses:
         '200':
-          description: Seccess
+          description: Success
           content:
             application/json:
               schema:

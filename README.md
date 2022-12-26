@@ -102,7 +102,7 @@ Example response:
 }]
 ```
 The display is as follows:
-![Metrics in builder mode](./docs/images/builder-metrics.png)
+![Metrics in builder mode](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.6.x/docs/images/builder-metrics.png)
 
 ### /metric-payload-options
 
@@ -135,7 +135,7 @@ Example Response:
 }]
 ```
 The display is as follows:
-![Metric options in builder mode](./docs/images/builder-metric-options.png)
+![Metric options in builder mode](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.6.x/docs/images/builder-metric-options.png)
 
 ### /query
 

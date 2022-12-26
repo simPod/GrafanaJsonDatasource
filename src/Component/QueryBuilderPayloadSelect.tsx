@@ -25,7 +25,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
   >();
   const [isPayloadOptionsLoading, setIsPayloadOptionsLoading] = React.useState<boolean>(false);
   const [payloadOptions, setPayloadOptions] = React.useState<Array<SelectableValue<string | number>>>([]);
-  const loadMetricPayloadValues = React.useCallback(() => {
+  const loadMetricPayloadOptions = React.useCallback(() => {
     return datasource.listMetricPayloadOptions(config.name, query.target ?? '', query.payload).then(
       (metrics) => {
         if (value) {
@@ -64,21 +64,21 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
     );
   }, [datasource, query.payload, query.target]);
 
-  const loadMetricPayloadOptions = React.useCallback(() => {
+  const getMetricPayloadOptions = React.useCallback(() => {
     setIsPayloadOptionsLoading(true);
-    loadMetricPayloadValues()
-      .then((metrics) => {
-        setPayloadOptions(metrics);
+    loadMetricPayloadOptions()
+      .then((options) => {
+        setPayloadOptions(options);
       })
       .finally(() => {
         setIsPayloadOptionsLoading(false);
       });
-  }, [loadMetricPayloadValues, setPayloadOptions, setIsPayloadOptionsLoading]);
+  }, [loadMetricPayloadOptions, setPayloadOptions, setIsPayloadOptionsLoading]);
 
   // Initializing metric options
   React.useEffect(() => {
     if (value) {
-      loadMetricPayloadOptions();
+      getMetricPayloadOptions();
     }
   }, []);
 
@@ -118,14 +118,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
       value={currentOption}
       onOpenMenu={() => {
         if (!config.options) {
-          setIsPayloadOptionsLoading(true);
-          loadMetricPayloadValues()
-            .then((options) => {
-              setPayloadOptions(options);
-            })
-            .finally(() => {
-              setIsPayloadOptionsLoading(false);
-            });
+          getMetricPayloadOptions();
         }
       }}
       onChange={(v) => {

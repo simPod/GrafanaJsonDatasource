@@ -107,11 +107,11 @@ describe('GenericDatasource', () => {
     const result = await ds.listMetrics('search');
 
     expect(result).toHaveLength(3);
-    expect(result[0].text).toBe('search_0');
+    expect(result[0].label).toBe('search_0');
     expect(result[0].value).toBe('search_0');
-    expect(result[1].text).toBe('search_1');
+    expect(result[1].label).toBe('search_1');
     expect(result[1].value).toBe('search_1');
-    expect(result[2].text).toBe('search_2');
+    expect(result[2].label).toBe('search_2');
     expect(result[2].value).toBe('search_2');
   });
 
@@ -131,11 +131,11 @@ describe('GenericDatasource', () => {
     const result = await ds.listMetrics('');
 
     expect(result).toHaveLength(3);
-    expect(result[0].text).toBe('metric_0');
+    expect(result[0].label).toBe('metric_0');
     expect(result[0].value).toBe('metric_0');
-    expect(result[1].text).toBe('metric_1');
+    expect(result[1].label).toBe('metric_1');
     expect(result[1].value).toBe('metric_1');
-    expect(result[2].text).toBe('metric_2');
+    expect(result[2].label).toBe('metric_2');
     expect(result[2].value).toBe('metric_2');
   });
 
@@ -155,11 +155,11 @@ describe('GenericDatasource', () => {
     const result = await ds.listMetrics('');
 
     expect(result).toHaveLength(3);
-    expect(result[0].text).toBe('metric_0');
+    expect(result[0].label).toBe('metric_0');
     expect(result[0].value).toBe('metric_0');
-    expect(result[1].text).toBe('metric_1');
+    expect(result[1].label).toBe('metric_1');
     expect(result[1].value).toBe('metric_1');
-    expect(result[2].text).toBe('metric_2');
+    expect(result[2].label).toBe('metric_2');
     expect(result[2].value).toBe('metric_2');
   });
 
@@ -181,11 +181,11 @@ describe('GenericDatasource', () => {
     const result = await ds.listMetrics('search');
 
     expect(result).toHaveLength(3);
-    expect(result[0].text).toBe('search_0');
+    expect(result[0].label).toBe('search_0');
     expect(result[0].value).toBe('search_0');
-    expect(result[1].text).toBe('search_1');
+    expect(result[1].label).toBe('search_1');
     expect(result[1].value).toBe('search_1');
-    expect(result[2].text).toBe('search_2');
+    expect(result[2].label).toBe('search_2');
     expect(result[2].value).toBe('search_2');
   });
 

@@ -74,10 +74,9 @@ export interface MetricPayloadConfig {
 }
 
 export interface MetricConfig {
+  label: string;
   value: string;
-  label?: string;
-  text?: string;
-  payloads?: MetricPayloadConfig[];
+  payloads: MetricPayloadConfig[];
 }
 
 export type QueryEditorMode = 'code' | 'builder';

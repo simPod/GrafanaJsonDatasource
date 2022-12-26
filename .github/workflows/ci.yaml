@@ -8,7 +8,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  Tests & Build:
+  test_build:
+    name: Tests & Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

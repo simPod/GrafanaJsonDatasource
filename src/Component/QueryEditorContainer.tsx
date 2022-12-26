@@ -14,15 +14,15 @@ type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 
 function convertPayloadToObject(payload: string | { [key: string]: any }): { [key: string]: any } {
   if (payload) {
-    if (typeof payload === "string") {
+    if (typeof payload === 'string') {
       try {
-        return JSON.parse(payload)
+        return JSON.parse(payload);
       } catch (err) {
-        console.error(err)
-        return {}
+        console.error(err);
+        return {};
       }
     } else {
-      return payload
+      return payload;
     }
   } else {
     return {};
@@ -35,7 +35,7 @@ const convertPayloadToString = (payload: string | { [key: string]: any }): strin
   } else if (payload) {
     return JSON.stringify(payload, undefined, 2);
   } else {
-    return ""
+    return '';
   }
 };
 
@@ -66,7 +66,7 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
     <>
       <EditorHeader>
         <InlineField label="Mode">
-          <QueryEditorModeToggle size="md" mode={editorMode} onChange={onEditorModeChange}/>
+          <QueryEditorModeToggle size="md" mode={editorMode} onChange={onEditorModeChange} />
         </InlineField>
         <InlineField label="Raw query">
           <InlineSwitch
@@ -79,10 +79,10 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
       </EditorHeader>
       <EditorRows>
         {(editorMode ?? defaultEditorMode) === 'code' && (
-          <QueryEditor {... props} payload={convertPayloadToString(query.payload)}/>
+          <QueryEditor {...props} payload={convertPayloadToString(query.payload)} />
         )}
         {(editorMode ?? defaultEditorMode) === 'builder' && (
-          <QueryBuilder {... props} payload={convertPayloadToObject(query.payload)}/>
+          <QueryBuilder {...props} payload={convertPayloadToObject(query.payload)} />
         )}
       </EditorRows>
       {showRawQuery && (
@@ -97,8 +97,7 @@ export const QueryEditorContainer: ComponentType<Props> = (props) => {
                       height="200px"
                       readOnly={true}
                       value={JSON.stringify(datasource.processTarget(query), undefined, 2)}
-                      onBlur={() => {
-                      }}
+                      onBlur={() => {}}
                       language="json"
                     />
                   </div>

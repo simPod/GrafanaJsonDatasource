@@ -8,7 +8,7 @@ interface Props {
   config: MetricPayloadConfig;
   onValueChange: (value: string) => void;
   theme: GrafanaTheme2;
-  value?: string
+  value?: string;
 }
 
 function getFocusStyles(theme: GrafanaTheme2): CSSObject {
@@ -48,10 +48,10 @@ const UnThemedTextArea: ComponentType<Props> = ({ theme, onValueChange, value })
         contentEditable={true}
         style={{ width: '100%', outline: 'none' }}
         onBlur={(val) => {
-          onValueChange(val.currentTarget.innerText.replace(/\n\n/g, "\n"));
+          onValueChange(val.currentTarget.innerText.replace(/\n\n/g, '\n'));
         }}
         onInput={(v) => {
-          html.current = v.currentTarget.innerHTML
+          html.current = v.currentTarget.innerHTML;
         }}
       />
     </div>

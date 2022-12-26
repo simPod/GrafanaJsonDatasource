@@ -6,7 +6,7 @@ import { SelectableValue } from '@grafana/data';
 import { QueryEditorMode } from 'types';
 import { RadioButtonGroupProps } from '@grafana/ui/components/Forms/RadioButtonGroup/RadioButtonGroup';
 
-export interface QueryEditorModeToggleProps extends Omit<RadioButtonGroupProps<QueryEditorMode>,"options"> {
+export interface QueryEditorModeToggleProps extends Omit<RadioButtonGroupProps<QueryEditorMode>, 'options'> {
   mode?: QueryEditorMode;
 }
 

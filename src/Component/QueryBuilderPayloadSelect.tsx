@@ -12,16 +12,14 @@ interface PayloadSelectProps extends QueryEditorProps<DataSource, GrafanaQuery, 
   value?: string | number | string[] | number[];
 }
 
-export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = (
-  {
-    config,
-    datasource,
-    query,
-    onPayloadChange,
-    isMulti,
-    value,
-  }
-) => {
+export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
+  config,
+  datasource,
+  query,
+  onPayloadChange,
+  isMulti,
+  value,
+}) => {
   const [currentOption, setCurrentOption] = React.useState<
     SelectableValue<string | number> | Array<SelectableValue<string | number>>
   >();
@@ -50,7 +48,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = (
           } else if (currentOption) {
             const foundOption = metrics.find((item) => item.value === currentOption.value);
             if (foundOption !== undefined) {
-              metrics.push({ ... currentOption, value: currentOption.value, label: currentOption.label });
+              metrics.push({ ...currentOption, value: currentOption.value, label: currentOption.label });
             }
           }
         }
@@ -99,7 +97,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = (
         }
       }
     } else {
-      setCurrentOption(undefined)
+      setCurrentOption(undefined);
     }
   }, [query.payload, payloadOptions]);
 
@@ -127,7 +125,6 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = (
             });
         }
       }}
-
       onChange={(v) => {
         onPayloadChange(v);
       }}

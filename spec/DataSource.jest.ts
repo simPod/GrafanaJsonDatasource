@@ -1,5 +1,5 @@
-import {isDataFrame} from '@grafana/data';
-import {DateTime} from '@grafana/data/datetime/moment_wrapper';
+import { isDataFrame } from '@grafana/data';
+import { DateTime } from '@grafana/data/datetime/moment_wrapper';
 import {
   BackendSrv,
   FetchResponse,
@@ -8,9 +8,9 @@ import {
   setBackendSrv,
   setTemplateSrv,
 } from '@grafana/runtime';
-import {of} from 'rxjs';
-import {DataSource} from '../src/DataSource';
-import {QueryRequest} from '../src/types';
+import { of } from 'rxjs';
+import { DataSource } from '../src/DataSource';
+import { QueryRequest } from '../src/types';
 import TemplateSrvStub from './lib/TemplateSrvStub';
 
 const options = {
@@ -52,7 +52,7 @@ describe('GenericDatasource', () => {
   const ds = new DataSource({} as any);
 
   it('should return an empty array when no targets are set', async () => {
-    const result = await ds.query({...options, targets: []});
+    const result = await ds.query({ ...options, targets: [] });
 
     expect(result.data).toHaveLength(0);
   });
@@ -78,7 +78,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    const result = await ds.query({...options, targets: [{refId: 'A', payload: '', target: 'hits'}]});
+    const result = await ds.query({ ...options, targets: [{ refId: 'A', payload: '', target: 'hits' }] });
 
     const series = result.data[0];
     expect(isDataFrame(series)).toBe(true);
@@ -97,7 +97,7 @@ describe('GenericDatasource', () => {
           _request: request,
           data: result,
         } as unknown as FetchResponse);
-      }
+      },
     } as BackendSrv);
 
     const templateSrvStub = new TemplateSrvStub();
@@ -121,7 +121,7 @@ describe('GenericDatasource', () => {
         of({
           _request: request,
           data: ['metric_0', 'metric_1', 'metric_2'],
-        } as unknown as FetchResponse)
+        } as unknown as FetchResponse),
     } as BackendSrv);
 
     const templateSrvStub = new TemplateSrvStub();
@@ -145,7 +145,7 @@ describe('GenericDatasource', () => {
         of({
           _request: request,
           data: ['metric_0', 'metric_1', 'metric_2'],
-        } as unknown as FetchResponse)
+        } as unknown as FetchResponse),
     } as BackendSrv);
 
     const templateSrvStub = new TemplateSrvStub();
@@ -207,13 +207,13 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    await ds.metricFindQuery({query: `{"target":"search"}`, format: 'json'});
+    await ds.metricFindQuery({ query: `{"target":"search"}`, format: 'json' });
 
     expect(jsonParsed).toBe(true);
   });
 
   it('should return data as text and as value', (done) => {
-    const result = ds.mapToTextValue({data: ['zero', 'one', 'two']});
+    const result = ds.mapToTextValue({ data: ['zero', 'one', 'two'] });
 
     expect(result).toHaveLength(3);
     expect(result[0].text).toBe('zero');
@@ -227,12 +227,12 @@ describe('GenericDatasource', () => {
 
   it('should return text as text and value as value', (done) => {
     const data = [
-      {text: 'zero', value: 'value_0'},
-      {text: 'one', value: 'value_1'},
-      {text: 'two', value: 'value_2'},
+      { text: 'zero', value: 'value_0' },
+      { text: 'one', value: 'value_1' },
+      { text: 'two', value: 'value_2' },
     ];
 
-    const result = ds.mapToTextValue({data});
+    const result = ds.mapToTextValue({ data });
 
     expect(result).toHaveLength(3);
     expect(result[0].text).toBe('zero');
@@ -246,12 +246,12 @@ describe('GenericDatasource', () => {
 
   it('should return data as text and index as value', (done) => {
     const data = [
-      {a: 'zero', b: 'value_0'},
-      {a: 'one', b: 'value_1'},
-      {a: 'two', b: 'value_2'},
+      { a: 'zero', b: 'value_0' },
+      { a: 'one', b: 'value_1' },
+      { a: 'two', b: 'value_2' },
     ];
 
-    const result = ds.mapToTextValue({data});
+    const result = ds.mapToTextValue({ data });
 
     expect(result).toHaveLength(3);
     expect(result[0].text).toBe(data[0]);
@@ -265,8 +265,8 @@ describe('GenericDatasource', () => {
 
   it('should support tag keys', async () => {
     const data = [
-      {type: 'string', text: 'One', key: 'one'},
-      {type: 'string', text: 'two', key: 'Two'},
+      { type: 'string', text: 'One', key: 'one' },
+      { type: 'string', text: 'two', key: 'Two' },
     ];
 
     getBackendSrv().fetch = (request) =>
@@ -288,9 +288,9 @@ describe('GenericDatasource', () => {
 
   it('should support tag values', async () => {
     const data = [
-      {key: 'eins', text: 'Eins!'},
-      {key: 'zwei', text: 'Zwei'},
-      {key: 'drei', text: 'Drei!'},
+      { key: 'eins', text: 'Eins!' },
+      { key: 'zwei', text: 'Zwei' },
+      { key: 'drei', text: 'Drei!' },
     ];
 
     setBackendSrv({
@@ -298,7 +298,7 @@ describe('GenericDatasource', () => {
         of({
           data,
           _request: request,
-        } as unknown as FetchResponse)
+        } as unknown as FetchResponse),
     } as BackendSrv);
 
     const result = await ds.getTagValues(null);
@@ -343,7 +343,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
 
     expect(ds.processTargets(testcase).targets).toMatchObject([
       {
-        payload: {A: REPLACED_VALUE},
+        payload: { A: REPLACED_VALUE },
         target: testcase.targets[0].target,
         refId: testcase.targets[0].refId,
         hide: testcase.targets[0].hide,
@@ -374,8 +374,8 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       {
         payload: {
           filters: [
-            {key: 'SOME', value: REPLACED_VALUE},
-            {key: 'SOME2', value: REPLACED_VALUE},
+            { key: 'SOME', value: REPLACED_VALUE },
+            { key: 'SOME2', value: REPLACED_VALUE },
           ],
         },
         target: testcase.targets[0].target,
@@ -406,7 +406,7 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
     expect(ds.processTargets(testcase).targets).toMatchObject([
       {
         payload: {
-          filters: [{A: `${REPLACED_VALUE} ms`}],
+          filters: [{ A: `${REPLACED_VALUE} ms` }],
         },
         target: testcase.targets[0].target,
         refId: testcase.targets[0].refId,
@@ -451,8 +451,8 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       {
         payload: {
           filters: [
-            {key: 'SOME', value: REPLACED_NUMBER_VALUE},
-            {key: 'SOME2', value: REPLACED_NUMBER_VALUE},
+            { key: 'SOME', value: REPLACED_NUMBER_VALUE },
+            { key: 'SOME2', value: REPLACED_NUMBER_VALUE },
           ],
         },
         target: testcase.targets[0].target,
@@ -498,8 +498,8 @@ describe('GenericDatasource.prototype.buildQueryTargets', () => {
       {
         payload: {
           filters: [
-            {key: 'SOME', value: REPLACED_BOOLEAN_VALUE},
-            {key: 'SOME2', value: REPLACED_BOOLEAN_VALUE},
+            { key: 'SOME', value: REPLACED_BOOLEAN_VALUE },
+            { key: 'SOME2', value: REPLACED_BOOLEAN_VALUE },
           ],
         },
         target: testcase.targets[0].target,

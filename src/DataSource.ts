@@ -7,8 +7,13 @@ import {
   SelectableValue,
   toDataFrame,
 } from '@grafana/data';
-import { BackendDataSourceResponse, FetchResponse, getBackendSrv, getTemplateSrv } from '@grafana/runtime';
-import { BackendSrvRequest } from '@grafana/runtime/services/backendSrv';
+import {
+  BackendDataSourceResponse,
+  FetchResponse,
+  getBackendSrv,
+  getTemplateSrv,
+  BackendSrvRequest,
+} from '@grafana/runtime';
 import { isArray, isEqual, isObject } from 'lodash';
 import { lastValueFrom, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';

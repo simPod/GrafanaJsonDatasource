@@ -4,10 +4,11 @@ import React from 'react';
 
 import { SelectableValue } from '@grafana/data';
 import { QueryEditorMode } from 'types';
-import { RadioButtonGroupProps } from '@grafana/ui/components/Forms/RadioButtonGroup/RadioButtonGroup';
+
+type RadioButtonGroupProps<T> = Parameters<typeof RadioButtonGroup<T>>[0];
 
 export interface QueryEditorModeToggleProps extends Omit<RadioButtonGroupProps<QueryEditorMode>, 'options'> {
-  mode?: QueryEditorMode;
+  mode: QueryEditorMode;
 }
 
 const editorModes: Array<SelectableValue<QueryEditorMode>> = [

@@ -27,12 +27,12 @@
     "url": "https://github.com/simPod/GrafanaJsonDatasource/issues"
   },
   "devDependencies": {
-    "@grafana/data": "^9.0.0",
+    "@grafana/data": "^9.3.0",
     "@grafana/eslint-config": "^5.1.0",
     "@grafana/experimental": "^1.0.2",
-    "@grafana/runtime": "^9.0.0",
-    "@grafana/toolkit": "^9.0.0",
-    "@grafana/ui": "^9.0.0",
+    "@grafana/runtime": "^9.3.0",
+    "@grafana/toolkit": "^9.3.0",
+    "@grafana/ui": "^9.3.0",
     "@types/lodash": "^4.14.176",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^5.47.0",
@@ -40,12 +40,14 @@
     "eslint-plugin-jsdoc": "^39.6.4",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "prettier": "^2.8.1"
+    "prettier": "^2.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "dependencies": {
     "lodash": "^4.17.21",
     "react-virtualized-auto-sizer": "^1.0.7",
-    "rxjs": "^7.5.5"
+    "rxjs": "7.5.7"
   },
   "homepage": "https://github.com/simPod/GrafanaJsonDatasource",
   "engineStrict": true,

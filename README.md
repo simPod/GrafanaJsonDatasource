@@ -275,6 +275,8 @@ Example response
 ]
 ```
 
+DataFrame is also supported.
+
 ### /tag-keys
 
 `POST /tag-keys`

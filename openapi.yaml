@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: simPod JSON Datasource API
   description: API definition for the Grafana plugin simpod json datasource
-                https://github.com/simPod/grafana-json-datasource
+    https://github.com/simPod/grafana-json-datasource
   version: "0.1"
 paths:
   /:
@@ -314,7 +314,7 @@ paths:
                           items:
                             type: array
                             description: First value is Metric value as a float.
-                                          Second values is unix timestamp in milliseconds
+                              Second values is unix timestamp in milliseconds
                             minItems: 2
                             maxItems: 2
                             items:
@@ -347,6 +347,56 @@ paths:
                             anyOf:
                               - type: string
                               - type: number
+  /variable:
+    post:
+      summary: Variable
+      description: Returns data for Variable of type `Query`
+      operationId: api.endpoints.variable
+      tags:
+        - Variable
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payload:
+                  type: object
+                  required: ["target"]
+                  properties:
+                    target:
+                      type: string
+                    variables:
+                      type: object
+                range:
+                  type: object
+                  properties:
+                    from:
+                      type: string
+                      format: date-time
+                    to:
+                      type: string
+                      format: date-time
+                    raw:
+                      $ref: '#/components/schemas/raw-time-frame'
+      responses:
+        '200':
+          description: "Variable items"
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: array
+                    items:
+                      type: object
+                      required: ["text", "value"]
+                      properties:
+                        __text:
+                          type: string
+                        __value:
+                          type: string
+                  - $ref: '#/components/schemas/dataframe'
   /tag-keys:
     post:
       summary: Keys for ad hoc filters
@@ -393,6 +443,22 @@ paths:
           description: A valid response
 components:
   schemas:
+    dataframe:
+      title: Dataframe
+      type: object
+      required: [fields]
+      properties:
+        fields:
+          type: array
+          items:
+            required: [name, values]
+            type: object
+            properties:
+              name:
+                type: string
+              values:
+                type: array
+                items: {}
     raw-time-frame:
       type: object
       properties:

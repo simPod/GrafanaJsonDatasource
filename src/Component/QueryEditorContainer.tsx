@@ -12,7 +12,7 @@ import { CodeEditor, InlineField, InlineSwitch } from '@grafana/ui';
 
 type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 
-function convertPayloadToObject(payload: string | { [key: string]: any }): { [key: string]: any } {
+function convertPayloadToObject(payload: string | { [key: string]: unknown }): { [key: string]: unknown } {
   if (payload) {
     if (typeof payload === 'string') {
       try {
@@ -29,7 +29,7 @@ function convertPayloadToObject(payload: string | { [key: string]: any }): { [ke
   }
 }
 
-const convertPayloadToString = (payload: string | { [key: string]: any }): string => {
+const convertPayloadToString = (payload: string | { [key: string]: unknown }): string => {
   if (typeof payload === 'string') {
     return payload;
   } else if (payload) {

@@ -14,10 +14,12 @@ interface LastQuery {
   metric: string;
 }
 
+type UnknownPayload = Array<{ name: string; value: unknown }>;
+
 type EditorProps = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions>;
 
 interface Props extends EditorProps {
-  payload: { [key: string]: any };
+  payload: { [key: string]: unknown };
 }
 
 export const QueryBuilder: ComponentType<Props> = (props) => {
@@ -25,7 +27,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
   const [metric, setMetric] = React.useState<SelectableValue<string | number>>();
   const [payload, setPayload] = React.useState(props.payload ?? '');
 
-  const [unknownPayload, setUnknownPayload] = React.useState<Array<{ name: string; value: any }>>([]);
+  const [unknownPayload, setUnknownPayload] = React.useState<UnknownPayload>([]);
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
   const [payloadConfig, setPayloadConfig] = React.useState<MetricPayloadConfig[]>([]);
@@ -82,12 +84,13 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
   }, [payload, metric]);
 
   React.useEffect(() => {
-    const newUnknownPayload: Array<{ name: string; value: any }> = [];
+    const newUnknownPayload: UnknownPayload = [];
     for (const key in payload) {
       const foundConfig = payloadConfig.find((item) => item.name === key);
       if (foundConfig === undefined) {
         newUnknownPayload.push({ name: key, value: payload[key] });
       }
+
       setUnknownPayload(newUnknownPayload);
     }
   }, [payload, payloadConfig]);
@@ -166,7 +169,8 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
                         <QueryBuilderPayloadSelect
                           {...props}
                           config={opt}
-                          value={payload[opt.name]}
+                          // TODO: Handle types properly, possibly buggy
+                          value={payload[opt.name] as string | number | string[] | number[]}
                           isMulti={opt.type === 'multi-select'}
                           onPayloadChange={(v) => {
                             changePayload(opt.name, opt.reloadMetric, v);
@@ -181,6 +185,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
                           <label className="gf-form-label">{opt.label ?? opt.label}</label>
                           <QueryBuilderTextArea
                             config={opt}
+                            // TODO: Handle types properly, possibly buggy
                             value={payload[opt.name] as string}
                             onValueChange={(v) => {
                               changePayload(opt.name, opt.reloadMetric, { value: v });

@@ -162,7 +162,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   listMetricPayloadOptions(
     name: string,
     metric: string,
-    payload: string | { [key: string]: string }
+    payload: string | { [key: string]: unknown }
   ): Promise<Array<SelectableValue<string | number>>> {
     return lastValueFrom<Array<SelectableValue<string | number>>>(
       this.doFetch({
@@ -284,7 +284,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     return getBackendSrv().fetch<T>(options);
   }
 
-  processPayload(payload: string | { [key: string]: any }, editorMode?: QueryEditorMode, scopedVars?: ScopedVars) {
+  processPayload(payload: string | { [key: string]: unknown }, editorMode?: QueryEditorMode, scopedVars?: ScopedVars) {
     try {
       if (typeof payload === 'string' && editorMode !== 'builder') {
         if (payload.trim() !== '') {
@@ -295,7 +295,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         return {};
       } else {
         const newPayload: { [key: string]: any } =
-          typeof payload === 'string' ? (JSON.parse(payload) as { [key: string]: string }) : { ...payload };
+          typeof payload === 'string' ? (JSON.parse(payload) as { [key: string]: unknown }) : { ...payload };
         for (const key in newPayload) {
           if (Object.prototype.hasOwnProperty.call(newPayload, key)) {
             const value = newPayload[key];

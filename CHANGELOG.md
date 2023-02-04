@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.6.1
+
+## What's Changed
+* ci: check for dupes in lockfile by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/366
+* chore(deps): bump grafana packages to latest v9 by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/359
+* docs: sync CHANGELOG with releases by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/367
+* chore(deps): bump json5 from 2.2.1 to 2.2.3 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/371
+* docs(openapi): add /variable endpoint by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/372
+* chore(deps): bump ua-parser-js from 1.0.32 to 1.0.33 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/375
+* chore(deps): bump simple-git from 3.15.1 to 3.16.0 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/377
+* chore(deps): update yarn to v3.4.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/378
+* chore(deps): update yarn to v3.4.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/379
+* chore: prepare react dom testing by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/382
+* fix: properly display values in QueryBuilderTag by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/383
+* chore(deps): bump http-cache-semantics from 4.1.0 to 4.1.1 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/381
+
+
+**Full Changelog**: https://github.com/simPod/GrafanaJsonDatasource/compare/v0.6.0...0.6.1
+
 ## v0.6.0
 
 New Builder mode mainly implemented by @MicroOps-cn, huge thanks! 🎉 . See docs for details.

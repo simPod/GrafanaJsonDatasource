@@ -22,7 +22,7 @@ export interface GrafanaQuery extends DataQuery {
   editorMode?: QueryEditorMode;
   alias?: string;
   target?: string;
-  payload: string | { [key: string]: any };
+  payload: string | { [key: string]: unknown };
 }
 
 export interface GenericOptions extends DataSourceJsonData {

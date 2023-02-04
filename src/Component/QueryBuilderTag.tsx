@@ -2,10 +2,11 @@ import { css } from '@emotion/css';
 import { GrafanaTheme } from '@grafana/data';
 import { getTagColorsFromName, IconButton, stylesFactory, useTheme } from '@grafana/ui';
 import React, { ComponentType } from 'react';
+import { match } from 'ts-pattern';
 
 type QueryBuilderTagProps = {
   name: string;
-  value: string;
+  value: unknown;
   onRemove: (name: string) => void;
 };
 
@@ -48,10 +49,17 @@ export const QueryBuilderTag: ComponentType<QueryBuilderTagProps> = ({ name, val
   const theme = useTheme();
   const styles = getStyles({ theme, name });
 
+  const formattedValue = match(typeof value)
+    .with('string', () => `"${value}"`)
+    .with('number', () => value)
+    .with('boolean', () => (value as boolean).toString())
+    .with('object', () => (value === null ? 'null' : `"${JSON.stringify(value)}"`))
+    .otherwise(() => `"${JSON.stringify(value)}"`);
+
   return (
     <div className={styles.itemStyle}>
       <span className={styles.nameStyle}>
-        {name}={value}
+        {name}={formattedValue}
       </span>
       <IconButton
         name="times"

@@ -278,7 +278,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   doFetch<T>(options: BackendSrvRequest) {
-    options.withCredentials = this.withCredentials;
+    options.credentials = this.withCredentials ? 'include' : 'same-origin';
     options.headers = this.headers;
 
     return getBackendSrv().fetch<T>(options);

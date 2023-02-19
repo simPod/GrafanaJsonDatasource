@@ -353,7 +353,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       }
 
       if (variable.type === 'adhoc') {
-        // These are being added to request.adhocFilters
+        // These belong to request.adhocFilters
         return;
       }
 

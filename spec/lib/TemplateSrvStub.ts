@@ -13,8 +13,8 @@ export default class TemplateSrvStub implements TemplateSrv {
   data = {};
   adhocFilters = [];
   // tslint:disable-next-line:max-line-length
-  // https://github.com/grafana/grafana/blob/e03d702d0c14b214a57ddd5094ff756e845cdd2b/public/app/features/templating/variable.ts#L11
-  regex = /\$(\w+)|\[\[([\s\S]+?)(?::(\w+))?\]\]|\${(\w+)(?:\.([^:^\}]+))?(?::(\w+))?}/g;
+  // https://github.com/grafana/grafana/blob/c1c0daa13d5951e3e13d46ef9467d9d832993fe5/public/app/features/variables/utils.ts#L23
+  regex = /\$(\w+)|\[\[(\w+?)(?::(\w+))?\]\]|\${(\w+)(?:\.([^:^\}]+))?(?::([^\}]+))?}/g;
   replace(target?: string, scopedVars?: ScopedVars, format?: string | Function): string {
     return template(target, this.templateSettings)(this.data);
   }

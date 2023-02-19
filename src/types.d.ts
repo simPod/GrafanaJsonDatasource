@@ -1,11 +1,4 @@
-import {
-  DataQuery,
-  DataQueryRequest,
-  DataSourceJsonData,
-  MetricFindValue,
-  SelectableValue,
-  VariableModel,
-} from '@grafana/data';
+import { DataQuery, DataQueryRequest, DataSourceJsonData, MetricFindValue, SelectableValue } from '@grafana/data';
 import { TemplateSrv as GrafanaTemplateSrv } from '@grafana/runtime';
 
 declare module '@grafana/runtime' {
@@ -43,18 +36,6 @@ export interface MetricFindTagKeys extends MetricFindValue {
 export interface MetricFindTagValues extends MetricFindValue {
   key: string;
   text: string;
-}
-
-export interface TextValuePair {
-  text: string;
-  value: any;
-}
-
-export interface MultiValueVariable extends VariableModel {
-  allValue: string | null;
-  id: string;
-  current: TextValuePair;
-  options: TextValuePair[];
 }
 
 export interface MetricPayloadConfig {

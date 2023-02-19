@@ -6,6 +6,8 @@ import {
   ScopedVars,
   SelectableValue,
   toDataFrame,
+  VariableOption,
+  VariableWithMultiSupport,
 } from '@grafana/data';
 import {
   BackendDataSourceResponse,
@@ -14,7 +16,7 @@ import {
   getTemplateSrv,
   BackendSrvRequest,
 } from '@grafana/runtime';
-import { isArray, isEqual, isObject } from 'lodash';
+import { isArray, isObject } from 'lodash';
 import { lastValueFrom, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { ResponseParser } from './response_parser';
@@ -25,14 +27,12 @@ import {
   MetricFindTagKeys,
   MetricFindTagValues,
   MetricPayloadConfig,
-  MultiValueVariable,
   QueryEditorMode,
   QueryRequest,
-  TextValuePair,
   VariableQuery,
 } from './types';
-
-const supportedVariableTypes = ['adhoc', 'constant', 'custom', 'interval', 'query', 'textbox'];
+import { match, P } from 'ts-pattern';
+import { valueFromVariableWithMultiSupport } from './variable/valueFromVariableWithMultiSupport';
 
 export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   url: string;
@@ -344,36 +344,30 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   getVariables() {
-    const variables: { [id: string]: TextValuePair } = {};
+    const variableOptions: Record<VariableWithMultiSupport['id'], VariableOption> = {};
+
     Object.values(getTemplateSrv().getVariables()).forEach((variable) => {
-      if (!supportedVariableTypes.includes(variable.type)) {
-        console.warn(`Variable of type "${variable.type}" is not supported`);
-
-        return;
-      }
-
       if (variable.type === 'adhoc') {
         // These belong to request.adhocFilters
         return;
       }
 
-      const supportedVariable = variable as MultiValueVariable;
-
-      let variableValue = supportedVariable.current.value;
-      if (variableValue === '$__all' || isEqual(variableValue, ['$__all'])) {
-        if (supportedVariable.allValue === null || supportedVariable.allValue === '') {
-          variableValue = supportedVariable.options.slice(1).map((textValuePair) => textValuePair.value);
-        } else {
-          variableValue = supportedVariable.allValue;
-        }
+      if (variable.type === 'system') {
+        return;
       }
 
-      variables[supportedVariable.id] = {
-        text: supportedVariable.current.text,
-        value: variableValue,
+      const value = match(variable)
+        .with({ type: P.union('custom', 'query') }, (v) => valueFromVariableWithMultiSupport(v))
+        .with({ type: P.union('constant', 'datasource', 'interval', 'textbox') }, (v) => v.current.value)
+        .exhaustive();
+
+      variableOptions[variable.id] = {
+        selected: false,
+        text: variable.current.text,
+        value: value,
       };
     });
 
-    return variables;
+    return variableOptions;
   }
 }

@@ -57,12 +57,6 @@ export interface MultiValueVariable extends VariableModel {
   options: TextValuePair[];
 }
 
-declare module 'react' {
-  interface DOMAttributes<T> {
-    css?: InterpolationWithTheme<any>;
-  }
-}
-
 export interface MetricPayloadConfig {
   width?: number;
   placeholder?: string;

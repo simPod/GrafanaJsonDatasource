@@ -50,7 +50,7 @@
     "lodash": "^4.17.21",
     "react-virtualized-auto-sizer": "^1.0.7",
     "rxjs": "7.5.7",
-    "ts-pattern": "^4.2.0"
+    "ts-pattern": "^4.2.1"
   },
   "homepage": "https://github.com/simPod/GrafanaJsonDatasource",
   "engineStrict": true,

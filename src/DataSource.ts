@@ -361,6 +361,10 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         .with({ type: P.union('constant', 'datasource', 'interval', 'textbox') }, (v) => v.current.value)
         .exhaustive();
 
+      if (value === undefined) {
+        return;
+      }
+
       variableOptions[variable.id] = {
         selected: false,
         text: variable.current.text,

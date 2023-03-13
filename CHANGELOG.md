@@ -1,5 +1,23 @@
 # Changelog
 
+## v0.6.2
+
+## What's Changed
+* chore(deps): update dependency ts-pattern to ^4.1.4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/384
+* chore(deps): update dependency eslint-plugin-jsdoc to v40 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/385
+* chore(deps): update dependency @testing-library/react to v14 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/386
+* test: update TemplateSrvStub regex by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/387
+* refactor(grafana): use credentials instead of withCredentials by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/388
+* refactor: remove react module types override by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/389
+* refactor(grafana): use native variable types by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/390
+* chore(deps): update dependency ts-pattern to ^4.2.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/391
+* chore(deps): update dependency ts-pattern to ^4.2.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/393
+* fix: skip scoped variables with undefined value by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/394
+* fix: do not suppress datasource errors by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/395
+
+
+**Full Changelog**: https://github.com/simPod/GrafanaJsonDatasource/compare/v0.6.1...v0.6.2
+
 ## v0.6.1
 
 ## What's Changed

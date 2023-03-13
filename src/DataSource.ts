@@ -17,8 +17,8 @@ import {
   BackendSrvRequest,
 } from '@grafana/runtime';
 import { isArray, isObject } from 'lodash';
-import { lastValueFrom, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { lastValueFrom } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ResponseParser } from './response_parser';
 import {
   GenericOptions,
@@ -76,11 +76,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
           response.data = response.data.map(toDataFrame);
 
           return response;
-        }),
-        catchError((err) => {
-          console.error(err);
-
-          return of({ data: [] });
         })
       )
     );
@@ -146,16 +141,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         url: `${this.url}/variable`,
         data: variableQueryData,
         method: 'POST',
-      }).pipe(
-        map((response) => {
-          return this.responseParser.transformMetricFindResponse(response);
-        }),
-        catchError((err) => {
-          console.error(err);
-
-          return of([]);
-        })
-      )
+      }).pipe(map((response) => this.responseParser.transformMetricFindResponse(response)))
     );
   }
 
@@ -178,12 +164,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
           isArray(response.data)
             ? response.data.map((item) => ({ ...item, label: item.label ? item.label : item.value }))
             : []
-        ),
-
-        catchError((err) => {
-          console.error(err);
-          return of([]);
-        })
+        )
       )
     );
   }
@@ -219,12 +200,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
               label: item.label ?? item.value,
             };
           });
-        }),
-
-        catchError((err) => {
-          console.error(err);
-
-          return of([]);
         })
       )
     );
@@ -236,14 +211,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         url: `${this.url}/tag-keys`,
         method: 'POST',
         data: options,
-      }).pipe(
-        map((result) => result.data),
-        catchError((err) => {
-          console.error(err);
-
-          return of([]);
-        })
-      )
+      }).pipe(map((result) => result.data))
     );
   }
 
@@ -253,14 +221,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         url: `${this.url}/tag-values`,
         method: 'POST',
         data: options,
-      }).pipe(
-        map((result) => result.data),
-        catchError((err) => {
-          console.error(err);
-
-          return of([]);
-        })
-      )
+      }).pipe(map((result) => result.data))
     );
   }
 

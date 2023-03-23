@@ -8069,7 +8069,7 @@ __metadata:
     react-dom: ^18.2.0
     react-virtualized-auto-sizer: ^1.0.7
     rxjs: 7.5.7
-    ts-pattern: ^4.2.1
+    ts-pattern: ^4.2.2
   languageName: unknown
   linkType: soft
 
@@ -14086,10 +14086,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-pattern@npm:^4.2.1":
-  version: 4.2.1
-  resolution: "ts-pattern@npm:4.2.1"
-  checksum: bafff4f5fa74cb697b679a3a7a276c5102fa0712570e3fa1cb5ccb1e36aaabbd21d1207878cd9aa3c23a2b87b2b26f90ec32904d98fd8b53c681c41c14e03260
+"ts-pattern@npm:^4.2.2":
+  version: 4.2.2
+  resolution: "ts-pattern@npm:4.2.2"
+  checksum: e9e818f0d4a1706930f81bb3e6fce69db998a584999b113ef0d0c73db5a810f0ead3a295393603f2fed4e17ba2cc90e6bf38223bea4f615a9e42deb514e91cc2
   languageName: node
   linkType: hard
 

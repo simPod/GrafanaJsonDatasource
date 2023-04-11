@@ -8067,7 +8067,7 @@ __metadata:
     prettier: ^2.8.1
     react: ^18.2.0
     react-dom: ^18.2.0
-    react-virtualized-auto-sizer: ^1.0.12
+    react-virtualized-auto-sizer: ^1.0.13
     rxjs: 7.5.7
     ts-pattern: ^4.2.2
   languageName: unknown
@@ -12570,13 +12570,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-virtualized-auto-sizer@npm:^1.0.12":
-  version: 1.0.12
-  resolution: "react-virtualized-auto-sizer@npm:1.0.12"
+"react-virtualized-auto-sizer@npm:^1.0.13":
+  version: 1.0.13
+  resolution: "react-virtualized-auto-sizer@npm:1.0.13"
   peerDependencies:
     react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0-rc
     react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0-rc
-  checksum: acd8e4a7d0cce8f7d967ae5875b71b2d467794f37353094dd0f18dbe2560a5ace4594fc74b3983e053dac5cb7ec82b0529bd9b9846727fd69df210afd8997585
+  checksum: ef6f6d8b08d72f20c2f285f684572300730f5540a7086f9f4c9d40eb4fdb0c79da2b1f51eb3ce8eec2ec388dfa114ef832fc858e55699008de9d308eeb626368
   languageName: node
   linkType: hard
 

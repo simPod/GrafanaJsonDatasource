@@ -6997,9 +6997,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsdoc@npm:^41.0.0":
-  version: 41.1.1
-  resolution: "eslint-plugin-jsdoc@npm:41.1.1"
+"eslint-plugin-jsdoc@npm:^42.0.0":
+  version: 42.0.0
+  resolution: "eslint-plugin-jsdoc@npm:42.0.0"
   dependencies:
     "@es-joy/jsdoccomment": ~0.37.0
     are-docs-informative: ^0.0.2
@@ -7011,7 +7011,7 @@ __metadata:
     spdx-expression-parse: ^3.0.1
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0
-  checksum: 101ea430e0399dbb41afc5f2abb3856e1d066191db1dd738c0be1eadfc36cd790cdc0208cf249b07cf2eb3915b066eaa6d398c12f67f5e8fdb7db9b179c00296
+  checksum: 37b13d58d58569985dd326819670203efaa7b12325bda0cf9dc3410b58e789962201e720bc1d7553745fe4ac9a751856dac191a061764eb9ecf2a75ee5242bbb
   languageName: node
   linkType: hard
 
@@ -8079,7 +8079,7 @@ __metadata:
     "@types/react-virtualized-auto-sizer": ^1.0.0
     "@typescript-eslint/eslint-plugin": ^5.47.0
     eslint: ^8.30.0
-    eslint-plugin-jsdoc: ^41.0.0
+    eslint-plugin-jsdoc: ^42.0.0
     eslint-plugin-react: ^7.31.11
     eslint-plugin-react-hooks: ^4.6.0
     lodash: ^4.17.21

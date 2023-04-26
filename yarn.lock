@@ -8082,6 +8082,7 @@ __metadata:
     eslint-plugin-jsdoc: ^43.0.0
     eslint-plugin-react: ^7.31.11
     eslint-plugin-react-hooks: ^4.6.0
+    jest-canvas-mock: ^2.5.0
     lodash: ^4.17.21
     prettier: ^2.8.1
     react: ^18.2.0
@@ -8947,6 +8948,16 @@ __metadata:
     cssfontparser: ^1.2.1
     moo-color: ^1.0.2
   checksum: 82606d348cf4f671af098dcebac19c98643fc5896c6e1af24b572b8e477e7bee18e4c65e0aee8d72d3af88511eba265e12001c6fb72c319d7efe15a6ba23b58b
+  languageName: node
+  linkType: hard
+
+"jest-canvas-mock@npm:^2.5.0":
+  version: 2.5.0
+  resolution: "jest-canvas-mock@npm:2.5.0"
+  dependencies:
+    cssfontparser: ^1.2.1
+    moo-color: ^1.0.2
+  checksum: 093bc15577e8576e96170107f2b0a0c6a9193a3dd66f2dc5151b68d4c9af8ff8aacaa47c2d20bdf4a902b2f0f91884f54978d448257d0d9cf8cd36c695a023cd
   languageName: node
   linkType: hard
 

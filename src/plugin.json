@@ -3,6 +3,8 @@
     "id": "simpod-json-datasource",
     "type": "datasource",
     "annotations": true,
+    "alerting": false,
+    "backend": false,
     "metrics": true,
     "logs": true,
     "info": {

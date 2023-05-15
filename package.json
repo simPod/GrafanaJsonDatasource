@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "react-virtualized-auto-sizer": "^1.0.16",
+    "react-virtualized-auto-sizer": "^1.0.17",
     "rxjs": "7.8.0",
     "ts-pattern": "^4.3.0"
   },

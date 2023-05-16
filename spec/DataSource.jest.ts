@@ -1,4 +1,4 @@
-import { isDataFrame } from '@grafana/data';
+import { isDataFrame, LoadingState } from '@grafana/data';
 import { DateTime } from '@grafana/data/datetime/moment_wrapper';
 import {
   BackendSrv,
@@ -310,6 +310,223 @@ describe('GenericDatasource', () => {
     expect(result[1].key).toBe(data[1].key);
     expect(result[2].text).toBe(data[2].text);
     expect(result[2].key).toBe(data[2].key);
+  });
+
+  it('should support scoped variables', async () => {
+    const ds = new DataSource({} as any);
+    const templateSrvStub = new TemplateSrvStub();
+    // As returned by getTemplateSrv().getVariables() in a prd environment
+    templateSrvStub.variables = [
+      {
+        // QueryVariableModel
+        type: 'query',
+        datasource: { type: 'Frontend Perf', uid: undefined },
+        definition: 'value1',
+        sort: 0,
+        query: {
+          query: 'value1',
+        },
+        regex: '',
+        refresh: 1,
+
+        // VariableWithMultiSupport
+        multi: false,
+        includeAll: false,
+        allValue: null,
+
+        // VariableWithOptions
+        current: {
+          text: 'option1',
+          value: 'option1',
+          selected: false,
+        },
+        options: [
+          {
+            text: 'option1',
+            value: 'option1',
+            selected: true,
+          },
+          {
+            text: 'option2',
+            value: 'option2',
+            selected: false,
+          },
+        ],
+
+        //BaseVariableModel
+        name: 'value1',
+        id: 'value1',
+        rootStateKey: null,
+        global: false,
+        hide: 0,
+        skipUrlSync: false,
+        index: 0,
+        state: LoadingState.Done,
+        error: null,
+        description: null,
+      },
+      {
+        // QueryVariableModel
+        type: 'query',
+        datasource: { type: 'Frontend Perf', uid: undefined },
+        definition: 'value2',
+        sort: 0,
+        query: {
+          query: 'value2',
+        },
+        regex: '',
+        refresh: 1,
+
+        // VariableWithMultiSupport
+        multi: false,
+        includeAll: false,
+        allValue: null,
+
+        // VariableWithOptions
+        current: {
+          text: 'option2',
+          value: 'option2',
+          selected: false,
+        },
+        options: [
+          {
+            text: 'option1',
+            value: 'option1',
+            selected: false,
+          },
+          {
+            text: 'option2',
+            value: 'option2',
+            selected: true,
+          },
+        ],
+
+        //BaseVariableModel
+        name: 'value2',
+        id: 'value2',
+        rootStateKey: null,
+        global: false,
+        hide: 0,
+        skipUrlSync: false,
+        index: 1,
+        state: LoadingState.Done,
+        error: null,
+        description: null,
+      },
+      {
+        // QueryVariableModel
+        type: 'query',
+        datasource: { type: 'Frontend Perf', uid: undefined },
+        definition: 'multiValue',
+        sort: 0,
+        query: {
+          query: 'multiValue',
+        },
+        regex: '',
+        refresh: 1,
+
+        // VariableWithMultiSupport
+        multi: true,
+        includeAll: false,
+        allValue: null,
+
+        // VariableWithOptions
+        current: {
+          text: ['foo', 'bar'],
+          value: ['foo', 'bar'],
+          selected: false,
+        },
+        options: [
+          {
+            text: 'foo',
+            value: 'foo',
+            selected: true,
+          },
+          {
+            text: 'bar',
+            value: 'bar',
+            selected: true,
+          },
+          {
+            text: 'unselected',
+            value: 'unselected',
+            selected: false,
+          },
+        ],
+
+        //BaseVariableModel
+        name: 'multiValue',
+        id: 'multiValue',
+        rootStateKey: null,
+        global: false,
+        hide: 0,
+        skipUrlSync: false,
+        index: 3,
+        state: LoadingState.Done,
+        error: null,
+        description: null,
+      },
+    ];
+    setTemplateSrv(templateSrvStub);
+
+    const testcase: QueryRequest = {
+      ...options,
+      targets: [
+        {
+          payload: {
+            value1: '$value1',
+            value2: '$value2',
+            multiValue: '$multiValue',
+          },
+          refId: 'A',
+          target: '',
+        },
+      ],
+      scopedVars: {
+        multiValue: { text: 'bar', value: 'bar', selected: true },
+      },
+    };
+
+    // Expect multiValue to be in scope
+    expect(ds.processTargets(testcase).targets).toMatchObject([
+      {
+        payload: {
+          value1: 'option1',
+          value2: 'option2',
+          multiValue: 'bar',
+        },
+        refId: 'A',
+        target: '',
+      },
+    ]);
+
+    // Expect multiValue as is, because we are not in scope.
+    testcase.targets = [
+      {
+        payload: {
+          value1: '$value1',
+          value2: '$value2',
+          multiValue: '$multiValue',
+        },
+        refId: 'A',
+        target: '',
+      },
+    ];
+    testcase.scopedVars = {
+      multiValue: { selected: false, text: ['foo', 'bar'], value: ['foo', 'bar'] },
+    };
+
+    expect(ds.processTargets(testcase).targets).toMatchObject([
+      {
+        payload: {
+          value1: 'option1',
+          value2: 'option2',
+          multiValue: 'foo,bar',
+        },
+        refId: 'A',
+        target: '',
+      },
+    ]);
   });
 });
 

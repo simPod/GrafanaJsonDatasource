@@ -48,7 +48,7 @@ export default class TemplateSrvStub implements TemplateSrv {
           ? variable.filters.map((filter: AdHocVariableFilter) => filter.value)
           : variable.current.value;
 
-      if (scopedVars?.scopedVars[variable.name] !== undefined) {
+      if (scopedVars?.[variable.name] !== undefined) {
         value = scopedVars[variable.name].value;
       }
 

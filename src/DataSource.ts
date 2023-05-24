@@ -261,9 +261,9 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
           if (Object.prototype.hasOwnProperty.call(newPayload, key)) {
             const value = newPayload[key];
             if (isArray(value)) {
-              newPayload[key] = value.map((item) => getTemplateSrv().replace(item.toString(), undefined, 'regex'));
+              newPayload[key] = value.map((item) => getTemplateSrv().replace(item.toString(), scopedVars, 'regex'));
             } else {
-              newPayload[key] = getTemplateSrv().replace(newPayload[key].toString(), undefined, 'regex');
+              newPayload[key] = getTemplateSrv().replace(newPayload[key].toString(), scopedVars, 'regex');
             }
           }
         }

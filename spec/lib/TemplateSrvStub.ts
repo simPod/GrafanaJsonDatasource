@@ -28,7 +28,7 @@ export default class TemplateSrvStub implements TemplateSrv {
   // from: https://github.com/grafana/grafana/blob/ab5a3820d5fff4f0f042024b0aee0632e6a4ca08/public/app/features/templating/template_srv.mock.ts#L30
   // Adjusted for use of scoped variables, and ad hoc filters.
   replace(target?: string, scopedVars?: ScopedVars): string {
-    if (!target) {
+    if (target === undefined) {
       return target ?? '';
     }
     this.regex.lastIndex = 0;
@@ -39,7 +39,7 @@ export default class TemplateSrvStub implements TemplateSrv {
         (variable: TypedVariableModel) => variable.name === variableName,
         {}
       );
-      if (!variable) {
+      if (variable === undefined) {
         return 'unknown variable';
       }
       // AdHoc filters or other variable.
@@ -48,7 +48,7 @@ export default class TemplateSrvStub implements TemplateSrv {
           ? variable.filters.map((filter: AdHocVariableFilter) => filter.value)
           : variable.current.value;
 
-      if (scopedVars && scopedVars[variable.name]) {
+      if (scopedVars?.scopedVars[variable.name] !== undefined) {
         value = scopedVars[variable.name].value;
       }
 

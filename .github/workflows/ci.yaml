@@ -26,6 +26,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Check types
+        run: yarn run typecheck
+
       - name: Build and test frontend
         run: yarn build
 

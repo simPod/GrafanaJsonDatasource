@@ -5,7 +5,6 @@
   "version": "0.6.2",
   "scripts": {
     "build": "grafana-toolkit plugin:build",
-    "test": "grafana-toolkit plugin:test",
     "dev": "grafana-toolkit plugin:dev",
     "watch": "grafana-toolkit plugin:dev --watch",
     "sign": "grafana-toolkit plugin:sign",
@@ -16,7 +15,8 @@
     "prettier:check": "prettier --list-different \"**/*.{ts,tsx,scss}\"",
     "prettier:write": "yarn run prettier:check --write",
     "release:minor": "npm version minor && yarn run build-sign-release",
-    "release:patch": "npm version patch && yarn run build-sign-release"
+    "release:patch": "npm version patch && yarn run build-sign-release",
+    "typecheck": "tsc --noEmit"
   },
   "repository": {
     "type": "git",

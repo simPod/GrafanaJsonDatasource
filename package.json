@@ -28,7 +28,7 @@
   },
   "devDependencies": {
     "@grafana/data": "^9.5.1",
-    "@grafana/eslint-config": "^5.1.0",
+    "@grafana/eslint-config": "^6.0.0",
     "@grafana/experimental": "^1.1.0",
     "@grafana/runtime": "^9.5.1",
     "@grafana/toolkit": "^9.5.1",

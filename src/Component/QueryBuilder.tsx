@@ -8,6 +8,7 @@ import { EditorField, EditorFieldGroup } from '@grafana/experimental';
 import { QueryBuilderTextArea } from './QueryBuilderTextArea';
 import { QueryBuilderPayloadSelect } from './QueryBuilderPayloadSelect';
 import { QueryBuilderTag } from './QueryBuilderTag';
+import QueryBuilderOptions, { AVAILABLE_OPTIONS } from './QueryBuilderOptions';
 
 interface LastQuery {
   payload: string | { [key: string]: any };
@@ -87,7 +88,8 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
     const newUnknownPayload: UnknownPayload = [];
     for (const key in payload) {
       const foundConfig = payloadConfig.find((item) => item.name === key);
-      if (foundConfig === undefined) {
+      const foundAvailableOption = AVAILABLE_OPTIONS.find((item) => item === key);
+      if (foundConfig === undefined && foundAvailableOption === undefined) {
         newUnknownPayload.push({ name: key, value: payload[key] });
       }
 
@@ -98,7 +100,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
   const changePayload = (
     name: string,
     reloadMetric?: boolean,
-    v?: SelectableValue<string | number> | Array<SelectableValue<string | number>>
+    v?: SelectableValue<string | number | boolean> | Array<SelectableValue<string | number | boolean>>
   ) => {
     setPayload((ori) => {
       let newPayload: { [key: string]: any } = { ...ori };
@@ -135,6 +137,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
       return newPayload;
     });
   };
+
   return (
     <>
       <EditorFieldGroup>
@@ -156,6 +159,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
           />
         </EditorField>
       </EditorFieldGroup>
+      <QueryBuilderOptions payload={payload} onChange={changePayload} />
       {payloadConfig.length > 0 && (
         <EditorFieldGroup>
           <EditorField label="Payload" style={{ width: '100%' }}>

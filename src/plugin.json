@@ -1,4 +1,5 @@
 {
+    "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
     "name": "JSON",
     "id": "simpod-json-datasource",
     "type": "datasource",

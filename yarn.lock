@@ -7976,6 +7976,7 @@ __metadata:
     "@grafana/experimental": ^1.1.0
     "@grafana/runtime": ^9.5.1
     "@grafana/toolkit": ^9.5.1
+    "@grafana/tsconfig": ^1.2.0-rc1
     "@grafana/ui": ^9.5.1
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^14.0.0

@@ -29,6 +29,9 @@ jobs:
       - name: Check types
         run: yarn run typecheck
 
+      - name: Unit tests
+        run: yarn run test:ci
+
       - name: Build and test frontend
         run: yarn build
 

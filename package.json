@@ -29,6 +29,7 @@
   "devDependencies": {
     "@grafana/eslint-config": "^6.0.0",
     "@grafana/toolkit": "^9.5.1",
+    "@grafana/tsconfig": "^1.2.0-rc1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/lodash": "^4.14.176",

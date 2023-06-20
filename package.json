@@ -6,16 +6,10 @@
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
-    "watch": "grafana-toolkit plugin:dev --watch",
-    "sign": "grafana-toolkit plugin:sign",
-    "build-sign-release": "yarn run build && yarn run sign && yarn run package",
     "lint": "eslint --cache --ignore-path ./.gitignore --ext .js,.jsx,.ts,.tsx .",
     "lint:fix": "yarn run lint --fix",
-    "package": "cp -r dist/ simpod-json-datasource && zip simpod-json-datasource.zip simpod-json-datasource -r && rm -rfd simpod-json-datasource",
     "prettier:check": "prettier --list-different \"**/*.{ts,tsx,scss}\"",
     "prettier:write": "yarn run prettier:check --write",
-    "release:minor": "npm version minor && yarn run build-sign-release",
-    "release:patch": "npm version patch && yarn run build-sign-release",
     "test": "jest --watch --onlyChanged",
     "test:ci": "jest --passWithNoTests --maxWorkers 4",
     "typecheck": "tsc --noEmit"

@@ -42,10 +42,10 @@
     "prettier": "^2.8.1"
   },
   "dependencies": {
-    "@grafana/data": "^9.5.1",
-    "@grafana/experimental": "^1.1.0",
-    "@grafana/runtime": "^9.5.1",
-    "@grafana/ui": "^9.5.1",
+    "@grafana/data": "^9.5.3",
+    "@grafana/experimental": "^1.5.1",
+    "@grafana/runtime": "^9.5.3",
+    "@grafana/ui": "^9.5.3",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

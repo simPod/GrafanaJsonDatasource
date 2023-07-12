@@ -5,9 +5,11 @@ import { includes, isArray } from 'lodash';
 import React, { ComponentType } from 'react';
 import { GenericOptions, GrafanaQuery, MetricPayloadConfig } from 'types';
 
+type PayloadValue = SelectableValue<string | number>;
+
 interface PayloadSelectProps extends QueryEditorProps<DataSource, GrafanaQuery, GenericOptions> {
   config: MetricPayloadConfig;
-  onPayloadChange: (value: SelectableValue<string | number> | Array<SelectableValue<string | number>>) => void;
+  onPayloadChange: (value: PayloadValue | PayloadValue[]) => void;
   isMulti?: boolean;
   value?: string | number | string[] | number[];
 }
@@ -21,10 +23,10 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
   value,
 }) => {
   const [currentOption, setCurrentOption] = React.useState<
-    SelectableValue<string | number> | Array<SelectableValue<string | number>>
+    PayloadValue | PayloadValue[]
   >();
   const [isPayloadOptionsLoading, setIsPayloadOptionsLoading] = React.useState<boolean>(false);
-  const [payloadOptions, setPayloadOptions] = React.useState<Array<SelectableValue<string | number>>>([]);
+  const [payloadOptions, setPayloadOptions] = React.useState<PayloadValue[]>([]);
   const loadMetricPayloadOptions = React.useCallback(() => {
     return datasource.listMetricPayloadOptions(config.name, query.target ?? '', query.payload).then(
       (metrics) => {

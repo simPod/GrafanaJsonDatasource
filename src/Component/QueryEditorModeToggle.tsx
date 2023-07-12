@@ -11,7 +11,7 @@ export interface QueryEditorModeToggleProps extends Omit<RadioButtonGroupProps<Q
   mode: QueryEditorMode;
 }
 
-const editorModes: Array<SelectableValue<QueryEditorMode>> = [
+const editorModes: SelectableValue<QueryEditorMode>[] = [
   {
     label: 'Builder',
     value: 'builder',

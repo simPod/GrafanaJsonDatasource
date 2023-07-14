@@ -73,7 +73,7 @@
     "react-dom": "^18.2.0",
     "react-virtualized-auto-sizer": "^1.0.20",
     "rxjs": "7.8.0",
-    "ts-pattern": "^5.0.2",
+    "ts-pattern": "^5.0.3",
     "tslib": "^2.6.0"
   },
   "homepage": "https://github.com/simPod/GrafanaJsonDatasource",

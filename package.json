@@ -65,7 +65,7 @@
   },
   "dependencies": {
     "@grafana/data": "^10.0.3",
-    "@grafana/experimental": "^1.6.2",
+    "@grafana/experimental": "^1.7.0",
     "@grafana/runtime": "^10.0.3",
     "@grafana/ui": "^10.0.3",
     "lodash": "^4.17.21",

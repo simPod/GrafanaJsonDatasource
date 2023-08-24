@@ -64,7 +64,7 @@ export const QueryBuilderTag: ComponentType<QueryBuilderTagProps> = ({ name, val
       <IconButton
         name="times"
         size="lg"
-        ariaLabel={`Remove ${name}`}
+        aria-label={`Remove ${name}`}
         onClick={() => onRemove(name)}
         type="button"
         className={styles.buttonStyles}

@@ -64,10 +64,10 @@
     "webpack-livereload-plugin": "^3.0.2"
   },
   "dependencies": {
-    "@grafana/data": "^10.1.1",
+    "@grafana/data": "^10.1.2",
     "@grafana/experimental": "^1.7.2",
-    "@grafana/runtime": "^10.1.1",
-    "@grafana/ui": "^10.1.1",
+    "@grafana/runtime": "^10.1.2",
+    "@grafana/ui": "^10.1.2",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

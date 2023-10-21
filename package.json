@@ -33,9 +33,11 @@
     "@swc/jest": "^0.2.26",
     "@testing-library/jest-dom": "^6.0.0",
     "@testing-library/react": "^14.0.0",
-    "@types/jest": "^29.5.0",
+    "@types/jest": "^29.5.7",
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.0.0",
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
     "@types/react-virtualized-auto-sizer": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "copy-webpack-plugin": "^11.0.0",
@@ -64,6 +66,7 @@
     "webpack-livereload-plugin": "^3.0.2"
   },
   "dependencies": {
+    "@emotion/css": "^11.11.2",
     "@grafana/data": "^10.1.5",
     "@grafana/experimental": "^1.7.4",
     "@grafana/runtime": "^10.1.5",
@@ -78,6 +81,5 @@
   },
   "homepage": "https://github.com/simPod/GrafanaJsonDatasource",
   "engineStrict": true,
-  "nodeLinker": "node-modules",
   "packageManager": "yarn@4.0.1"
 }

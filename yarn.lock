@@ -2478,10 +2478,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^18.15.11":
-  version: 18.16.18
-  resolution: "@types/node@npm:18.16.18"
-  checksum: d32d8a0a04cd3f5ecb361bcb42f3a07623881ac90d680e06bf626defb3c663a94860d11690babe607cfe67265eceeb8a59ba5fe40c0e49f5a1b01e0088640469
+"@types/node@npm:*, @types/node@npm:^20.0.0":
+  version: 20.8.7
+  resolution: "@types/node@npm:20.8.7"
+  dependencies:
+    undici-types: ~5.25.1
+  checksum: 2173c0c03daefcb60c03a61b1371b28c8fe412e7a40dc6646458b809d14a85fbc7aeb369d957d57f0aaaafd99964e77436f29b3b579232d8f2b20c58abbd1d25
   languageName: node
   linkType: hard
 
@@ -5738,7 +5740,7 @@ __metadata:
     "@testing-library/react": ^14.0.0
     "@types/jest": ^29.5.0
     "@types/lodash": ^4.14.195
-    "@types/node": ^18.15.11
+    "@types/node": ^20.0.0
     "@types/react-virtualized-auto-sizer": ^1.0.0
     "@typescript-eslint/eslint-plugin": ^6.0.0
     copy-webpack-plugin: ^11.0.0
@@ -10617,6 +10619,13 @@ __metadata:
     has-symbols: ^1.0.3
     which-boxed-primitive: ^1.0.2
   checksum: b7a1cf5862b5e4b5deb091672ffa579aa274f648410009c81cca63fed3b62b610c4f3b773f912ce545bb4e31edc3138975b5bc777fc6e4817dca51affb6380e9
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.25.1":
+  version: 5.25.3
+  resolution: "undici-types@npm:5.25.3"
+  checksum: ec9d2cc36520cbd9fbe3b3b6c682a87fe5be214699e1f57d1e3d9a2cb5be422e62735f06e0067dc325fd3dd7404c697e4d479f9147dc8a804e049e29f357f2ff
   languageName: node
   linkType: hard
 

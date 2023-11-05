@@ -49,9 +49,9 @@ export const QueryBuilderTag: ComponentType<QueryBuilderTagProps> = ({ name, val
   const theme = useTheme();
   const styles = getStyles({ theme, name });
 
-  const formattedValue = match(typeof value)
+  const formattedValue: React.ReactNode = match(typeof value)
     .with('string', () => `"${value}"`)
-    .with('number', () => value)
+    .with('number', () => value as number)
     .with('boolean', () => (value as boolean).toString())
     .with('object', () => (value === null ? 'null' : `"${JSON.stringify(value)}"`))
     .otherwise(() => `"${JSON.stringify(value)}"`);

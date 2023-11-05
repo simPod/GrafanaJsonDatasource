@@ -482,7 +482,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@emotion/css@npm:11.11.2":
+"@emotion/css@npm:11.11.2, @emotion/css@npm:^11.11.2":
   version: 11.11.2
   resolution: "@emotion/css@npm:11.11.2"
   dependencies:
@@ -2427,13 +2427,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.5.0":
-  version: 29.5.2
-  resolution: "@types/jest@npm:29.5.2"
+"@types/jest@npm:^29.5.7":
+  version: 29.5.7
+  resolution: "@types/jest@npm:29.5.7"
   dependencies:
     expect: "npm:^29.0.0"
     pretty-format: "npm:^29.0.0"
-  checksum: e85525fe83a0792632a31ca32968b33a0014d617442e9a515357d2aa8890052ef622b1f6fd25d48f4f1a3ab806bed94e6d9b056dea23a897464e0e35957ff654
+  checksum: 231c873f3d1ddac973b8f8f2ad7760677d941d85fb52d1c5dc4a311bafba4c2c1658a1040fd7054a51f4d1841f51c6ca4cabf70675ee4fa9e10fc5b8066e1de1
   languageName: node
   linkType: hard
 
@@ -2515,12 +2515,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:^18.0.0":
-  version: 18.0.10
-  resolution: "@types/react-dom@npm:18.0.10"
+"@types/react-dom@npm:^18.0.0, @types/react-dom@npm:^18.2.14":
+  version: 18.2.14
+  resolution: "@types/react-dom@npm:18.2.14"
   dependencies:
     "@types/react": "npm:*"
-  checksum: a07b900a2d5559830f88b3e525cf279f9f04b4893f4d17e64f5adb08d8abe0e3151e0d3c0ea17d836104ae47594be577529a004265600e4304a43a93b0d5d61e
+  checksum: 1f79a7708d038cd651bdb21e01a99c594761bc9a40a565abe98958e1d27facfeb6e9824ddf6ae3504e7a56568f0f3da2380fe52ac18477b5864d2d5cf1386a9e
   languageName: node
   linkType: hard
 
@@ -2554,14 +2554,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*":
-  version: 17.0.35
-  resolution: "@types/react@npm:17.0.35"
+"@types/react@npm:*, @types/react@npm:^18.2.31":
+  version: 18.2.35
+  resolution: "@types/react@npm:18.2.35"
   dependencies:
     "@types/prop-types": "npm:*"
     "@types/scheduler": "npm:*"
     csstype: "npm:^3.0.2"
-  checksum: c24aeae3ca1b2621e30d98b28b9cfd3bcb3971ab3fc2273547543fa2bd98f9d5bffda841953297aaee6fe946ad0c22df6516258e00bb47f4b5e41a23164839ed
+  checksum: dbc19612ab404f06c3c9f150954a377ab223db5724905d39e3468a61e2be0a9fd9240e935af5c13cb5b3307a13bbaf2e8c09a810d720118120a8d0ac5aa9ff10
   languageName: node
   linkType: hard
 
@@ -5726,6 +5726,7 @@ __metadata:
   resolution: "grafana-json-datasource@workspace:."
   dependencies:
     "@babel/core": "npm:^7.22.5"
+    "@emotion/css": "npm:^11.11.2"
     "@grafana/data": "npm:^10.1.5"
     "@grafana/eslint-config": "npm:^6.0.0"
     "@grafana/experimental": "npm:^1.7.4"
@@ -5738,9 +5739,11 @@ __metadata:
     "@swc/jest": "npm:^0.2.26"
     "@testing-library/jest-dom": "npm:^6.0.0"
     "@testing-library/react": "npm:^14.0.0"
-    "@types/jest": "npm:^29.5.0"
+    "@types/jest": "npm:^29.5.7"
     "@types/lodash": "npm:^4.14.195"
     "@types/node": "npm:^20.0.0"
+    "@types/react": "npm:^18.2.31"
+    "@types/react-dom": "npm:^18.2.14"
     "@types/react-virtualized-auto-sizer": "npm:^1.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
     copy-webpack-plugin: "npm:^11.0.0"

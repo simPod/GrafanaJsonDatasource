@@ -9399,15 +9399,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:7.8.0":
-  version: 7.8.0
-  resolution: "rxjs@npm:7.8.0"
-  dependencies:
-    tslib: "npm:^2.1.0"
-  checksum: c48833638ae5d339332f8b792e716c3c662950ba95ba04e9e97a8cfd4628d8f009129672793c6c067c872a4dab5757231d41d7256a2114a5fabbf30d8a5b9d67
-  languageName: node
-  linkType: hard
-
 "rxjs@npm:7.8.1":
   version: 7.8.1
   resolution: "rxjs@npm:7.8.1"

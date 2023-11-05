@@ -4,11 +4,11 @@ import { getTagColorsFromName, IconButton, stylesFactory, useTheme } from '@graf
 import React, { ComponentType } from 'react';
 import { match } from 'ts-pattern';
 
-type QueryBuilderTagProps = {
+interface QueryBuilderTagProps {
   name: string;
   value: unknown;
   onRemove: (name: string) => void;
-};
+}
 
 const getStyles = stylesFactory(({ theme, name }: { theme: GrafanaTheme; name: string }) => {
   const { color, borderColor } = getTagColorsFromName(name);

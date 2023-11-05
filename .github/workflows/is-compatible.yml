@@ -1,5 +1,11 @@
 name: Latest Grafana API compatibility check
-on: [pull_request]
+
+on:
+  pull_request:
+  push:
+    branches:
+      - 0.*.x
+  workflow_dispatch:
 
 jobs:
   compatibilitycheck:

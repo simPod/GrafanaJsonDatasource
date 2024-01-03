@@ -5005,9 +5005,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-jsdoc@npm:^47.0.0":
-  version: 47.0.0
-  resolution: "eslint-plugin-jsdoc@npm:47.0.0"
+"eslint-plugin-jsdoc@npm:^48.0.0":
+  version: 48.0.1
+  resolution: "eslint-plugin-jsdoc@npm:48.0.1"
   dependencies:
     "@es-joy/jsdoccomment": "npm:~0.41.0"
     are-docs-informative: "npm:^0.0.2"
@@ -5020,7 +5020,7 @@ __metadata:
     spdx-expression-parse: "npm:^4.0.0"
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
-  checksum: 46d15497331e7efdf5dfb79bf752696eb2bb50af02a9e8d189ebd9304f286722ed309220fee16eb8f33b2e9311d2d1138b262d427607cb63edb3677604be1cec
+  checksum: 9b211cfb2e07e076dad12681cd2045c65766dd24fe9399fd0adeaf6f8785f9a4dd58608f1183195f63d3c6c91013aa1cf9edc9101580cff9cb60e1e688f456f9
   languageName: node
   linkType: hard
 
@@ -5808,7 +5808,7 @@ __metadata:
     copy-webpack-plugin: "npm:^11.0.0"
     css-loader: "npm:^6.7.3"
     eslint: "npm:^8.30.0"
-    eslint-plugin-jsdoc: "npm:^47.0.0"
+    eslint-plugin-jsdoc: "npm:^48.0.0"
     eslint-plugin-react: "npm:^7.31.11"
     eslint-plugin-react-hooks: "npm:^4.6.0"
     eslint-webpack-plugin: "npm:^4.0.1"

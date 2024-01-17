@@ -5843,7 +5843,7 @@ __metadata:
     prettier: "npm:^3.0.0"
     react: "npm:^18.2.0"
     react-dom: "npm:^18.2.0"
-    react-virtualized-auto-sizer: "npm:^1.0.20"
+    react-virtualized-auto-sizer: "npm:^1.0.21"
     replace-in-file-webpack-plugin: "npm:^1.0.6"
     rxjs: "npm:7.8.1"
     sass: "npm:^1.63.4"
@@ -9167,13 +9167,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-virtualized-auto-sizer@npm:^1.0.20":
-  version: 1.0.20
-  resolution: "react-virtualized-auto-sizer@npm:1.0.20"
+"react-virtualized-auto-sizer@npm:^1.0.21":
+  version: 1.0.21
+  resolution: "react-virtualized-auto-sizer@npm:1.0.21"
   peerDependencies:
-    react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0-rc
-    react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0-rc
-  checksum: af8cc202a9f8d0d4bc21470d57a970455262cb27784811b3a813790361aa60f790acd304efdd8e8b380d46d3eed66309abecc7e5d6aecbec93f60844028d10cb
+    react: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
+    react-dom: ^15.3.0 || ^16.0.0-alpha || ^17.0.0 || ^18.0.0
+  checksum: b210380dd2247062277291cf3b206b24aa49c0539fed507fe4a52178f6e016308a05ad1e8b2bc68becbb134e4144922c9bfd44eada9325ec76046e63c58062d3
   languageName: node
   linkType: hard
 

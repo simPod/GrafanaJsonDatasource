@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { QueryBuilderTag } from './QueryBuilderTag';
 import React from 'react';
+import '@types/jest';
 
 test.each([
   ['key="text"', 'text'],

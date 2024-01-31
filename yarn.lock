@@ -822,9 +822,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/experimental@npm:^1.7.8":
-  version: 1.7.8
-  resolution: "@grafana/experimental@npm:1.7.8"
+"@grafana/experimental@npm:^1.7.9":
+  version: 1.7.9
+  resolution: "@grafana/experimental@npm:1.7.9"
   dependencies:
     "@types/uuid": "npm:^8.3.3"
     lodash: "npm:^4.17.21"
@@ -837,13 +837,14 @@ __metadata:
   peerDependencies:
     "@emotion/css": 11.11.2
     "@grafana/data": ^10.0.0
+    "@grafana/e2e-selectors": ^10.0.0
     "@grafana/runtime": ^10.0.0
     "@grafana/ui": ^10.0.0
     react: 17.0.2
     react-dom: 17.0.2
     react-select: ^5.2.1
     rxjs: 7.8.0
-  checksum: 10c0/1afce17e3fd4415b94a621622a17d5b68e575360ab03ee52e045d19b385be666ad83fe5ca3e73569617d71a3ae4d5a8e564efb13291993d9165e0d67a98f65b9
+  checksum: 10c0/3e4785f35b403e1597c33852c7648f4f308811a9b9c0408c4a16fed921c85a5c273d3c7e15a18188625175164d78dbadeff64b74c11822d5b03c8987e89f0ebb
   languageName: node
   linkType: hard
 
@@ -5847,7 +5848,7 @@ __metadata:
     "@emotion/css": "npm:^11.11.2"
     "@grafana/data": "npm:^10.3.1"
     "@grafana/eslint-config": "npm:^6.0.0"
-    "@grafana/experimental": "npm:^1.7.8"
+    "@grafana/experimental": "npm:^1.7.9"
     "@grafana/runtime": "npm:^10.3.1"
     "@grafana/toolkit": "npm:^10.0.0"
     "@grafana/tsconfig": "npm:^1.2.0-rc1"

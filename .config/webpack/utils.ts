@@ -1,8 +1,25 @@
 import fs from 'fs';
+import process from 'process';
+import os from 'os';
 import path from 'path';
-import util from 'util';
 import { glob } from 'glob';
 import { SOURCE_DIR } from './constants';
+
+export function isWSL() {
+  if (process.platform !== 'linux') {
+    return false;
+  }
+
+  if (os.release().toLowerCase().includes('microsoft')) {
+    return true;
+  }
+
+  try {
+    return fs.readFileSync('/proc/version', 'utf8').toLowerCase().includes('microsoft');
+  } catch {
+    return false;
+  }
+}
 
 export function getPackageJson() {
   return require(path.resolve(process.cwd(), 'package.json'));

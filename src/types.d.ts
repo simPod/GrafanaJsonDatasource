@@ -45,7 +45,7 @@ export interface MetricPayloadConfig {
   label?: string;
   type?: 'input' | 'select' | 'multi-select' | 'textarea';
   reloadMetric?: boolean;
-  options?: SelectableValue<string | number>[];
+  options?: Array<SelectableValue<string | number>>;
 }
 
 export interface MetricConfig {

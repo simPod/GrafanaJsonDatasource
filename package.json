@@ -74,7 +74,7 @@
     "@grafana/data": "^10.4.1",
     "@grafana/experimental": "^1.7.10",
     "@grafana/runtime": "^10.4.1",
-    "@grafana/schema": "^10.3.3",
+    "@grafana/schema": "^10.4.1",
     "@grafana/ui": "^10.4.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",

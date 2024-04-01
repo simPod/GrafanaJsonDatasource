@@ -29,7 +29,7 @@ export const QueryEditor: ComponentType<Props> = ({
 
   const [lastQuery, setLastQuery] = React.useState<LastQuery | null>(null);
 
-  const [metricOptions, setMetricOptions] = React.useState<SelectableValue<string | number>[]>([]);
+  const [metricOptions, setMetricOptions] = React.useState<Array<SelectableValue<string | number>>>([]);
   const [isMetricOptionsLoading, setIsMetricOptionsLoading] = React.useState<boolean>(false);
 
   const loadMetrics = React.useCallback(() => {

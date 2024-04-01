@@ -99,7 +99,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
   const changePayload = (
     name: string,
     reloadMetric?: boolean,
-    v?: SelectableValue<string | number> | SelectableValue<string | number>[]
+    v?: SelectableValue<string | number> | Array<SelectableValue<string | number>>
   ) => {
     setPayload((ori) => {
       let newPayload: { [key: string]: any } = { ...ori };

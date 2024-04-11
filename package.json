@@ -33,7 +33,7 @@
     "@swc/jest": "^0.2.26",
     "@swc/register": "^0.1.10",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.0.0",
+    "@testing-library/react": "^15.0.0",
     "@types/jest": "^29.5.7",
     "@types/lodash": "^4.14.195",
     "@types/node": "^20.8.7",

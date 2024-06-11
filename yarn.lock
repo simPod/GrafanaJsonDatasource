@@ -6061,7 +6061,7 @@ __metadata:
     rxjs: "npm:7.8.1"
     sass: "npm:^1.63.4"
     sass-loader: "npm:^14.0.0"
-    style-loader: "npm:^3.3.3"
+    style-loader: "npm:^4.0.0"
     swc-loader: "npm:^0.2.3"
     ts-node: "npm:^10.9.1"
     ts-pattern: "npm:^5.1.2"
@@ -10569,12 +10569,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"style-loader@npm:^3.3.3":
-  version: 3.3.4
-  resolution: "style-loader@npm:3.3.4"
+"style-loader@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "style-loader@npm:4.0.0"
   peerDependencies:
-    webpack: ^5.0.0
-  checksum: 10c0/8f8027fc5c6e91400cbb60066e7db3315810f8eaa0d19b2a254936eb0bec399ba8a7043b1789da9d05ab7c3ba50faf9267765ae0bf3571e48aa34ecdc774be37
+    webpack: ^5.27.0
+  checksum: 10c0/214bc0f3b018f8c374f79b9fa16da43df78c7fef2261e9a99e36c2f8387601fad10ac75a171aa8edba75903db214bc46952ae08b94a1f8544bd146c2c8d07d27
   languageName: node
   linkType: hard
 

@@ -759,12 +759,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/data@npm:10.4.3, @grafana/data@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "@grafana/data@npm:10.4.3"
+"@grafana/data@npm:10.4.4, @grafana/data@npm:^10.4.4":
+  version: 10.4.4
+  resolution: "@grafana/data@npm:10.4.4"
   dependencies:
     "@braintree/sanitize-url": "npm:7.0.0"
-    "@grafana/schema": "npm:10.4.3"
+    "@grafana/schema": "npm:10.4.4"
     "@types/d3-interpolate": "npm:^3.0.0"
     "@types/string-hash": "npm:1.1.3"
     d3-interpolate: "npm:3.0.1"
@@ -791,18 +791,18 @@ __metadata:
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/3fa9332123cc25ebce844df7f70296e60f69db97abe35d7757691de3a410a0ed79814ed1dc5590320a45629d74f2d9ba66bb365070828e895d046ee362f45021
+  checksum: 10c0/5d83a907968cee69ab27a14c4eef01b40a10460a3a07493398c8f2e9e015971e619622ee9e6042b2e1a3bceb684ef56a6953846cb6da9723e11976f9bd514feb
   languageName: node
   linkType: hard
 
-"@grafana/e2e-selectors@npm:10.4.3":
-  version: 10.4.3
-  resolution: "@grafana/e2e-selectors@npm:10.4.3"
+"@grafana/e2e-selectors@npm:10.4.4":
+  version: 10.4.4
+  resolution: "@grafana/e2e-selectors@npm:10.4.4"
   dependencies:
     "@grafana/tsconfig": "npm:^1.2.0-rc1"
     tslib: "npm:2.6.2"
     typescript: "npm:5.3.3"
-  checksum: 10c0/4b35b8035288a1ac05a0e6ab50a0d1132480ca504b21f6ca9d12596b6b40ba0f37d413823ff62a3523527fba8da16efad46fb8995f7ffe64a112827f46ccf482
+  checksum: 10c0/944f2ae538ea6c4b1d94510c93599fed4c4fabd2da18b4ddb7172de82cfbf034cef19a8476ae3ed945d7232cc7f50815660f7ac18d5fe1b4e91629ccfa67070b
   languageName: node
   linkType: hard
 
@@ -869,15 +869,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/runtime@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "@grafana/runtime@npm:10.4.3"
+"@grafana/runtime@npm:^10.4.4":
+  version: 10.4.4
+  resolution: "@grafana/runtime@npm:10.4.4"
   dependencies:
-    "@grafana/data": "npm:10.4.3"
-    "@grafana/e2e-selectors": "npm:10.4.3"
+    "@grafana/data": "npm:10.4.4"
+    "@grafana/e2e-selectors": "npm:10.4.4"
     "@grafana/faro-web-sdk": "npm:^1.3.6"
-    "@grafana/schema": "npm:10.4.3"
-    "@grafana/ui": "npm:10.4.3"
+    "@grafana/schema": "npm:10.4.4"
+    "@grafana/ui": "npm:10.4.4"
     history: "npm:4.10.1"
     lodash: "npm:4.17.21"
     rxjs: "npm:7.8.1"
@@ -887,16 +887,16 @@ __metadata:
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/514a4ad65543d7d723e5f51defe9ff0cac2ab52f2ae703dbb61ed87c03b3f4a9ed483ab31c1fd28dc3a010db967330c843c97b67a3fb4fc8257d4c47a5931705
+  checksum: 10c0/716dbc0bd0fa412670bb7dd5cdb3a2db86adfafe0d93b6855f2262ab57a7b257cafabc66f60d02bd68797de31d6b7ad81d10c6a2059c39ce78a68c94d32bf655
   languageName: node
   linkType: hard
 
-"@grafana/schema@npm:10.4.3, @grafana/schema@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "@grafana/schema@npm:10.4.3"
+"@grafana/schema@npm:10.4.4, @grafana/schema@npm:^10.4.4":
+  version: 10.4.4
+  resolution: "@grafana/schema@npm:10.4.4"
   dependencies:
     tslib: "npm:2.6.2"
-  checksum: 10c0/74d0cab986dcc3cbf6f16799101daa48ebd1b1e1a3adb1209ad26680b5b4a4185ab2b6bc83fab5e9baedd9da140b27a67a60c5debedce5f30f2ae9b228a49666
+  checksum: 10c0/0bab2a331101011642cc1e4686c6c18ef50f6455f287a191399695755030240cdf470c7fcf938731a261ce89a733efaadd948f5d2bc9f4b6fe12930d9cc7f568
   languageName: node
   linkType: hard
 
@@ -924,17 +924,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/ui@npm:10.4.3, @grafana/ui@npm:^10.4.3":
-  version: 10.4.3
-  resolution: "@grafana/ui@npm:10.4.3"
+"@grafana/ui@npm:10.4.4, @grafana/ui@npm:^10.4.4":
+  version: 10.4.4
+  resolution: "@grafana/ui@npm:10.4.4"
   dependencies:
     "@emotion/css": "npm:11.11.2"
     "@emotion/react": "npm:11.11.3"
     "@floating-ui/react": "npm:0.26.9"
-    "@grafana/data": "npm:10.4.3"
-    "@grafana/e2e-selectors": "npm:10.4.3"
+    "@grafana/data": "npm:10.4.4"
+    "@grafana/e2e-selectors": "npm:10.4.4"
     "@grafana/faro-web-sdk": "npm:^1.3.6"
-    "@grafana/schema": "npm:10.4.3"
+    "@grafana/schema": "npm:10.4.4"
     "@leeoniya/ufuzzy": "npm:1.0.14"
     "@monaco-editor/react": "npm:4.6.0"
     "@popperjs/core": "npm:2.11.8"
@@ -992,7 +992,7 @@ __metadata:
   peerDependencies:
     react: ^17.0.0 || ^18.0.0
     react-dom: ^17.0.0 || ^18.0.0
-  checksum: 10c0/d8d790bb3fb35f3c91eee1a0879a2b440a2965a85e57e551f6667b3cda89c4bfa2f0aca3ac3766c009d0c584ea1c5e616a89f285ed146a6f7d02666b4b967ded
+  checksum: 10c0/2ee1708ac28eaa7f9d95899af228e0eaeba892107511080fc5ab46431f49b949c98bd81111bab5d95bd8d76a521b0c0911ff3892ece18fbed06f727232b027c5
   languageName: node
   linkType: hard
 
@@ -6016,14 +6016,14 @@ __metadata:
   dependencies:
     "@babel/core": "npm:^7.22.5"
     "@emotion/css": "npm:^11.11.2"
-    "@grafana/data": "npm:^10.4.3"
+    "@grafana/data": "npm:^10.4.4"
     "@grafana/eslint-config": "npm:^7.0.0"
     "@grafana/experimental": "npm:^1.7.12"
-    "@grafana/runtime": "npm:^10.4.3"
-    "@grafana/schema": "npm:^10.4.3"
+    "@grafana/runtime": "npm:^10.4.4"
+    "@grafana/schema": "npm:^10.4.4"
     "@grafana/toolkit": "npm:^10.0.0"
     "@grafana/tsconfig": "npm:^1.2.0-rc1"
-    "@grafana/ui": "npm:^10.4.3"
+    "@grafana/ui": "npm:^10.4.4"
     "@swc/core": "npm:^1.3.90"
     "@swc/helpers": "npm:^0.5.1"
     "@swc/jest": "npm:^0.2.26"

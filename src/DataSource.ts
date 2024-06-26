@@ -10,13 +10,7 @@ import {
   VariableOption,
   VariableWithMultiSupport,
 } from '@grafana/data';
-import {
-  BackendDataSourceResponse,
-  FetchResponse,
-  getBackendSrv,
-  getTemplateSrv,
-  BackendSrvRequest,
-} from '@grafana/runtime';
+import { BackendDataSourceResponse, FetchResponse, getTemplateSrv } from '@grafana/runtime';
 import { isArray, isObject } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -34,6 +28,7 @@ import {
 } from './types';
 import { match, P } from 'ts-pattern';
 import { valueFromVariableWithMultiSupport } from './variable/valueFromVariableWithMultiSupport';
+import { doFetch } from './doFetch';
 
 export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   url: string;
@@ -70,7 +65,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
 
     return lastValueFrom(
-      this.doFetch<any[]>({
+      doFetch<any[]>(this, {
         url: `${this.url}/query`,
         data: request,
         method: 'POST',
@@ -91,7 +86,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
     try {
       const response = await lastValueFrom(
-        this.doFetch({
+        doFetch(this, {
           url: this.url,
           method: 'GET',
         }).pipe(map((response) => response))
@@ -138,7 +133,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     };
 
     return lastValueFrom(
-      this.doFetch<BackendDataSourceResponse>({
+      doFetch<BackendDataSourceResponse>(this, {
         url: `${this.url}/variable`,
         data: variableQueryData,
         method: 'POST',
@@ -152,7 +147,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     payload: string | { [key: string]: unknown }
   ): Promise<Array<SelectableValue<string | number>>> {
     return lastValueFrom<Array<SelectableValue<string | number>>>(
-      this.doFetch({
+      doFetch(this, {
         url: `${this.url}/metric-payload-options`,
         data: {
           metric,
@@ -172,7 +167,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   listMetrics(target: string | number, payload?: string | { [key: string]: any }): Promise<MetricConfig[]> {
     return lastValueFrom<MetricConfig[]>(
-      this.doFetch({
+      doFetch(this, {
         url: `${this.url}/metrics`,
         data: {
           metric: target.toString() ? getTemplateSrv().replace(target.toString(), undefined, 'regex') : undefined,
@@ -208,7 +203,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   getTagKeys(options?: any): Promise<MetricFindTagKeys[]> {
     return lastValueFrom(
-      this.doFetch<MetricFindTagKeys[]>({
+      doFetch<MetricFindTagKeys[]>(this, {
         url: `${this.url}/tag-keys`,
         method: 'POST',
         data: options,
@@ -218,7 +213,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   getTagValues(options: any): Promise<MetricFindTagValues[]> {
     return lastValueFrom(
-      this.doFetch<MetricFindTagValues[]>({
+      doFetch<MetricFindTagValues[]>(this, {
         url: `${this.url}/tag-values`,
         method: 'POST',
         data: options,
@@ -237,13 +232,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       }
       return { text: d, value: d };
     });
-  }
-
-  doFetch<T>(options: BackendSrvRequest) {
-    options.credentials = this.withCredentials ? 'include' : 'same-origin';
-    options.headers = this.headers;
-
-    return getBackendSrv().fetch<T>(options);
   }
 
   processPayload(payload: string | { [key: string]: unknown }, editorMode?: QueryEditorMode, scopedVars?: ScopedVars) {

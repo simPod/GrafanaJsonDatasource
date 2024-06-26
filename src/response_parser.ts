@@ -12,12 +12,12 @@ export class ResponseParser {
 
     if (textField && valueField) {
       for (let i = 0; i < textField.values.length; i++) {
-        values.push({ text: '' + textField.values.get(i), value: '' + valueField.values.get(i) });
+        values.push({ text: '' + textField.values[i], value: '' + valueField.values[i] });
       }
     } else {
       values.push(
         ...frame.fields
-          .flatMap((f) => f.values.toArray())
+          .flatMap((f) => f.values)
           .map((v) => ({
             text: v,
           }))

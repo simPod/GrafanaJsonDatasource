@@ -2391,7 +2391,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*, @types/jest@npm:^29.5.7":
+"@types/jest@npm:^29.5.7":
   version: 29.5.12
   resolution: "@types/jest@npm:29.5.12"
   dependencies:
@@ -2575,15 +2575,6 @@ __metadata:
   version: 1.1.3
   resolution: "@types/string-hash@npm:1.1.3"
   checksum: 10c0/158c3f7d9fa3b8a4cacaa8f163a6f8aedbe13f01694d665efb6b103b6d537fd275ada23643d9fc4eb6fa8600ac158863608677dd2d69b9ac857f8f0f3cb34a20
-  languageName: node
-  linkType: hard
-
-"@types/testing-library__jest-dom@npm:^5.14.8":
-  version: 5.14.9
-  resolution: "@types/testing-library__jest-dom@npm:5.14.9"
-  dependencies:
-    "@types/jest": "npm:*"
-  checksum: 10c0/91f7b15e8813b515912c54da44464fb60ecf21162b7cae2272fcb3918074f4e1387dc2beca1f5041667e77b76b34253c39675ea4e0b3f28f102d8cc87fdba9fa
   languageName: node
   linkType: hard
 
@@ -6053,7 +6044,6 @@ __metadata:
     "@types/react-dom": "npm:^18.2.14"
     "@types/react-router-dom": "npm:^5.2.0"
     "@types/react-virtualized-auto-sizer": "npm:^1.0.0"
-    "@types/testing-library__jest-dom": "npm:^5.14.8"
     "@typescript-eslint/eslint-plugin": "npm:^7.0.0"
     copy-webpack-plugin: "npm:^12.0.0"
     css-loader: "npm:^7.0.0"

@@ -124,16 +124,11 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     }
   }
 
-  metricFindQuery(
-    variableQuery: VariableQuery,
-    options?: LegacyMetricFindQueryOptions,
-    type?: string
-  ): Promise<MetricFindValue[]> {
+  metricFindQuery(variableQuery: VariableQuery, options?: LegacyMetricFindQueryOptions): Promise<MetricFindValue[]> {
     const interpolated =
       variableQuery.format === 'json'
         ? JSON.parse(getTemplateSrv().replace(variableQuery.query, undefined, 'json'))
         : {
-            type,
             target: getTemplateSrv().replace(variableQuery.query, undefined, 'regex'),
           };
 

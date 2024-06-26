@@ -59,6 +59,4 @@ export default class TemplateSrvStub implements TemplateSrv {
   getVariables(): TypedVariableModel[] {
     return this.variables;
   }
-
-  updateTemplateData() {}
 }

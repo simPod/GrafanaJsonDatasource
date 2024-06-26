@@ -57,6 +57,8 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   query(options: QueryRequest): Promise<DataQueryResponse> {
     const request = this.processTargets(options);
 
+    request.targets = request.targets.filter((t) => !t.hide);
+
     if (request.targets.length === 0) {
       return Promise.resolve({ data: [] });
     }

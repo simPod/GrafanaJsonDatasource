@@ -14,7 +14,7 @@ export interface GenericOptions extends DataSourceJsonData {
   defaultEditorMode?: QueryEditorMode;
 }
 
-export interface VariableQuery {
+export interface VariableQuery extends DataQuery {
   query: string;
   format: 'string' | 'json';
 }

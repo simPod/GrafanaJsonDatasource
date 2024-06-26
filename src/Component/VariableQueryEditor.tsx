@@ -1,17 +1,16 @@
 import { getTemplateSrv } from '@grafana/runtime';
 import { InlineField, InlineFieldRow, InlineSwitch, Input } from '@grafana/ui';
 import React, { useState } from 'react';
-import { VariableQuery } from '../types';
+import { GenericOptions, GrafanaQuery, VariableQuery } from '../types';
+import { QueryEditorProps } from '@grafana/data';
+import { DataSource } from '../DataSource';
 
-interface Props {
-  query: VariableQuery;
-  onChange: (query: VariableQuery, definition: string) => void;
-}
+export type Props = QueryEditorProps<DataSource, GrafanaQuery, GenericOptions, VariableQuery>;
 
-export const VariableQueryEditor: React.FC<Props> = ({ onChange, query }) => {
+export const VariableQueryEditor = ({ onChange, query, datasource, range }: Props) => {
   const [variableQuery, setVariableQuery] = useState(query);
   const saveQuery = () => {
-    onChange(variableQuery, `${variableQuery.query}` + `${variableQuery.format === 'json' ? ' (JSON)' : ''}`);
+    onChange(variableQuery);
   };
 
   const handleChange = (event: React.FormEvent<HTMLInputElement>) =>

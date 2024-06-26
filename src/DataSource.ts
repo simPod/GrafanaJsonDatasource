@@ -10,7 +10,7 @@ import {
   VariableOption,
   VariableWithMultiSupport,
 } from '@grafana/data';
-import { BackendDataSourceResponse, FetchResponse, getTemplateSrv } from '@grafana/runtime';
+import { FetchResponse, getTemplateSrv, TemplateSrv } from '@grafana/runtime';
 import { isArray, isObject } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -28,7 +28,9 @@ import {
 } from './types';
 import { match, P } from 'ts-pattern';
 import { valueFromVariableWithMultiSupport } from './variable/valueFromVariableWithMultiSupport';
+import { VariableSupport } from './variable/VariableSupport';
 import { doFetch } from './doFetch';
+import { MetricFindQuery } from './MetricFindQuery';
 
 export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   url: string;
@@ -36,13 +38,17 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   headers: any;
   responseParser: ResponseParser;
   defaultEditorMode: QueryEditorMode;
-  constructor(instanceSettings: DataSourceInstanceSettings<GenericOptions>) {
+  constructor(
+    instanceSettings: DataSourceInstanceSettings<GenericOptions>,
+    private readonly templateSrv: TemplateSrv = getTemplateSrv()
+  ) {
     super(instanceSettings);
 
     this.responseParser = new ResponseParser();
     this.defaultEditorMode = instanceSettings.jsonData?.defaultEditorMode ?? 'code';
     this.url = instanceSettings.url === undefined ? '' : instanceSettings.url;
 
+    this.variables = new VariableSupport(this, this.templateSrv);
     this.withCredentials = instanceSettings.withCredentials !== undefined;
     this.headers = { 'Content-Type': 'application/json' };
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
@@ -117,25 +123,15 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   metricFindQuery(variableQuery: VariableQuery, options?: LegacyMetricFindQueryOptions): Promise<MetricFindValue[]> {
-    const interpolated =
+    const interpolated: string =
       variableQuery.format === 'json'
         ? JSON.parse(getTemplateSrv().replace(variableQuery.query, undefined, 'json'))
         : {
             target: getTemplateSrv().replace(variableQuery.query, undefined, 'regex'),
           };
 
-    const variableQueryData = {
-      payload: interpolated,
-      range: options?.range,
-    };
-
-    return lastValueFrom(
-      doFetch<BackendDataSourceResponse>(this, {
-        url: `${this.url}/variable`,
-        data: variableQueryData,
-        method: 'POST',
-      }).pipe(map((response) => this.responseParser.transformMetricFindResponse(response)))
-    );
+    let metricFindQuery = new MetricFindQuery(this, interpolated);
+    return metricFindQuery.process(options?.range);
   }
 
   listMetricPayloadOptions(

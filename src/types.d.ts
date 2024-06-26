@@ -1,16 +1,7 @@
 import { DataQueryRequest, DataSourceJsonData, MetricFindValue, SelectableValue } from '@grafana/data';
-import { TemplateSrv as GrafanaTemplateSrv } from '@grafana/runtime';
 import { DataQuery } from '@grafana/schema';
 
-declare module '@grafana/runtime' {
-  export interface TemplateSrv extends GrafanaTemplateSrv {
-    getAdhocFilters(datasourceName: string): any;
-  }
-}
-
-export interface QueryRequest extends DataQueryRequest<GrafanaQuery> {
-  adhocFilters?: any[];
-}
+export interface QueryRequest extends DataQueryRequest<GrafanaQuery> {}
 
 export interface GrafanaQuery extends DataQuery {
   editorMode?: QueryEditorMode;

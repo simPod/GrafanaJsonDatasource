@@ -59,9 +59,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
       return Promise.resolve({ data: [] });
     }
 
-    // @ts-ignore
-    request.adhocFilters = getTemplateSrv().getAdhocFilters(this.name);
-
     options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
 
     return lastValueFrom(
@@ -298,7 +295,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
     Object.values(getTemplateSrv().getVariables()).forEach((variable) => {
       if (variable.type === 'adhoc') {
-        // These belong to request.adhocFilters
+        // These belong to request.filters
         return;
       }
 

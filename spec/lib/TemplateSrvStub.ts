@@ -13,7 +13,6 @@ export default class TemplateSrvStub implements TemplateSrv {
   templateSettings = { interpolate: /\[\[([\s\S]+?)\]\]/g };
   data = {};
   variables: TypedVariableModel[] | [] = [];
-  adhocFilters = [];
   // tslint:disable-next-line:max-line-length
   // https://github.com/grafana/grafana/blob/ab5a3820d5fff4f0f042024b0aee0632e6a4ca08/public/app/features/variables/utils.ts#L24
   /*
@@ -59,10 +58,6 @@ export default class TemplateSrvStub implements TemplateSrv {
 
   getVariables(): TypedVariableModel[] {
     return this.variables;
-  }
-
-  getAdhocFilters(datasourceName: string) {
-    return this.adhocFilters;
   }
 
   updateTemplateData() {}

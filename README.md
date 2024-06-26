@@ -166,7 +166,7 @@ Example request:
      { "target": "Packets", "refId": "A", "payload": { "additional": "optional json" } },
      { "target": "Errors", "refId": "B" }
   ],
-  "adhocFilters": [{
+  "filters": [{
     "key": "City",
     "operator": "=",
     "value": "Berlin"

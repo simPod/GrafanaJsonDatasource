@@ -207,7 +207,7 @@ describe('GenericDatasource', () => {
     templateSrvStub.replace = (data) => data ?? '';
     setTemplateSrv(templateSrvStub);
 
-    await ds.metricFindQuery({ query: `{"target":"search"}`, format: 'json' });
+    await ds.metricFindQuery({ query: `{"target":"search"}`, format: 'json', refId: 'a' });
 
     expect(jsonParsed).toBe(true);
   });

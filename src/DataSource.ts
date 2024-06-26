@@ -2,6 +2,7 @@ import {
   DataQueryResponse,
   DataSourceApi,
   DataSourceInstanceSettings,
+  LegacyMetricFindQueryOptions,
   MetricFindValue,
   ScopedVars,
   SelectableValue,
@@ -123,7 +124,11 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     }
   }
 
-  metricFindQuery(variableQuery: VariableQuery, options?: any, type?: string): Promise<MetricFindValue[]> {
+  metricFindQuery(
+    variableQuery: VariableQuery,
+    options?: LegacyMetricFindQueryOptions,
+    type?: string
+  ): Promise<MetricFindValue[]> {
     const interpolated =
       variableQuery.format === 'json'
         ? JSON.parse(getTemplateSrv().replace(variableQuery.query, undefined, 'json'))
@@ -135,7 +140,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     const variableQueryData = {
       payload: interpolated,
       range: options?.range,
-      rangeRaw: options?.rangeRaw,
     };
 
     return lastValueFrom(

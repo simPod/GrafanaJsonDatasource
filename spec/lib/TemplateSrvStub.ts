@@ -1,5 +1,5 @@
 import { ScopedVars, TimeRange, TypedVariableModel, AdHocVariableFilter } from '@grafana/data';
-import { TemplateSrv } from '@grafana/runtime/services/templateSrv';
+import { TemplateSrv } from '@grafana/runtime';
 
 export default class TemplateSrvStub implements TemplateSrv {
   containsTemplate(target?: string | undefined): boolean {

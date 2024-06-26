@@ -1,5 +1,6 @@
-import { DataQuery, DataQueryRequest, DataSourceJsonData, MetricFindValue, SelectableValue } from '@grafana/data';
+import { DataQueryRequest, DataSourceJsonData, MetricFindValue, SelectableValue } from '@grafana/data';
 import { TemplateSrv as GrafanaTemplateSrv } from '@grafana/runtime';
+import { DataQuery } from '@grafana/schema';
 
 declare module '@grafana/runtime' {
   export interface TemplateSrv extends GrafanaTemplateSrv {

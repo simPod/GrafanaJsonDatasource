@@ -483,7 +483,7 @@ describe('GenericDatasource', () => {
         },
       ],
       scopedVars: {
-        multiValue: { text: 'bar', value: 'bar', selected: true },
+        multiValue: { text: 'bar', value: 'bar' },
       },
     };
 

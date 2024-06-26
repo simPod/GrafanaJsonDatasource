@@ -20,6 +20,7 @@ const editorModes: Array<SelectableValue<QueryEditorMode>> = [
         className={css({
           fontSize: 10,
           padding: '1px 5px',
+          marginLeft: '5px',
           verticalAlign: 'text-bottom',
         })}
         name={'Experimental'}

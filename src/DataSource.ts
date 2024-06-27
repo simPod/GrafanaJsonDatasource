@@ -56,10 +56,12 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     }
   }
 
+  filterQuery(query: GrafanaQuery): boolean {
+    return !query.hide;
+  }
+
   query(options: QueryRequest): Promise<DataQueryResponse> {
     const request = this.processTargets(options);
-
-    request.targets = request.targets.filter((t) => !t.hide);
 
     if (request.targets.length === 0) {
       return Promise.resolve({ data: [] });
@@ -267,9 +269,9 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   processTargets(options: QueryRequest) {
     options.targets = options.targets
-      .filter((target) => {
+      .filter((query) => {
         // remove placeholder targets
-        return target.target !== undefined;
+        return query.target !== undefined;
       })
       .map((query) => {
         return this.processTarget(query, options.scopedVars);

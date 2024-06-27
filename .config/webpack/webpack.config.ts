@@ -71,6 +71,11 @@ const config = async (env): Promise<Configuration> => {
       },
     ],
 
+    // Support WebAssembly according to latest spec - makes WebAssembly module async
+    experiments: {
+      asyncWebAssembly: true,
+    },
+
     mode: env.production ? 'production' : 'development',
 
     module: {
@@ -82,7 +87,7 @@ const config = async (env): Promise<Configuration> => {
             loader: 'swc-loader',
             options: {
               jsc: {
-                baseUrl: path.resolve(__dirname, 'src'),
+                baseUrl: path.resolve(process.cwd(), SOURCE_DIR),
                 target: 'es2015',
                 loose: false,
                 parser: {

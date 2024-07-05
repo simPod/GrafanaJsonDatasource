@@ -83,22 +83,16 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
 
     setLastQuery({ payload, metric: metric.value.toString() });
 
-    onChange({ ...query, payload, target: metric.value.toString() });
+    const newUnknownPayload: UnknownPayload = Object.entries(payload)
+      .filter(([key]) => !payloadConfig.some((item) => item.name === key))
+      .map(([key, value]) => {
+        return { name: key, value: value };
+      });
+    setUnknownPayload(newUnknownPayload);
 
+    onChange({ ...query, payload, target: metric.value.toString() });
     onRunQuery();
   }, [payload, metric]);
-
-  React.useEffect(() => {
-    const newUnknownPayload: UnknownPayload = [];
-    for (const key in payload) {
-      const foundConfig = payloadConfig.find((item) => item.name === key);
-      if (foundConfig === undefined) {
-        newUnknownPayload.push({ name: key, value: payload[key] });
-      }
-
-      setUnknownPayload(newUnknownPayload);
-    }
-  }, [payload, payloadConfig]);
 
   const changePayload = (
     name: string,

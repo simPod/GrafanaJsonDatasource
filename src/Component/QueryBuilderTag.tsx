@@ -1,6 +1,6 @@
 import { css } from '@emotion/css';
-import { GrafanaTheme } from '@grafana/data';
-import { getTagColorsFromName, IconButton, stylesFactory, useTheme } from '@grafana/ui';
+import { GrafanaTheme2 } from '@grafana/data';
+import { getTagColorsFromName, IconButton, useStyles2 } from '@grafana/ui';
 import React, { ComponentType } from 'react';
 import { match } from 'ts-pattern';
 
@@ -10,44 +10,41 @@ interface QueryBuilderTagProps {
   onRemove: (name: string) => void;
 }
 
-const getStyles = stylesFactory(({ theme, name }: { theme: GrafanaTheme; name: string }) => {
+const getStylesForName = (name: string) => (theme: GrafanaTheme2) => {
   const { color, borderColor } = getTagColorsFromName(name);
-  const height = theme.spacing.formInputHeight - 8;
 
   return {
-    itemStyle: css`
-      display: flex;
-      align-items: center;
-      height: ${height}px;
-      line-height: ${height - 2}px;
-      background-color: ${color};
-      color: ${theme.palette.white};
-      border: 1px solid ${borderColor};
-      border-radius: 3px;
-      padding: 0 ${theme.spacing.xs};
-      margin-right: 3px;
-      white-space: nowrap;
-      text-shadow: none;
-      font-weight: 500;
-      font-size: ${theme.typography.size.sm};
-    `,
+    itemStyle: css({
+      display: 'flex',
+      alignItems: 'center',
+      height: theme.spacing(3),
+      backgroundColor: color,
+      color: theme.colors.text.maxContrast,
+      border: `1px solid ${borderColor}`,
+      borderRadius: 3,
+      padding: `0 ${theme.spacing(0.5)}`,
+      marginRight: 3,
+      whiteSpace: 'nowrap',
+      textShadow: 'none',
+      fontWeight: 500,
+      fontSize: theme.typography.bodySmall.fontSize,
+    }),
 
-    nameStyle: css`
-      margin-right: 3px;
-    `,
+    nameStyle: css({
+      marginRight: 3,
+    }),
 
-    buttonStyles: css`
-      margin: 0;
-      &:hover::before {
-        display: none;
-      }
-    `,
+    buttonStyles: css({
+      margin: 0,
+      '&:hover::before': {
+        display: 'none',
+      },
+    }),
   };
-});
+};
 
 export const QueryBuilderTag: ComponentType<QueryBuilderTagProps> = ({ name, value, onRemove }) => {
-  const theme = useTheme();
-  const styles = getStyles({ theme, name });
+  const styles = useStyles2(getStylesForName(name));
 
   const formattedValue: React.ReactNode = match(typeof value)
     .with('string', () => `"${value}"`)

@@ -43,7 +43,9 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
         setMetric(
           foundMetric === undefined ? { label: '', value: '' } : { label: foundMetric.label, value: foundMetric.value }
         );
-        const metricPayloadConfigs = z.array(z.object({ name: z.string() })).parse(foundMetric?.payloads ?? []);
+        const metricPayloadConfigs = z
+          .array(z.object({ name: z.string() }).passthrough())
+          .parse(foundMetric?.payloads ?? []);
 
         setPayloadConfig(metricPayloadConfigs);
 

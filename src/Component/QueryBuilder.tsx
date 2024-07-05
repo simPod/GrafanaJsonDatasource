@@ -7,6 +7,7 @@ import { GenericOptions, GrafanaQuery, MetricConfig, MetricPayloadConfig } from 
 import { EditorField, EditorFieldGroup } from '@grafana/experimental';
 import { QueryBuilderTextArea } from './QueryBuilderTextArea';
 import { QueryBuilderPayloadSelect } from './QueryBuilderPayloadSelect';
+import { z } from 'zod';
 import { QueryBuilderTag } from './QueryBuilderTag';
 
 interface LastQuery {
@@ -42,7 +43,10 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
         setMetric(
           foundMetric === undefined ? { label: '', value: '' } : { label: foundMetric.label, value: foundMetric.value }
         );
-        setPayloadConfig(foundMetric?.payloads ?? []);
+        const metricPayloadConfigs = z.array(z.object({ name: z.string() })).parse(foundMetric?.payloads ?? []);
+
+        setPayloadConfig(metricPayloadConfigs);
+
         return metrics;
       },
       (response) => {

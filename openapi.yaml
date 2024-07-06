@@ -73,7 +73,7 @@ paths:
                               use the name as the label.
                           name:
                             type: string
-                            description: 'The name of the payload. '
+                            description: 'The name of the payload.'
                           type:
                             type: string
                             description: |-

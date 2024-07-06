@@ -68,8 +68,8 @@ Example response:
   "label": "Describe metric list", // Optional. If the value is empty, use the value as the label
   "value": "DescribeMetricList", // The value of the option.
   "payloads": [{ // Configuration parameters of the payload.
-    "label": "Namespace", // The label of the payload. If the value is empty, use the value as the label.
-    "name": "namespace", // The name of the payload. If the value is empty, use the name as the label.
+    "label": "Namespace", // The label of the payload. If the value is empty, use the name as the label.
+    "name": "namespace", // The name of the payload.
     "type": "select", // If the value is select, the UI of the payload is a radio box. If the value is multi-select, the UI of the payload is a multi selection box; if the value is input, the UI of the payload is an input box; if the value is textarea, the UI of the payload is a multiline input box. The default is input.
     "placeholder": "Please select namespace", // Input box / selection box prompt information.
     "reloadMetric": true, // Whether to overload the metrics API after modifying the value of the payload.
@@ -103,7 +103,7 @@ Example response:
 }]
 ```
 The display is as follows:
-![Metrics in builder mode](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.6.x/docs/images/builder-metrics.png)
+![Metrics in builder Mode](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.6.x/docs/images/builder-metrics.png)
 
 ### /metric-payload-options
 
@@ -136,7 +136,7 @@ Example Response:
 }]
 ```
 The display is as follows:
-![Metric options in builder mode](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.6.x/docs/images/builder-metric-options.png)
+![Metric options in builder Mode](https://raw.githubusercontent.com/simPod/grafana-json-datasource/0.6.x/docs/images/builder-metric-options.png)
 
 ### /query
 

@@ -109,7 +109,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
       key={config.name}
       width={config.width}
       isLoading={isPayloadOptionsLoading}
-      prefix={config.label}
+      prefix={config.label ?? config.name}
       options={config.options ?? payloadOptions}
       placeholder={config.placeholder ?? ''}
       allowCustomValue

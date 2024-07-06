@@ -183,7 +183,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
                     return (
                       <InlineField key={opt.name} style={{ width: '100%', display: 'inline' }}>
                         <div style={{ width: '100%', display: 'flex' }}>
-                          <label className="gf-form-label">{opt.label ?? opt.label}</label>
+                          <label className="gf-form-label">{opt.label ?? opt.name}</label>
                           <QueryBuilderTextArea
                             config={opt}
                             // TODO: Handle types properly, possibly buggy
@@ -199,7 +199,7 @@ export const QueryBuilder: ComponentType<Props> = (props) => {
                     return (
                       <InlineField key={opt.name} style={{ display: 'inline-flex' }}>
                         <Input
-                          prefix={opt.label}
+                          prefix={opt.label ?? opt.name}
                           width={opt.width}
                           onBlur={(e) => {
                             changePayload(opt.name, opt.reloadMetric, { value: e.currentTarget.value });

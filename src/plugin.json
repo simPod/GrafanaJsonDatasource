@@ -4,8 +4,9 @@
     "id": "simpod-json-datasource",
     "type": "datasource",
     "annotations": true,
-    "alerting": false,
-    "backend": false,
+    "alerting": true,
+    "backend": true,
+    "executable": "gpx_gtom",
     "metrics": true,
     "logs": true,
     "info": {

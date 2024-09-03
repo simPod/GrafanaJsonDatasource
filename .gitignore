@@ -11,3 +11,6 @@
 /coverage/
 /dist/
 /node_modules/
+
+# Ignore packaged plugins
+*.zip

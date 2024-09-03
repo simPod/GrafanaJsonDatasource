@@ -17,6 +17,7 @@ func main() {
 	// from Grafana to create different instances of SampleDatasource (per datasource
 	// ID). When datasource configuration changed Dispose method will be called and
 	// new datasource instance created using NewSampleDatasource factory.
+	log.DefaultLogger.Error("loading gtom")
 	if err := datasource.Manage("gtom", plugin.NewDatasource, datasource.ManageOpts{}); err != nil {
 		log.DefaultLogger.Error(err.Error())
 		os.Exit(1)

@@ -23,6 +23,8 @@ func LoadPluginSettings(source backend.DataSourceInstanceSettings) (*PluginSetti
 		return nil, fmt.Errorf("could not unmarshal PluginSettings json: %w", err)
 	}
 
+	backend.Logger.Error("loading settings", "source", source)
+
 	settings.Secrets = loadSecretPluginSettings(source.DecryptedSecureJSONData)
 
 	return &settings, nil

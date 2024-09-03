@@ -4,12 +4,14 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
+	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
-	"github.com/pcolladosoto/gtom-native/pkg/models"
 )
 
 // Make sure Datasource implements required interfaces. This is important to do
@@ -24,13 +26,35 @@ var (
 )
 
 // NewDatasource creates a new datasource instance.
-func NewDatasource(_ context.Context, _ backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
-	return &Datasource{}, nil
+func NewDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+	opts, err := settings.HTTPClientOptions(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("http client options: %w", err)
+	}
+
+	log.DefaultLogger.Debug("creating HTTP client", "settings", settings)
+
+	if settings.BasicAuthEnabled {
+		opts.BasicAuth.User = settings.BasicAuthUser
+		opts.BasicAuth.Password = settings.DecryptedSecureJSONData["password"]
+	}
+
+	opts.Header.Add("Content-Type", "application/json")
+
+	cli, err := httpclient.New(opts)
+	if err != nil {
+		return nil, fmt.Errorf("httpclient new: %w", err)
+	}
+
+	return &Datasource{settings.URL, cli}, nil
 }
 
 // Datasource is an example datasource which can respond to data queries, reports
 // its health and has streaming skills.
-type Datasource struct{}
+type Datasource struct {
+	url        string
+	httpClient *http.Client
+}
 
 // Dispose here tells plugin SDK that plugin wants to clean up resources when a new instance
 // created. As soon as datasource settings change detected by SDK old datasource instance will
@@ -94,19 +118,20 @@ func (d *Datasource) query(_ context.Context, pCtx backend.PluginContext, query 
 // datasource configuration page which allows users to verify that
 // a datasource is working as expected.
 func (d *Datasource) CheckHealth(_ context.Context, req *backend.CheckHealthRequest) (*backend.CheckHealthResult, error) {
-	res := &backend.CheckHealthResult{}
-	config, err := models.LoadPluginSettings(*req.PluginContext.DataSourceInstanceSettings)
-
+	resp, err := d.httpClient.Get(d.url)
 	if err != nil {
-		res.Status = backend.HealthStatusError
-		res.Message = "Unable to load settings"
-		return res, nil
+		backend.Logger.Error("couldn't reach the datasource", "err", err)
+		return &backend.CheckHealthResult{
+			Status:  backend.HealthStatusError,
+			Message: "request error",
+		}, nil
 	}
 
-	if config.Secrets.ApiKey == "" {
-		res.Status = backend.HealthStatusError
-		res.Message = "API key is missing"
-		return res, nil
+	if resp.StatusCode != http.StatusOK {
+		return &backend.CheckHealthResult{
+			Status:  backend.HealthStatusError,
+			Message: fmt.Sprintf("got response code %d", resp.StatusCode),
+		}, nil
 	}
 
 	return &backend.CheckHealthResult{

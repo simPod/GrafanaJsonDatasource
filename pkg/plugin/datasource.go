@@ -10,7 +10,6 @@ import (
 	"github.com/grafana/grafana-plugin-sdk-go/backend"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/httpclient"
 	"github.com/grafana/grafana-plugin-sdk-go/backend/instancemgmt"
-	"github.com/grafana/grafana-plugin-sdk-go/backend/log"
 	"github.com/grafana/grafana-plugin-sdk-go/data"
 )
 
@@ -27,19 +26,20 @@ var (
 
 // NewDatasource creates a new datasource instance.
 func NewDatasource(ctx context.Context, settings backend.DataSourceInstanceSettings) (instancemgmt.Instance, error) {
+	backend.Logger.Debug("creating a new datasource", "settings", settings)
+
 	opts, err := settings.HTTPClientOptions(ctx)
 	if err != nil {
 		return nil, fmt.Errorf("http client options: %w", err)
 	}
 
-	log.DefaultLogger.Debug("creating HTTP client", "settings", settings)
-
 	if settings.BasicAuthEnabled {
 		opts.BasicAuth.User = settings.BasicAuthUser
-		opts.BasicAuth.Password = settings.DecryptedSecureJSONData["password"]
+		opts.BasicAuth.Password = settings.DecryptedSecureJSONData["basicAuthPassword"]
 	}
 
 	opts.Header.Add("Content-Type", "application/json")
+	opts.Header.Add("User-Agent", "gtom/1.0")
 
 	cli, err := httpclient.New(opts)
 	if err != nil {
@@ -123,19 +123,19 @@ func (d *Datasource) CheckHealth(_ context.Context, req *backend.CheckHealthRequ
 		backend.Logger.Error("couldn't reach the datasource", "err", err)
 		return &backend.CheckHealthResult{
 			Status:  backend.HealthStatusError,
-			Message: "request error",
+			Message: fmt.Sprintf("Error making the request: %v", err),
 		}, nil
 	}
 
 	if resp.StatusCode != http.StatusOK {
 		return &backend.CheckHealthResult{
 			Status:  backend.HealthStatusError,
-			Message: fmt.Sprintf("got response code %d", resp.StatusCode),
+			Message: fmt.Sprintf("The backend doesn't look too good, got response code %d", resp.StatusCode),
 		}, nil
 	}
 
 	return &backend.CheckHealthResult{
 		Status:  backend.HealthStatusOk,
-		Message: "Data source is working",
+		Message: "Data source is working!",
 	}, nil
 }

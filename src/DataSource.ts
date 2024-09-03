@@ -10,7 +10,7 @@ import {
   VariableOption,
   VariableWithMultiSupport,
 } from '@grafana/data';
-import { FetchResponse, getTemplateSrv, TemplateSrv } from '@grafana/runtime';
+import { FetchResponse, getTemplateSrv, TemplateSrv, DataSourceWithBackend } from '@grafana/runtime';
 import { isArray, isObject } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -32,7 +32,7 @@ import { VariableSupport } from './variable/VariableSupport';
 import { doFetch } from './doFetch';
 import { MetricFindQuery } from './MetricFindQuery';
 
-export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
+export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptions> {
   url: string;
   withCredentials: boolean;
   headers: any;

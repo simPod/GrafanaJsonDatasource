@@ -86,44 +86,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
   annotations = {};
 
-  async testDatasource() {
-    const errorMessageBase = 'Data source is not working';
-
-    try {
-      const response = await lastValueFrom(
-        doFetch(this, {
-          url: this.url,
-          method: 'GET',
-        }).pipe(map((response) => response))
-      );
-
-      if (response.status === 200) {
-        return { status: 'success', message: 'Data source is working', title: 'Success' };
-      }
-
-      return {
-        message: response.statusText ? response.statusText : errorMessageBase,
-        status: 'error',
-        title: 'Error',
-      };
-    } catch (err) {
-      if (typeof err === 'string') {
-        return {
-          status: 'error',
-          message: err,
-        };
-      }
-
-      let error = err as FetchResponse;
-      let message = error.statusText ?? errorMessageBase;
-      if (error.data?.error?.code !== undefined) {
-        message += `: ${error.data.error.code}. ${error.data.error.message}`;
-      }
-
-      return { status: 'error', message, title: 'Error' };
-    }
-  }
-
   metricFindQuery(variableQuery: VariableQuery, options?: LegacyMetricFindQueryOptions): Promise<MetricFindValue[]> {
     const interpolated: string =
       variableQuery.format === 'json'

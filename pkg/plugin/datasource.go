@@ -65,10 +65,10 @@ type Datasource struct {
 func (d *Datasource) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
 	backend.Logger.Debug("handling a resource query", "path", req.Path)
 	switch req.Path {
-	case "metrics":
+	case "metrics", "metric-payload-options", "variable", "tag-keys", "tag-values":
 		backend.Logger.Debug("handling metrics query", "body", req.Body)
 
-		resp, err := d.httpClient.Post(d.url+"/metrics", "application/json", bytes.NewReader(req.Body))
+		resp, err := d.httpClient.Post(d.url+"/"+req.Path, "application/json", bytes.NewReader(req.Body))
 		if err != nil {
 			backend.Logger.Error("couldn't get metrics", "err", err)
 			return sender.Send(&backend.CallResourceResponse{

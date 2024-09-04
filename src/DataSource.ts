@@ -1,6 +1,5 @@
 import {
   DataQueryResponse,
-  DataSourceApi,
   DataSourceInstanceSettings,
   LegacyMetricFindQueryOptions,
   MetricFindValue,

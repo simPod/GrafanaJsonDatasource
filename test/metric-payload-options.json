@@ -1,0 +1,10 @@
+[{ 
+  "label": "CPUUtilization",
+  "value": "CPUUtilization"
+},{
+  "label": "DiskReadIOPS",
+  "value": "DiskReadIOPS"
+},{
+  "label": "memory_freeutilization",
+  "value": "memory_freeutilization"
+}]

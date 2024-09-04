@@ -60,7 +60,7 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
     return !query.hide;
   }
 
-  qquery(options: QueryRequest): Promise<DataQueryResponse> {
+  oldQuery(options: QueryRequest): Promise<DataQueryResponse> {
     const request = this.processTargets(options);
 
     if (request.targets.length === 0) {
@@ -105,7 +105,7 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
   ): Promise<Array<SelectableValue<string | number>>> {
     return lastValueFrom<Array<SelectableValue<string | number>>>(
       doFetch(this, {
-        url: `${this.url}/metric-payload-options`,
+        url: `/api/datasources/uid/${this.uid}/resources/metric-payload-options`,
         data: {
           metric,
           payload: this.processPayload(payload, 'builder', undefined),
@@ -151,8 +151,6 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
     //     };
     // });
 
-    console.log("new implementation")
-
     return lastValueFrom<MetricConfig[]>(
       doFetch(this, {
         url: `/api/datasources/uid/${this.uid}/resources/metrics`,
@@ -189,7 +187,7 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
   getTagKeys(options?: any): Promise<MetricFindTagKeys[]> {
     return lastValueFrom(
       doFetch<MetricFindTagKeys[]>(this, {
-        url: `${this.url}/tag-keys`,
+        url: `/api/datasources/uid/${this.uid}/resources/tag-keys`,
         method: 'POST',
         data: options,
       }).pipe(map((result) => result.data))
@@ -199,7 +197,7 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
   getTagValues(options: any): Promise<MetricFindTagValues[]> {
     return lastValueFrom(
       doFetch<MetricFindTagValues[]>(this, {
-        url: `${this.url}/tag-values`,
+        url: `/api/datasources/uid/${this.uid}/resources/tag-values`,
         method: 'POST',
         data: options,
       }).pipe(map((result) => result.data))

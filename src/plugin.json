@@ -37,6 +37,13 @@
         "version": "%VERSION%",
         "updated": "%TODAY%"
     },
+    "routes": [
+        {
+            "path": "tables",
+            "url": "https://api.example.com/api/v1/tables",
+            "method": "GET"
+        }
+    ],
     "dependencies": {
         "grafanaDependency": ">=9.0.0",
         "plugins": [ ]

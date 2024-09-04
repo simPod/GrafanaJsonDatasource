@@ -1,9 +1,11 @@
 package plugin
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 	"time"
 
@@ -46,7 +48,10 @@ func NewDatasource(ctx context.Context, settings backend.DataSourceInstanceSetti
 		return nil, fmt.Errorf("httpclient new: %w", err)
 	}
 
-	return &Datasource{settings.URL, cli}, nil
+	return &Datasource{
+		settings.URL,
+		cli,
+	}, nil
 }
 
 // Datasource is an example datasource which can respond to data queries, reports
@@ -54,6 +59,50 @@ func NewDatasource(ctx context.Context, settings backend.DataSourceInstanceSetti
 type Datasource struct {
 	url        string
 	httpClient *http.Client
+}
+
+// Check https://grafana.com/developers/plugin-tools/create-a-plugin/extend-a-plugin/add-resource-handler
+func (d *Datasource) CallResource(ctx context.Context, req *backend.CallResourceRequest, sender backend.CallResourceResponseSender) error {
+	backend.Logger.Debug("handling a resource query", "path", req.Path)
+	switch req.Path {
+	case "metrics":
+		backend.Logger.Debug("handling metrics query", "body", req.Body)
+
+		resp, err := d.httpClient.Post(d.url+"/metrics", "application/json", bytes.NewReader(req.Body))
+		if err != nil {
+			backend.Logger.Error("couldn't get metrics", "err", err)
+			return sender.Send(&backend.CallResourceResponse{
+				Status: http.StatusNotFound,
+			})
+		}
+
+		if resp.StatusCode != http.StatusOK {
+			backend.Logger.Error("couldn't get metrics", "rc", resp.StatusCode)
+			return sender.Send(&backend.CallResourceResponse{
+				Status: http.StatusNotFound,
+				Body:   []byte(`{"err": "couldn't get the metrics"}`),
+			})
+		}
+
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			backend.Logger.Error("couldn't read the returned metrics", "err", err)
+			return sender.Send(&backend.CallResourceResponse{
+				Status: http.StatusNotFound,
+				Body:   []byte(`{"err": "couldn't read the returned metrics"}`),
+			})
+		}
+
+		return sender.Send(&backend.CallResourceResponse{
+			Status: http.StatusOK,
+			Body:   body,
+		})
+	default:
+		return sender.Send(&backend.CallResourceResponse{
+			Status: http.StatusNotFound,
+			Body:   []byte(`{"err": "requested non-existent path"}`),
+		})
+	}
 }
 
 // Dispose here tells plugin SDK that plugin wants to clean up resources when a new instance
@@ -87,6 +136,8 @@ type queryModel struct{}
 
 func (d *Datasource) query(_ context.Context, pCtx backend.PluginContext, query backend.DataQuery) backend.DataResponse {
 	var response backend.DataResponse
+
+	backend.Logger.Debug("making a query", "query", query, "pluginContext", pCtx)
 
 	// Unmarshal the JSON into our queryModel.
 	var qm queryModel

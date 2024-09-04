@@ -5,7 +5,7 @@ TRASH := dist $(PKG_NAME) *.zip
 
 # Be sure to check https://grafana.com/developers/plugin-tools/publish-a-plugin/package-a-plugin?current-package-manager=yarn
 
-package: build
+package: clean build
 	mv dist/ $(PKG_NAME)
 	zip $(PKG_NAME)-$(VERSION).zip $(PKG_NAME) -r
 	rm -rf $(PKG_NAME)
@@ -21,4 +21,4 @@ backend:
 .PHONY: clean
 
 clean:
-	@rm -rf $(TRASH)
+	rm -rf $(TRASH)

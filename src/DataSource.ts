@@ -60,7 +60,7 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
     return !query.hide;
   }
 
-  query(options: QueryRequest): Promise<DataQueryResponse> {
+  qquery(options: QueryRequest): Promise<DataQueryResponse> {
     const request = this.processTargets(options);
 
     if (request.targets.length === 0) {
@@ -122,10 +122,40 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
     );
   }
 
-  listMetrics(target: string | number, payload?: string | { [key: string]: any }): Promise<MetricConfig[]> {
+  async listMetrics(target: string | number, payload?: string | { [key: string]: any }): Promise<MetricConfig[]> {
+    // According to the examples we should make use of the {get,post}Resource methods (or props, I have no idea). Check:
+    //  https://github.com/grafana/grafana/blob/main/packages/grafana-runtime/src/utils/DataSourceWithBackend.ts#L307
+    //  https://grafana.com/developers/plugin-tools/how-to-guides/data-source-plugins/add-resource-handler
+    //  https://grafana.com/developers/plugin-tools/tutorials/convert-a-frontend-datasource-to-backend#frontend-datasource-class
+
+    // const response = await this.getResource('metrics').catch((err) => {console.log(`error when getting metrics: ${JSON.stringify(err)}`)});
+    // const response = await props.datasource.postResource('metrics', { foobar: "baz" }).catch((err) => {console.log(`error when getting metrics: ${JSON.stringify(err)}`)});
+    // const response = await this.postResource('metrics', { foobar: "baz" }).catch((err) => {console.log(`error when getting metrics: ${JSON.stringify(err)}`)});
+    //
+    // if (!isArray(response.data)) {
+    //   return [];
+    // }
+    //
+    // return response.data.map((item: MetricConfig | string) => {
+    //   if (typeof item === 'string') {
+    //     return { value: item, label: item, payloads: [] };
+    //   }
+    //
+    //   return {
+    //     ...item,
+    //     payloads: (item.payloads ?? []).map((payload: MetricPayloadConfig) => ({
+    //       ...payload,
+    //       label: payload.label ?? payload.name,
+    //     })),
+    //     label: item.label ?? item.value,
+    //     };
+    // });
+
+    console.log("new implementation")
+
     return lastValueFrom<MetricConfig[]>(
       doFetch(this, {
-        url: `${this.url}/metrics`,
+        url: `/api/datasources/uid/${this.uid}/resources/metrics`,
         data: {
           metric: target.toString() ? getTemplateSrv().replace(target.toString(), undefined, 'regex') : undefined,
           payload: payload ? this.processPayload(payload, 'builder', undefined) : undefined,

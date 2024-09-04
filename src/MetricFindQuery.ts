@@ -24,7 +24,7 @@ export class MetricFindQuery {
   process(timeRange: TimeRange | undefined = getDefaultTimeRange()): Promise<MetricFindValue[]> {
     return lastValueFrom(
       doFetch<BackendDataSourceResponse>(this.datasource, {
-        url: `/api/datasources/uid/${this.uid}/resources/variable`,
+        url: `/api/datasources/uid/${this.datasource.uid}/resources/variable`,
         data: {
           payload: this.query,
           range: timeRange,

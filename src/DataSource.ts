@@ -9,7 +9,7 @@ import {
   VariableOption,
   VariableWithMultiSupport,
 } from '@grafana/data';
-import { FetchResponse, getTemplateSrv, TemplateSrv, DataSourceWithBackend } from '@grafana/runtime';
+import { getTemplateSrv, TemplateSrv, DataSourceWithBackend } from '@grafana/runtime';
 import { isArray, isObject } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';

@@ -2,7 +2,7 @@
   "name": "grafana-json-datasource",
   "description": "Grafana JSON datasource",
   "main": "index.js",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "scripts": {
     "build": "webpack -c ./.config/webpack/webpack.config.ts --env production",
     "dev": "webpack -w -c ./.config/webpack/webpack.config.ts --env development",
@@ -28,7 +28,7 @@
     "@babel/core": "^7.22.5",
     "@grafana/eslint-config": "^7.0.0",
     "@grafana/toolkit": "^10.0.0",
-    "@grafana/tsconfig": "^1.2.0-rc1",
+    "@grafana/tsconfig": "^2.0.0",
     "@swc/core": "^1.3.90",
     "@swc/helpers": "^0.5.1",
     "@swc/jest": "^0.2.26",
@@ -48,7 +48,7 @@
     "css-loader": "^7.0.0",
     "eslint": "^8.30.0",
     "eslint-plugin-deprecation": "^3.0.0",
-    "eslint-plugin-jsdoc": "^48.0.0",
+    "eslint-plugin-jsdoc": "^50.0.0",
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-webpack-plugin": "^4.0.1",
@@ -60,7 +60,7 @@
     "prettier": "^3.0.0",
     "replace-in-file-webpack-plugin": "^1.0.6",
     "sass": "^1.63.4",
-    "sass-loader": "^14.0.0",
+    "sass-loader": "^16.0.0",
     "style-loader": "^4.0.0",
     "swc-loader": "^0.2.3",
     "ts-node": "^10.9.1",
@@ -73,7 +73,7 @@
   "dependencies": {
     "@emotion/css": "^11.11.2",
     "@grafana/data": "^11.2.0",
-    "@grafana/experimental": "^1.8.0",
+    "@grafana/experimental": "^2.1.0",
     "@grafana/runtime": "^11.2.0",
     "@grafana/schema": "^11.2.0",
     "@grafana/ui": "^11.2.0",
@@ -88,5 +88,5 @@
   },
   "homepage": "https://github.com/simPod/GrafanaJsonDatasource",
   "engineStrict": true,
-  "packageManager": "yarn@4.4.1"
+  "packageManager": "yarn@4.5.0"
 }

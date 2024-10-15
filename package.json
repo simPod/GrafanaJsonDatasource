@@ -50,7 +50,7 @@
     "eslint-plugin-deprecation": "^3.0.0",
     "eslint-plugin-jsdoc": "^50.0.0",
     "eslint-plugin-react": "^7.31.11",
-    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-webpack-plugin": "^4.0.1",
     "fork-ts-checker-webpack-plugin": "^9.0.0",
     "glob": "^11.0.0",

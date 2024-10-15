@@ -1,4 +1,5 @@
-import { css, CSSObject, cx } from '@emotion/css';
+import { css, cx } from '@emotion/css';
+import { CSSObject } from '@emotion/serialize';
 import { GrafanaTheme2 } from '@grafana/data';
 import { MetricPayloadConfig } from 'types';
 import React, { ComponentType } from 'react';

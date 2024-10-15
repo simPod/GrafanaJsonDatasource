@@ -84,7 +84,7 @@
     "react-virtualized-auto-sizer": "^1.0.24",
     "rxjs": "7.8.1",
     "ts-pattern": "^5.5.0",
-    "tslib": "^2.7.0",
+    "tslib": "^2.8.0",
     "zod": "^3.23.8"
   },
   "homepage": "https://github.com/simPod/GrafanaJsonDatasource",

@@ -1,19 +1,20 @@
 {
     "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
-    "name": "JSON",
-    "id": "simpod-json-datasource",
+    "name": "GTOM",
+    "id": "gtom",
     "type": "datasource",
     "annotations": true,
-    "alerting": false,
-    "backend": false,
+    "alerting": true,
+    "backend": true,
+    "executable": "gpx_gtom",
     "metrics": true,
     "logs": true,
     "info": {
         "author": {
-            "name": "Šimon Podlipský"
+            "name": "Pablo Collado Soto"
         },
-        "description": "Load JSON data over your arbitrary HTTP backend",
-        "keywords": ["json", "api"],
+        "description": "Load data from MongoDB timeseries collections",
+        "keywords": ["json", "mongodb"],
         "logos": {
             "small": "img/json-logo.svg",
             "large": "img/json-logo.svg"
@@ -21,11 +22,11 @@
         "links": [
             {
                 "name": "GitHub",
-                "url": "https://github.com/simPod/grafana-json-datasource"
+                "url": "https://github.com/gtom-native"
             },
             {
                 "name": "MIT License",
-                "url": "https://github.com/simPod/grafana-json-datasource/blob/master/LICENSE"
+                "url": "https://github.com/gtom-native/blob/main/LICENSE"
             }
         ],
         "screenshots": [
@@ -36,6 +37,13 @@
         "version": "%VERSION%",
         "updated": "%TODAY%"
     },
+    "routes": [
+        {
+            "path": "tables",
+            "url": "https://api.example.com/api/v1/tables",
+            "method": "GET"
+        }
+    ],
     "dependencies": {
         "grafanaDependency": ">=10.0.0",
         "plugins": [ ]

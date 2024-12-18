@@ -1,5 +1,167 @@
 # Changelog
 
+## v0.6.5
+
+### What's Changed
+* chore(deps): update grafana packages to v11 (major) by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/565
+* chore: adapt jest and webpack setup to current grafana recommended by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/596
+* feat: use filterQuery function for filtering hidden targets by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/597
+* refactor: use GrafanaTheme2 by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/599
+* fix(query-builder): ensure the `name` is present in MetricPayloadConfig by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/600
+* fix(query-builder): show unknown payload only after the lastQuery changes by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/601
+* fix(query-builder): passthrough MetricPayloadConfig by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/602
+* fix(query-builder): use MetricPayloadConfig's name if label is not present by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/603
+* chore(deps): update dependency glob to v11 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/604
+* chore(deps): update dependency @grafana/experimental to ^1.7.13 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/609
+* chore(deps): update grafana packages to ^11.1.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/610
+* chore(deps): update grafana packages to ^11.1.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/611
+* chore(deps): update grafana packages to ^11.1.3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/612
+* chore(deps): update yarn to v4.4.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/616
+* chore(deps): update dependency @grafana/experimental to ^1.8.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/619
+* chore(deps): update dependency ts-pattern to ^5.3.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/620
+* chore(deps): update grafana packages to ^11.1.4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/621
+* chore(deps): update dependency tslib to ^2.7.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/624
+* chore(deps): update yarn to v4.4.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/626
+* chore(deps): update grafana packages to ^11.2.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/627
+* chore(deps): update dependency webpack to v5.94.0 [security] by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/629
+* chore(deps): bump micromatch from 4.0.5 to 4.0.8 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/625
+* chore(deps): update dependency eslint-plugin-jsdoc to v50 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/618
+* fix: require Grafana v10+ by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/631
+
+
+**Full Changelog**: https://github.com/simPod/GrafanaJsonDatasource/compare/v0.6.4...v0.6.5
+
+## v0.6.4
+
+### What's Changed
+* chore(deps): update actions/setup-go action to v4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/458
+* chore(deps): update grafana packages to ^9.5.5 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/459
+* chore(deps): update dependency tslib to ^2.6.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/460
+* chore(deps): update dependency @grafana/experimental to ^1.6.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/461
+* chore(deps): update yarn to v3.6.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/462
+* chore(deps): update grafana packages to ^9.5.6 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/467
+* chore(deps): bump semver from 5.7.1 to 5.7.2 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/466
+* chore(deps): update dependency prettier to v3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/463
+* chore(deps): update dependency @typescript-eslint/eslint-plugin to v6 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/465
+* chore(deps): update grafana packages to v10 (major) by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/443
+* chore(deps): update dependency ts-pattern to ^5.0.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/469
+* chore(deps): update dependency ts-pattern to ^5.0.3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/470
+* chore(deps): bump word-wrap from 1.2.3 to 1.2.4 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/472
+* chore(deps): update dependency @grafana/experimental to ^1.6.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/473
+* chore(deps): update dependency ts-pattern to ^5.0.4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/474
+* chore(deps): update dependency @grafana/experimental to ^1.6.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/475
+* chore(deps): update dependency tslib to ^2.6.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/476
+* chore(deps): update grafana packages to ^10.0.3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/477
+* chore(deps): update dependency @grafana/experimental to ^1.7.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/479
+* chore(deps): update dependency ts-pattern to ^5.0.5 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/480
+* chore(deps): update yarn to v3.6.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/483
+* chore(deps): update dependency tslib to ^2.6.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/484
+* chore(deps): update grafana packages to ^10.1.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/485
+* chore(deps): update yarn to v3.6.3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/486
+* chore(deps): update dependency @testing-library/jest-dom to v6 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/482
+* chore(deps): update grafana packages to ^10.1.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/488
+* chore(deps): update actions/checkout action to v4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/489
+* chore(deps): update dependency @grafana/experimental to ^1.7.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/491
+* chore(deps): update grafana packages to ^10.1.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/492
+* chore(deps): bump @adobe/css-tools from 4.1.0 to 4.3.1 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/487
+* chore(deps): update magefile/mage-action action to v3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/490
+* chore(deps): update actions/checkout digest to 8ade135 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/493
+* chore(deps): update dependency @grafana/experimental to ^1.7.3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/495
+* chore(deps): update actions/checkout action to v4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/494
+* chore(deps): update grafana packages to ^10.1.4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/496
+* chore(deps): update yarn to v3.6.4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/497
+* chore(deps): update dependency fork-ts-checker-webpack-plugin to v9 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/499
+* chore(deps): update grafana packages to ^10.1.5 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/500
+* chore(deps): update dependency @grafana/experimental to ^1.7.4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/501
+* chore(deps): bump postcss from 8.4.24 to 8.4.31 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/498
+* chore(deps): bump @babel/traverse from 7.22.5 to 7.23.2 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/502
+* chore(deps): update actions/setup-node action to v4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/505
+* chore(deps): update dependency node to v20 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/506
+* chore(deps): update yarn to v4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/503
+* chore(deps): update grafana packages to ^10.2.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/507
+* chore(deps): update yarn to v4.0.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/508
+* ci: run grafana compatibility check on master branches by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/510
+* feat: use yarn pnp by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/511
+* chore(deps): update grafana packages to ^10.2.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/509
+* chore(deps): update yarn to v4.0.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/513
+* chore(deps): update grafana packages to ^10.2.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/514
+* chore(deps): update grafana packages to ^10.2.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/515
+* chore(deps): update dependency ts-pattern to ^5.0.6 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/517
+* chore(deps): update actions/setup-go action to v5 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/518
+* chore(deps): update actions/stale action to v9 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/519
+* chore(deps): update grafana packages to ^10.2.3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/520
+* chore(deps): update dependency eslint-plugin-jsdoc to v47 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/521
+* chore(deps): bump @adobe/css-tools from 4.3.1 to 4.3.2 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/516
+* chore(deps): update dependency eslint-plugin-jsdoc to v48 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/522
+* chore(deps): update dependency @grafana/experimental to ^1.7.5 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/525
+* chore(deps): update dependency copy-webpack-plugin to v12 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/527
+* chore(deps): update dependency react-virtualized-auto-sizer to ^1.0.21 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/530
+* chore(deps): update dependency @grafana/experimental to ^1.7.6 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/531
+* chore(deps): update dependency sass-loader to v14 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/529
+* chore(deps): update grafana packages to ^10.3.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/532
+* chore(deps): update dependency @grafana/experimental to ^1.7.7 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/533
+* chore(deps): update dependency @grafana/experimental to ^1.7.8 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/534
+* chore(deps): update yarn to v4.1.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/535
+* chore(deps): update dependency @grafana/experimental to ^1.7.9 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/536
+* chore(deps): update dependency react-virtualized-auto-sizer to ^1.0.22 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/537
+* chore(deps): update dependency @grafana/experimental to ^1.7.10 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/538
+* chore(deps): update grafana packages to ^10.3.3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/540
+* chore(deps): update dependency ts-pattern to ^5.0.8 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/541
+* chore(deps): update dependency react-virtualized-auto-sizer to ^1.0.23 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/543
+* chore(deps): update yarn to v4.1.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/544
+* chore(deps): update dependency @typescript-eslint/eslint-plugin to v7 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/539
+* chore(deps): bump ip from 1.1.5 to 1.1.9 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/542
+* chore(deps): update dependency react-virtualized-auto-sizer to ^1.0.24 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/546
+* chore(deps): update dependency ts-pattern to ^5.1.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/548
+* chore(deps): update softprops/action-gh-release action to v2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/547
+* chore(deps): update dependency @grafana/eslint-config to v7 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/526
+* chore(deps): update grafana packages to ^10.4.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/545
+* chore(deps): update dependency @grafana/schema to ^10.4.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/549
+* chore(deps): update dependency css-loader to v7 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/551
+* chore(deps): update dependency ts-pattern to ^5.1.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/553
+* chore(deps): update grafana packages to ^10.4.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/557
+* chore(deps): update react monorepo to ^18.3.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/559
+* chore(deps): update react monorepo to ^18.3.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/560
+* chore(deps): update yarn to v4.2.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/561
+* chore(deps): update yarn to v4.2.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/562
+* chore(deps): update grafana packages by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/564
+* chore(deps): update dependency ts-pattern to ^5.1.2 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/566
+* chore(deps): update dependency tslib to ^2.6.3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/568
+* chore(deps): update dependency eslint-plugin-deprecation to v3 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/567
+* chore(deps): update yarn to v4.3.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/570
+* chore(deps): bump braces from 3.0.2 to 3.0.3 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/571
+* chore(deps): bump tar from 6.1.11 to 6.2.1 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/556
+* chore(deps): update dependency style-loader to v4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/554
+* chore(deps): update dependency ts-pattern to ^5.2.0 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/572
+* chore(deps): update dependency @grafana/experimental to ^1.7.12 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/573
+* chore(deps): update grafana packages to ^10.4.4 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/574
+* chore(deps): update yarn to v4.3.1 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/577
+* chore(deps): update grafana packages to ^10.4.5 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/578
+* fix:when target is hide, not request with it by @monster5475 in https://github.com/simPod/GrafanaJsonDatasource/pull/579
+* chore(deps): bump ws from 8.13.0 to 8.17.1 by @dependabot in https://github.com/simPod/GrafanaJsonDatasource/pull/576
+* feat: replace LegacyForms.FormField with Field by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/580
+* fix: add margin to Experimental label by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/581
+* refactor: migrate from Vector interface by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/582
+* refactor: use DataQuery from @grafana/schema by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/583
+* fix: remove nonexistent `rangeRaw` property from `/variable` query by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/584
+* test: remove nonexistent `selected` property by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/585
+* fix: remove nonexistent type arg by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/586
+* refactor: extract doFetch by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/587
+* refactor: handle undefined variable properly by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/588
+* test: add missing refId by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/589
+* feat: remove adhocFilters property from request by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/590
+* feat: use VariableSupport by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/591
+* test: import TemplateSrv from @grafana/runtime by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/592
+* test: remove unused updateTemplateData method by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/593
+* chore(deps): require @testing-library/dom by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/594
+* chore(deps): update dependency @testing-library/react to v16 by @renovate in https://github.com/simPod/GrafanaJsonDatasource/pull/558
+* chore(deps): remove @types/testing-library__jest-dom by @simPod in https://github.com/simPod/GrafanaJsonDatasource/pull/595
+
+### New Contributors
+* @monster5475 made their first contribution in https://github.com/simPod/GrafanaJsonDatasource/pull/579
+
+**Full Changelog**: https://github.com/simPod/GrafanaJsonDatasource/compare/v0.6.3...v0.6.4
+
 ## v0.6.3
 
 ### What's Changed

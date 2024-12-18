@@ -10,7 +10,7 @@ import {
   VariableOption,
   VariableWithMultiSupport,
 } from '@grafana/data';
-import { FetchResponse, getTemplateSrv, TemplateSrv } from '@grafana/runtime';
+import { config, FetchResponse, getTemplateSrv, TemplateSrv } from '@grafana/runtime';
 import { isArray, isObject } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -50,7 +50,10 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
     this.variables = new VariableSupport(this, this.templateSrv);
     this.withCredentials = instanceSettings.withCredentials !== undefined;
-    this.headers = { 'Content-Type': 'application/json' };
+    this.headers = {
+      'Content-Type': 'application/json',
+      'X-Grafana-User-Id': config.bootData.user.id,
+    };
     if (typeof instanceSettings.basicAuth === 'string' && instanceSettings.basicAuth.length > 0) {
       this.headers['Authorization'] = instanceSettings.basicAuth;
     }

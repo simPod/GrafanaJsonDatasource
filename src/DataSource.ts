@@ -301,7 +301,10 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
 
       const value = match(variable)
         .with({ type: P.union('custom', 'query') }, (v) => valueFromVariableWithMultiSupport(v))
-        .with({ type: P.union('constant', 'datasource', 'groupby', 'interval', 'textbox') }, (v) => v.current.value)
+        .with(
+          { type: P.union('constant', 'datasource', 'groupby', 'interval', 'snapshot', 'textbox') },
+          (v) => v.current.value
+        )
         .exhaustive();
 
       if (value === undefined) {

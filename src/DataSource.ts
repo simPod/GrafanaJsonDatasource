@@ -58,32 +58,9 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
     }
   }
 
+  // TODO: can this be removed?
   filterQuery(query: GrafanaQuery): boolean {
     return !query.hide;
-  }
-
-  oldQuery(options: QueryRequest): Promise<DataQueryResponse> {
-    const request = this.processTargets(options);
-
-    if (request.targets.length === 0) {
-      return Promise.resolve({ data: [] });
-    }
-
-    options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
-
-    return lastValueFrom(
-      doFetch<any[]>(this, {
-        url: `${this.url}/query`,
-        data: request,
-        method: 'POST',
-      }).pipe(
-        map((response) => {
-          response.data = response.data.map(toDataFrame);
-
-          return response;
-        })
-      )
-    );
   }
 
   annotations = {};
@@ -125,34 +102,6 @@ export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptio
   }
 
   async listMetrics(target: string | number, payload?: string | { [key: string]: any }): Promise<MetricConfig[]> {
-    // According to the examples we should make use of the {get,post}Resource methods (or props, I have no idea). Check:
-    //  https://github.com/grafana/grafana/blob/main/packages/grafana-runtime/src/utils/DataSourceWithBackend.ts#L307
-    //  https://grafana.com/developers/plugin-tools/how-to-guides/data-source-plugins/add-resource-handler
-    //  https://grafana.com/developers/plugin-tools/tutorials/convert-a-frontend-datasource-to-backend#frontend-datasource-class
-
-    // const response = await this.getResource('metrics').catch((err) => {console.log(`error when getting metrics: ${JSON.stringify(err)}`)});
-    // const response = await props.datasource.postResource('metrics', { foobar: "baz" }).catch((err) => {console.log(`error when getting metrics: ${JSON.stringify(err)}`)});
-    // const response = await this.postResource('metrics', { foobar: "baz" }).catch((err) => {console.log(`error when getting metrics: ${JSON.stringify(err)}`)});
-    //
-    // if (!isArray(response.data)) {
-    //   return [];
-    // }
-    //
-    // return response.data.map((item: MetricConfig | string) => {
-    //   if (typeof item === 'string') {
-    //     return { value: item, label: item, payloads: [] };
-    //   }
-    //
-    //   return {
-    //     ...item,
-    //     payloads: (item.payloads ?? []).map((payload: MetricPayloadConfig) => ({
-    //       ...payload,
-    //       label: payload.label ?? payload.name,
-    //     })),
-    //     label: item.label ?? item.value,
-    //     };
-    // });
-
     return lastValueFrom<MetricConfig[]>(
       doFetch(this, {
         url: `/api/datasources/uid/${this.uid}/resources/metrics`,

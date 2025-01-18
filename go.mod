@@ -1,6 +1,6 @@
-module github.com/pcolladosoto/gtom-native
+module github.com/simPod/GrafanaJsonDatasource
 
-go 1.21
+go 1.23
 
 require github.com/grafana/grafana-plugin-sdk-go v0.245.0
 

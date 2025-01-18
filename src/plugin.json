@@ -6,7 +6,7 @@
     "annotations": true,
     "alerting": true,
     "backend": true,
-    "executable": "gpx_gtom",
+    "executable": "jsonds_backend",
     "metrics": true,
     "logs": true,
     "info": {

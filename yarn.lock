@@ -890,7 +890,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grafana/schema@npm:11.5.2, @grafana/schema@npm:^11.5.1":
+"@grafana/schema@npm:11.5.2, @grafana/schema@npm:^11.5.2":
   version: 11.5.2
   resolution: "@grafana/schema@npm:11.5.2"
   dependencies:
@@ -6147,7 +6147,7 @@ __metadata:
     "@grafana/eslint-config": "npm:^7.0.0"
     "@grafana/experimental": "npm:^2.1.2"
     "@grafana/runtime": "npm:^11.5.2"
-    "@grafana/schema": "npm:^11.5.1"
+    "@grafana/schema": "npm:^11.5.2"
     "@grafana/toolkit": "npm:^10.0.0"
     "@grafana/tsconfig": "npm:^2.0.0"
     "@grafana/ui": "npm:^11.5.2"

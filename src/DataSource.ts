@@ -1,15 +1,13 @@
 import {
-  DataQueryResponse,
   DataSourceInstanceSettings,
   LegacyMetricFindQueryOptions,
   MetricFindValue,
   ScopedVars,
   SelectableValue,
-  toDataFrame,
   VariableOption,
   VariableWithMultiSupport,
 } from '@grafana/data';
-import { config, FetchResponse, getTemplateSrv, TemplateSrv, DataSourceWithBackend } from '@grafana/runtime';
+import { config, getTemplateSrv, TemplateSrv, DataSourceWithBackend } from '@grafana/runtime';
 import { isArray, isObject } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';

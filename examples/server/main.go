@@ -17,7 +17,7 @@ func newHandler() http.Handler {
 func main() {
 	log.Println("grafana api: /api/grafana/json")
 	log.Println("listen 0.0.0.0:8081")
-	http.ListenAndServe(":8181", newHandler())
+	http.ListenAndServe(":8081", newHandler())
 }
 
 var defaultMetrics = `

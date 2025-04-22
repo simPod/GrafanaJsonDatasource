@@ -39,7 +39,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
           if (isArray(currentOption)) {
             for (let index = 0; index < currentOption.length; index++) {
               const foundOption = metrics.find((item) => item.value === currentOption[index].value);
-              if (foundOption !== undefined) {
+              if (foundOption === undefined) {
                 metrics.push({
                   value: currentOption[index].value,
                   label: currentOption[index].label,
@@ -48,7 +48,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
             }
           } else if (currentOption) {
             const foundOption = metrics.find((item) => item.value === currentOption.value);
-            if (foundOption !== undefined) {
+            if (foundOption === undefined) {
               metrics.push({ ...currentOption, value: currentOption.value, label: currentOption.label });
             }
           }
@@ -62,7 +62,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
         throw new Error(response.statusText);
       }
     );
-  }, [datasource, query.payload, query.target]);
+  }, [datasource, query.payload, query.target, currentOption]);
 
   const getMetricPayloadOptions = React.useCallback(() => {
     setIsPayloadOptionsLoading(true);
@@ -86,7 +86,7 @@ export const QueryBuilderPayloadSelect: ComponentType<PayloadSelectProps> = ({
     if (value) {
       if (isArray(value)) {
         const foundOptions = payloadOptions.filter((item) => includes(value, item.value));
-        if (foundOptions) {
+        if (foundOptions.length > 0) {
           setCurrentOption(foundOptions);
         } else if (value) {
           setCurrentOption([{ label: value, value: value }]);

@@ -6219,7 +6219,7 @@ __metadata:
     style-loader: "npm:^4.0.0"
     swc-loader: "npm:^0.2.3"
     ts-node: "npm:^10.9.1"
-    ts-pattern: "npm:^5.7.0"
+    ts-pattern: "npm:^5.7.1"
     tsconfig-paths: "npm:^4.2.0"
     tslib: "npm:^2.8.1"
     typescript: "npm:^5.0.0"
@@ -11184,10 +11184,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-pattern@npm:^5.7.0":
-  version: 5.7.0
-  resolution: "ts-pattern@npm:5.7.0"
-  checksum: 10c0/6a49d2b502a916def7b07ed66d5675aaf5159dd09b9dbdb334ebfc464af6307e33ae9fbec8ece9182f7ae6a9b2589087da5924d35a74bd52323c3f3745b15d1e
+"ts-pattern@npm:^5.7.1":
+  version: 5.7.1
+  resolution: "ts-pattern@npm:5.7.1"
+  checksum: 10c0/815592dcc8058c90f2329ca88ab4377eb89d794520055fb9a937424babeb87be29f60ad51505206e4ac130b7cbc70ae7c0b3c615469e7f379b7c749c0911265f
   languageName: node
   linkType: hard
 

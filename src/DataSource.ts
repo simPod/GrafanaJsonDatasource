@@ -1,16 +1,13 @@
 import {
-  DataQueryResponse,
-  DataSourceApi,
   DataSourceInstanceSettings,
   LegacyMetricFindQueryOptions,
   MetricFindValue,
   ScopedVars,
   SelectableValue,
-  toDataFrame,
   VariableOption,
   VariableWithMultiSupport,
 } from '@grafana/data';
-import { config, FetchResponse, getTemplateSrv, TemplateSrv } from '@grafana/runtime';
+import { config, getTemplateSrv, TemplateSrv, DataSourceWithBackend } from '@grafana/runtime';
 import { isArray, isObject } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -32,7 +29,7 @@ import { VariableSupport } from './variable/VariableSupport';
 import { doFetch } from './doFetch';
 import { MetricFindQuery } from './MetricFindQuery';
 
-export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
+export class DataSource extends DataSourceWithBackend<GrafanaQuery, GenericOptions> {
   url: string;
   withCredentials: boolean;
   headers: any;
@@ -59,73 +56,12 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     }
   }
 
+  // TODO: can this be removed?
   filterQuery(query: GrafanaQuery): boolean {
     return !query.hide;
   }
 
-  query(options: QueryRequest): Promise<DataQueryResponse> {
-    const request = this.processTargets(options);
-
-    if (request.targets.length === 0) {
-      return Promise.resolve({ data: [] });
-    }
-
-    options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
-
-    return lastValueFrom(
-      doFetch<any[]>(this, {
-        url: `${this.url}/query`,
-        data: request,
-        method: 'POST',
-      }).pipe(
-        map((response) => {
-          response.data = response.data.map(toDataFrame);
-
-          return response;
-        })
-      )
-    );
-  }
-
   annotations = {};
-
-  async testDatasource() {
-    const errorMessageBase = 'Data source is not working';
-
-    try {
-      const response = await lastValueFrom(
-        doFetch(this, {
-          url: this.url,
-          method: 'GET',
-        }).pipe(map((response) => response))
-      );
-
-      if (response.status === 200) {
-        return { status: 'success', message: 'Data source is working', title: 'Success' };
-      }
-
-      return {
-        message: response.statusText ? response.statusText : errorMessageBase,
-        status: 'error',
-        title: 'Error',
-      };
-    } catch (err) {
-      if (typeof err === 'string') {
-        return {
-          status: 'error',
-          message: err,
-        };
-      }
-
-      let error = err as FetchResponse;
-      let message = error.statusText ?? errorMessageBase;
-      if (error.data?.error?.code !== undefined) {
-        message += `: ${error.data.error.code}. ${error.data.error.message}`;
-      }
-
-      return { status: 'error', message, title: 'Error' };
-    }
-  }
 
   metricFindQuery(variableQuery: VariableQuery, options?: LegacyMetricFindQueryOptions): Promise<MetricFindValue[]> {
     const interpolated: string =
@@ -146,7 +82,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   ): Promise<Array<SelectableValue<string | number>>> {
     return lastValueFrom<Array<SelectableValue<string | number>>>(
       doFetch(this, {
-        url: `${this.url}/metric-payload-options`,
+        url: `/api/datasources/uid/${this.uid}/resources/metric-payload-options`,
         data: {
           metric,
           payload: this.processPayload(payload, 'builder', undefined),
@@ -163,10 +99,10 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     );
   }
 
-  listMetrics(target: string | number, payload?: string | { [key: string]: any }): Promise<MetricConfig[]> {
+  async listMetrics(target: string | number, payload?: string | { [key: string]: any }): Promise<MetricConfig[]> {
     return lastValueFrom<MetricConfig[]>(
       doFetch(this, {
-        url: `${this.url}/metrics`,
+        url: `/api/datasources/uid/${this.uid}/resources/metrics`,
         data: {
           metric: target.toString() ? getTemplateSrv().replace(target.toString(), undefined, 'regex') : undefined,
           payload: payload ? this.processPayload(payload, 'builder', undefined) : undefined,
@@ -200,7 +136,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   getTagKeys(options?: any): Promise<MetricFindTagKeys[]> {
     return lastValueFrom(
       doFetch<MetricFindTagKeys[]>(this, {
-        url: `${this.url}/tag-keys`,
+        url: `/api/datasources/uid/${this.uid}/resources/tag-keys`,
         method: 'POST',
         data: options,
       }).pipe(map((result) => result.data))
@@ -210,7 +146,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   getTagValues(options: any): Promise<MetricFindTagValues[]> {
     return lastValueFrom(
       doFetch<MetricFindTagValues[]>(this, {
-        url: `${this.url}/tag-values`,
+        url: `/api/datasources/uid/${this.uid}/resources/tag-values`,
         method: 'POST',
         data: options,
       }).pipe(map((result) => result.data))

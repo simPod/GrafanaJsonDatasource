@@ -4,13 +4,14 @@
     "id": "simpod-json-datasource",
     "type": "datasource",
     "annotations": true,
-    "alerting": false,
-    "backend": false,
+    "alerting": true,
+    "backend": true,
+    "executable": "jsonds_backend",
     "metrics": true,
     "logs": true,
     "info": {
         "author": {
-            "name": "Šimon Podlipský"
+            "name": "Šimon Podlipskýo"
         },
         "description": "Load JSON data over your arbitrary HTTP backend",
         "keywords": ["json", "api"],
@@ -32,6 +33,13 @@
         "version": "%VERSION%",
         "updated": "%TODAY%"
     },
+    "routes": [
+        {
+            "path": "tables",
+            "url": "https://api.example.com/api/v1/tables",
+            "method": "GET"
+        }
+    ],
     "dependencies": {
         "grafanaDependency": ">=10.0.0",
         "plugins": [ ]

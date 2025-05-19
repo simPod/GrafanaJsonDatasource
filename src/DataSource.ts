@@ -26,8 +26,6 @@ import {
   QueryRequest,
   VariableQuery,
 } from './types';
-import { match, P } from 'ts-pattern';
-import { valueFromVariableWithMultiSupport } from './variable/valueFromVariableWithMultiSupport';
 import { VariableSupport } from './variable/VariableSupport';
 import { doFetch } from './doFetch';
 import { MetricFindQuery } from './MetricFindQuery';
@@ -64,13 +62,15 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   query(options: QueryRequest): Promise<DataQueryResponse> {
-    const request = this.processTargets(options);
+    options.scopedVars = { ...this.getVariables(options.scopedVars), ...options.scopedVars };
+    const mergedVars = { ...this.getVariables(options.scopedVars), ...options.scopedVars };
+    const nextOptions = { ...options, scopedVars: mergedVars };
+
+    const request = this.processTargets(nextOptions);
 
     if (request.targets.length === 0) {
       return Promise.resolve({ data: [] });
     }
-
-    options.scopedVars = { ...this.getVariables(), ...options.scopedVars };
 
     return lastValueFrom(
       doFetch<any[]>(this, {
@@ -289,7 +289,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
     return replacedMatch;
   }
 
-  getVariables() {
+  getVariables(scopedVars: ScopedVars | undefined = undefined) {
     const variableOptions: Record<VariableWithMultiSupport['id'], VariableOption> = {};
 
     Object.values(getTemplateSrv().getVariables()).forEach((variable) => {
@@ -302,19 +302,9 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         return;
       }
 
-      const value = match(variable)
-        .with({ type: P.union('custom', 'query') }, (v) => valueFromVariableWithMultiSupport(v))
-        .with(
-          { type: P.union('constant', 'datasource', 'groupby', 'interval', 'snapshot', 'textbox') },
-          (v) => v.current.value
-        )
-        .exhaustive();
+      const value = getTemplateSrv().replace('$' + variable.name, scopedVars, 'json');
 
-      if (value === undefined) {
-        return;
-      }
-
-      variableOptions[variable.id] = {
+      variableOptions[variable.name] = {
         selected: false,
         text: variable.current.text,
         value: value,

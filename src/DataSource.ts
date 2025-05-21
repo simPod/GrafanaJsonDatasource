@@ -302,7 +302,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         return;
       }
 
-      const value = getTemplateSrv().replace('$' + variable.name, scopedVars, 'json');
+      const value = getTemplateSrv().replace('$' + variable.name, scopedVars);
 
       variableOptions[variable.name] = {
         selected: false,

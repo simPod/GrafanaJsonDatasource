@@ -11,7 +11,7 @@ import {
   VariableWithMultiSupport,
 } from '@grafana/data';
 import { config, FetchResponse, getTemplateSrv, TemplateSrv } from '@grafana/runtime';
-import { isArray, isObject } from 'lodash';
+import { isArray, isEmpty, isObject } from 'lodash';
 import { lastValueFrom } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResponseParser } from './response_parser';
@@ -62,7 +62,6 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   query(options: QueryRequest): Promise<DataQueryResponse> {
-    options.scopedVars = { ...this.getVariables(options.scopedVars), ...options.scopedVars };
     const mergedVars = { ...this.getVariables(options.scopedVars), ...options.scopedVars };
     const nextOptions = { ...options, scopedVars: mergedVars };
 
@@ -290,7 +289,7 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   }
 
   getVariables(scopedVars: ScopedVars | undefined = undefined) {
-    const variableOptions: Record<VariableWithMultiSupport['id'], VariableOption> = {};
+    const variableOptions: Record<VariableWithMultiSupport['id'], Omit<VariableOption, 'selected'>> = {};
 
     Object.values(getTemplateSrv().getVariables()).forEach((variable) => {
       if (variable.type === 'adhoc') {
@@ -302,10 +301,13 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         return;
       }
 
-      const value = getTemplateSrv().replace('$' + variable.name, scopedVars);
+      if (isEmpty(variable.current)) {
+        return;
+      }
+
+      const value = getTemplateSrv().replace('$' + variable.name, scopedVars, 'json');
 
       variableOptions[variable.name] = {
-        selected: false,
         text: variable.current.text,
         value: value,
       };

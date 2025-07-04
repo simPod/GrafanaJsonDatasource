@@ -6420,7 +6420,7 @@ __metadata:
     webpack: "npm:^5.86.0"
     webpack-cli: "npm:^6.0.0"
     webpack-livereload-plugin: "npm:^3.0.2"
-    zod: "npm:^3.25.71"
+    zod: "npm:^3.25.72"
   languageName: unknown
   linkType: soft
 
@@ -12238,9 +12238,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:^3.25.71":
-  version: 3.25.71
-  resolution: "zod@npm:3.25.71"
-  checksum: 10c0/ccb251859609e6eed04b83f96ad7b2b7a189ca78b47176cde2c368102a5416b9c472e91b3fd96ceaa5043b2e513b3aec39fd99c36686ad2ad84f6c440afca53a
+"zod@npm:^3.25.72":
+  version: 3.25.72
+  resolution: "zod@npm:3.25.72"
+  checksum: 10c0/10a15e6ae66318966523a856fef75b0ad2ebf9b8edb9ce80ad64ec5cb849df5ecd549450bd6392abe5084d63a3aa30390edecb15c3cb7c61c022c113174f9f31
   languageName: node
   linkType: hard

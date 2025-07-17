@@ -29,6 +29,8 @@ import {
 import { VariableSupport } from './variable/VariableSupport';
 import { doFetch } from './doFetch';
 import { MetricFindQuery } from './MetricFindQuery';
+import { match, P } from 'ts-pattern';
+import { valueFromVariableWithMultiSupport } from './variable/valueFromVariableWithMultiSupport';
 
 export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
   url: string;
@@ -305,7 +307,12 @@ export class DataSource extends DataSourceApi<GrafanaQuery, GenericOptions> {
         return;
       }
 
-      const value = getTemplateSrv().replace('$' + variable.name, scopedVars, 'json');
+      const value = match(variable)
+        .with({ type: P.union('custom', 'query') }, (v) => valueFromVariableWithMultiSupport(v))
+        .with({ type: P.union('constant', 'datasource', 'groupby', 'interval', 'snapshot', 'textbox') }, (v) =>
+          getTemplateSrv().replace('$' + variable.name, scopedVars, 'json')
+        )
+        .exhaustive();
 
       variableOptions[variable.name] = {
         text: variable.current.text,

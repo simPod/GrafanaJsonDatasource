@@ -19,7 +19,7 @@ jobs:
       - name: Setup golang environment
         uses: actions/setup-go@v5
         with:
-          go-version: '1.24.6'
+          go-version: '1.25.0'
 
       - name: Install dependencies
         run: go mod download

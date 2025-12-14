@@ -1,5 +1,8 @@
 # JSON API Grafana Datasource
 
+> [!WARNING]
+> This project has been abandoned since January 1, 2026 and is no longer maintained.
+
 [![Build](https://github.com/simPod/GrafanaJsonDatasource/workflows/CI/badge.svg)](https://github.com/simPod/GrafanaJsonDatasource/actions?query=workflow%3A%22CI%22)
 [![Marketplace](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins%2Fsimpod-json-datasource%3Fversion%3Dlatest&query=%24.version&logo=grafana&color=F47A20&label=marketplace&prefix=v)](https://grafana.com/grafana/plugins/simpod-json-datasource)
 [![Downloads](https://img.shields.io/badge/dynamic/json?url=https%3A%2F%2Fgrafana.com%2Fapi%2Fplugins%2Fsimpod-json-datasource%3Fversion%3Dlatest&query=%24.downloads&logo=grafana&color=F47A20&label=downloads)](https://grafana.com/grafana/plugins/simpod-json-datasource)
